@@ -1,0 +1,82 @@
+[2011-11-11 12:06:42,343] - main - INFO  - com.tbb.framework.BaseTest.startSeleniumServer(BaseTest.java:361)                - Starting Selenium Server.........This might take around 10-15 seconds.
+[2011-11-11 12:06:43,911] - main - INFO  - rg.openqa.selenium.server.SeleniumServer.logStartupInfo(SeleniumServer.java:736) - Java: Oracle Corporation 21.0-b17
+[2011-11-11 12:06:43,912] - main - INFO  - rg.openqa.selenium.server.SeleniumServer.logStartupInfo(SeleniumServer.java:738) - OS: Windows Vista 6.0 x86
+[2011-11-11 12:06:43,921] - main - INFO  - .openqa.selenium.server.SeleniumServer.logVersionNumber(SeleniumServer.java:322) - v2.11.0, with Core v2.11.0. Built from revision 14431
+[2011-11-11 12:06:44,103] - main - INFO  - nium.server.SeleniumServer.createWebDriverRemoteContext(SeleniumServer.java:365) - RemoteWebDriver instances should connect to: http://127.0.0.1:4444/wd/hub
+[2011-11-11 12:06:44,105] - main - INFO  - org.openqa.jetty.http.HttpServer.doStart(HttpServer.java:684)                    - Version Jetty/5.1.x
+[2011-11-11 12:06:44,107] - main - INFO  - org.openqa.jetty.util.Container.start(Container.java:74)                         - Started HttpContext[/selenium-server/driver,/selenium-server/driver]
+[2011-11-11 12:06:44,108] - main - INFO  - org.openqa.jetty.util.Container.start(Container.java:74)                         - Started HttpContext[/selenium-server,/selenium-server]
+[2011-11-11 12:06:44,108] - main - INFO  - org.openqa.jetty.util.Container.start(Container.java:74)                         - Started HttpContext[/,/]
+[2011-11-11 12:06:44,111] - main - INFO  - org.openqa.jetty.util.Container.start(Container.java:74)                         - Started org.openqa.jetty.jetty.servlet.ServletHandler@12320ff
+[2011-11-11 12:06:44,111] - main - INFO  - org.openqa.jetty.util.Container.start(Container.java:74)                         - Started HttpContext[/wd,/wd]
+[2011-11-11 12:06:44,114] - main - INFO  - org.openqa.jetty.http.SocketListener.start(SocketListener.java:203)              - Started SocketListener on 0.0.0.0:4444
+[2011-11-11 12:06:44,114] - main - INFO  - org.openqa.jetty.util.Container.start(Container.java:74)                         - Started org.openqa.jetty.jetty.Server@16a719e
+[2011-11-11 12:06:44,306] - SeleniumServerShutDownHook - INFO  - .openqa.selenium.server.SeleniumServer$ShutDownHook.run(SeleniumServer.java:491) - Shutting down...
+[2011-11-11 12:06:44,307] - Acceptor ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=4444] - INFO  - org.openqa.jetty.util.ThreadedServer$Acceptor.run(ThreadedServer.java:659)       - Stopping Acceptor ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=4444]
+[2011-11-11 12:06:44,406] - SeleniumServerShutDownHook - INFO  - org.openqa.jetty.http.SocketListener.stop(SocketListener.java:211)               - Stopped SocketListener on 0.0.0.0:4444
+[2011-11-11 12:06:44,430] - SeleniumServerShutDownHook - INFO  - org.openqa.jetty.util.Container.stop(Container.java:156)                         - Stopped HttpContext[/selenium-server/driver,/selenium-server/driver]
+[2011-11-11 12:06:44,456] - SeleniumServerShutDownHook - INFO  - org.openqa.jetty.util.Container.stop(Container.java:156)                         - Stopped HttpContext[/selenium-server,/selenium-server]
+[2011-11-11 12:06:44,478] - SeleniumServerShutDownHook - INFO  - org.openqa.jetty.util.Container.stop(Container.java:156)                         - Stopped HttpContext[/,/]
+[2011-11-11 12:06:44,479] - SeleniumServerShutDownHook - INFO  - org.openqa.jetty.util.Container.stop(Container.java:156)                         - Stopped org.openqa.jetty.jetty.servlet.ServletHandler@12320ff
+[2011-11-11 12:06:44,505] - SeleniumServerShutDownHook - INFO  - org.openqa.jetty.util.Container.stop(Container.java:156)                         - Stopped HttpContext[/wd,/wd]
+[2011-11-11 12:06:44,505] - SeleniumServerShutDownHook - INFO  - org.openqa.jetty.util.Container.stop(Container.java:156)                         - Stopped org.openqa.jetty.jetty.Server@16a719e
+[2011-11-11 12:11:48,293] - main - INFO  - com.tbb.framework.BaseTest.startSeleniumServer(BaseTest.java:361)                - Starting Selenium Server.........This might take around 10-15 seconds.
+[2011-11-11 12:11:48,443] - main - INFO  - rg.openqa.selenium.server.SeleniumServer.logStartupInfo(SeleniumServer.java:736) - Java: Oracle Corporation 21.0-b17
+[2011-11-11 12:11:48,444] - main - INFO  - rg.openqa.selenium.server.SeleniumServer.logStartupInfo(SeleniumServer.java:738) - OS: Windows Vista 6.0 x86
+[2011-11-11 12:11:48,451] - main - INFO  - .openqa.selenium.server.SeleniumServer.logVersionNumber(SeleniumServer.java:322) - v2.11.0, with Core v2.11.0. Built from revision 14431
+[2011-11-11 12:11:48,621] - main - INFO  - nium.server.SeleniumServer.createWebDriverRemoteContext(SeleniumServer.java:365) - RemoteWebDriver instances should connect to: http://127.0.0.1:4444/wd/hub
+[2011-11-11 12:11:48,623] - main - INFO  - org.openqa.jetty.http.HttpServer.doStart(HttpServer.java:684)                    - Version Jetty/5.1.x
+[2011-11-11 12:11:48,624] - main - INFO  - org.openqa.jetty.util.Container.start(Container.java:74)                         - Started HttpContext[/selenium-server/driver,/selenium-server/driver]
+[2011-11-11 12:11:48,625] - main - INFO  - org.openqa.jetty.util.Container.start(Container.java:74)                         - Started HttpContext[/selenium-server,/selenium-server]
+[2011-11-11 12:11:48,626] - main - INFO  - org.openqa.jetty.util.Container.start(Container.java:74)                         - Started HttpContext[/,/]
+[2011-11-11 12:11:48,628] - main - INFO  - org.openqa.jetty.util.Container.start(Container.java:74)                         - Started org.openqa.jetty.jetty.servlet.ServletHandler@1a62fca
+[2011-11-11 12:11:48,628] - main - INFO  - org.openqa.jetty.util.Container.start(Container.java:74)                         - Started HttpContext[/wd,/wd]
+[2011-11-11 12:11:48,631] - main - INFO  - org.openqa.jetty.http.SocketListener.start(SocketListener.java:203)              - Started SocketListener on 0.0.0.0:4444
+[2011-11-11 12:11:48,632] - main - INFO  - org.openqa.jetty.util.Container.start(Container.java:74)                         - Started org.openqa.jetty.jetty.Server@1b7c9d1
+[2011-11-11 12:11:48,708] - SocketListener0-1 - INFO  - org.openqa.jetty.util.FileResource.<clinit>(FileResource.java:60)                - Checking Resource aliases
+[2011-11-11 12:12:04,521] - SocketListener0-9 - INFO  - org.openqa.jetty.http.SocketListener.start(SocketListener.java:203)              - Started SocketListener on 0.0.0.0:49935
+[2011-11-11 12:12:15,039] - main - INFO  - com.tbb.testscripts.about.TestProducts.testProducts(TestProducts.java:55)        - Creating link for 'Detailed Report' in TestNG/ReportNG Logs
+[2011-11-11 12:12:15,042] - main - INFO  - com.tbb.testscripts.about.TestProducts.testProducts(TestProducts.java:72)        - Verifying whether are on Home page
+[2011-11-11 12:12:16,125] - main - INFO  - com.tbb.testscripts.about.TestProducts.testProducts(TestProducts.java:75)        - Clicking on 'Sign In' Link
+[2011-11-11 12:12:19,432] - SocketListener0-8 - INFO  - org.openqa.jetty.http.SocketListener.start(SocketListener.java:203)              - Started SocketListener on 0.0.0.0:49967
+[2011-11-11 12:13:47,484] - SocketListener0-9 - INFO  - org.openqa.jetty.http.SocketListener.start(SocketListener.java:203)              - Started SocketListener on 0.0.0.0:50034
+[2011-11-11 12:13:47,878] - SocketListener0-8 - INFO  - org.openqa.jetty.http.SocketListener.start(SocketListener.java:203)              - Started SocketListener on 0.0.0.0:50037
+[2011-11-11 12:13:48,181] - SocketListener0-11 - INFO  - org.openqa.jetty.http.SocketListener.start(SocketListener.java:203)              - Started SocketListener on 0.0.0.0:50040
+[2011-11-11 12:13:49,935] - SocketListener0-13 - INFO  - org.openqa.jetty.http.SocketListener.start(SocketListener.java:203)              - Started SocketListener on 0.0.0.0:50046
+[2011-11-11 12:13:50,565] - main - INFO  - com.tbb.testscripts.about.TestProducts.testProducts(TestProducts.java:82)        - Entering valid username and password
+[2011-11-11 12:13:51,696] - SocketListener0-15 - INFO  - org.openqa.jetty.http.SocketListener.start(SocketListener.java:203)              - Started SocketListener on 0.0.0.0:50053
+[2011-11-11 12:13:52,560] - SocketListener0-17 - INFO  - org.openqa.jetty.http.SocketListener.start(SocketListener.java:203)              - Started SocketListener on 0.0.0.0:50059
+[2011-11-11 12:14:03,787] - main - INFO  - com.tbb.testscripts.about.TestProducts.testProducts(TestProducts.java:86)        - Clicking on 'About' link
+[2011-11-11 12:14:10,466] - main - INFO  - com.tbb.testscripts.about.TestProducts.testProducts(TestProducts.java:89)        - Clicking on About Products link
+[2011-11-11 12:14:18,222] - main - INFO  - com.tbb.testscripts.about.TestProducts.testProducts(TestProducts.java:92)        - Verifying that all the required elements are present on the Products page.
+[2011-11-11 12:14:21,417] - main - INFO  - com.tbb.framework.BaseTest.stopSeleniumInstance(BaseTest.java:295)               - Clicking on 'Sign Out' if not signed out
+[2011-11-11 12:14:35,538] - main - INFO  - com.tbb.framework.BaseTest.stopSeleniumInstance(BaseTest.java:305)               - Setting sign  in count to 0
+[2011-11-11 12:14:35,539] - main - INFO  - com.tbb.framework.BaseTest.stopSeleniumInstance(BaseTest.java:309)               - Stopping selenium session
+[2011-11-11 12:14:35,689] - SocketListener0-12 - WARN  - org.openqa.jetty.http.HttpConnection.handleNext(HttpConnection.java:1085)        - Invalid length: Content-Length=204671 written=60401 for http://safebrowsing-cache.google.com/safebrowsing/rd/ChNnb29nLW1hbHdhcmUtc2hhdmFyEAEYwYAEIICDBDItQQABAP____________________________________________________8A
+[2011-11-11 12:14:35,760] - main - INFO  - com.tbb.framework.BaseTest.stopSeleniumInstance(BaseTest.java:311)               - Setting selenium Instance as null
+[2011-11-11 12:14:35,768] - main - INFO  - com.tbb.framework.BaseTest.stopSeleniumServer(BaseTest.java:329)                 - Stopping selenium server
+[2011-11-11 12:14:35,789] - Acceptor ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=4444] - INFO  - org.openqa.jetty.util.ThreadedServer$Acceptor.run(ThreadedServer.java:659)       - Stopping Acceptor ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=4444]
+[2011-11-11 12:14:35,870] - main - INFO  - org.openqa.jetty.http.SocketListener.stop(SocketListener.java:211)               - Stopped SocketListener on 0.0.0.0:4444
+[2011-11-11 12:14:35,870] - Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=49935]] - INFO  - org.openqa.jetty.util.ThreadedServer$Acceptor.run(ThreadedServer.java:659)       - Stopping Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=49935]]
+[2011-11-11 12:14:35,970] - main - INFO  - org.openqa.jetty.http.SocketListener.stop(SocketListener.java:211)               - Stopped SocketListener on 0.0.0.0:49935
+[2011-11-11 12:14:35,978] - Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=49967]] - INFO  - org.openqa.jetty.util.ThreadedServer$Acceptor.run(ThreadedServer.java:659)       - Stopping Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=49967]]
+[2011-11-11 12:14:36,078] - main - INFO  - org.openqa.jetty.http.SocketListener.stop(SocketListener.java:211)               - Stopped SocketListener on 0.0.0.0:49967
+[2011-11-11 12:14:36,086] - Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=50034]] - INFO  - org.openqa.jetty.util.ThreadedServer$Acceptor.run(ThreadedServer.java:659)       - Stopping Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=50034]]
+[2011-11-11 12:14:36,186] - main - INFO  - org.openqa.jetty.http.SocketListener.stop(SocketListener.java:211)               - Stopped SocketListener on 0.0.0.0:50034
+[2011-11-11 12:14:36,191] - Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=50037]] - INFO  - org.openqa.jetty.util.ThreadedServer$Acceptor.run(ThreadedServer.java:659)       - Stopping Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=50037]]
+[2011-11-11 12:14:36,291] - main - INFO  - org.openqa.jetty.http.SocketListener.stop(SocketListener.java:211)               - Stopped SocketListener on 0.0.0.0:50037
+[2011-11-11 12:14:36,299] - Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=50040]] - INFO  - org.openqa.jetty.util.ThreadedServer$Acceptor.run(ThreadedServer.java:659)       - Stopping Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=50040]]
+[2011-11-11 12:14:36,400] - main - INFO  - org.openqa.jetty.http.SocketListener.stop(SocketListener.java:211)               - Stopped SocketListener on 0.0.0.0:50040
+[2011-11-11 12:14:36,406] - Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=50046]] - INFO  - org.openqa.jetty.util.ThreadedServer$Acceptor.run(ThreadedServer.java:659)       - Stopping Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=50046]]
+[2011-11-11 12:14:36,506] - main - INFO  - org.openqa.jetty.http.SocketListener.stop(SocketListener.java:211)               - Stopped SocketListener on 0.0.0.0:50046
+[2011-11-11 12:14:36,510] - Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=50053]] - INFO  - org.openqa.jetty.util.ThreadedServer$Acceptor.run(ThreadedServer.java:659)       - Stopping Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=50053]]
+[2011-11-11 12:14:36,610] - main - INFO  - org.openqa.jetty.http.SocketListener.stop(SocketListener.java:211)               - Stopped SocketListener on 0.0.0.0:50053
+[2011-11-11 12:14:36,615] - Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=50059]] - INFO  - org.openqa.jetty.util.ThreadedServer$Acceptor.run(ThreadedServer.java:659)       - Stopping Acceptor [SSL: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=50059]]
+[2011-11-11 12:14:36,715] - main - INFO  - org.openqa.jetty.http.SocketListener.stop(SocketListener.java:211)               - Stopped SocketListener on 0.0.0.0:50059
+[2011-11-11 12:14:36,774] - main - INFO  - org.openqa.jetty.util.Container.stop(Container.java:156)                         - Stopped HttpContext[/selenium-server/driver,/selenium-server/driver]
+[2011-11-11 12:14:36,831] - main - INFO  - org.openqa.jetty.util.Container.stop(Container.java:156)                         - Stopped HttpContext[/selenium-server,/selenium-server]
+[2011-11-11 12:14:36,880] - main - INFO  - org.openqa.jetty.util.Container.stop(Container.java:156)                         - Stopped HttpContext[/,/]
+[2011-11-11 12:14:36,880] - main - INFO  - org.openqa.jetty.util.Container.stop(Container.java:156)                         - Stopped org.openqa.jetty.jetty.servlet.ServletHandler@1a62fca
+[2011-11-11 12:14:36,943] - main - INFO  - org.openqa.jetty.util.Container.stop(Container.java:156)                         - Stopped HttpContext[/wd,/wd]
+[2011-11-11 12:14:36,944] - main - INFO  - org.openqa.jetty.util.Container.stop(Container.java:156)                         - Stopped org.openqa.jetty.jetty.Server@1b7c9d1
+[2011-11-11 12:14:36,944] - main - INFO  - com.tbb.framework.BaseTest.stopSeleniumServer(BaseTest.java:331)                 - Setting selenium server as null

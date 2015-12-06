@@ -1,0 +1,295 @@
+package com.tbb.testscripts.connect;
+
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
+
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.tbb.framework.BaseTest;
+import com.tbb.framework.ConfigFileReader;
+import com.tbb.pages.DashboardPage;
+import com.tbb.pages.HomePage;
+import com.tbb.pages.SignInPage;
+import com.tbb.pages.connect.ChatRoomsPage;
+import com.tbb.pages.connect.ConnectPage;
+import com.tbb.pages.connect.ContestFAQPage;
+import com.tbb.pages.connect.ContestsPage;
+import com.tbb.pages.connect.DailySweepstakesPage;
+import com.tbb.pages.connect.MemberGalleryPage;
+import com.tbb.pages.connect.MessageBoardsPage;
+import com.tbb.pages.connect.MessageCenterPage;
+import com.tbb.pages.connect.MyCoachPage;
+import com.tbb.pages.connect.PublicChatPage;
+import com.tbb.pages.connect.SuccessStoriesPage;
+import com.tbb.pages.connect.TheBeachbodyChallengePage;
+import com.tbb.pages.connect.VIPChatPage;
+import com.tbb.pages.profile.MyProfilePage;
+import com.tbb.utils.FileReader;
+
+/**
+ *
+ * This test script contains test method(s) for main Connect page
+ *  @author Jaya
+ */
+public class TestConnect extends BaseTest{
+
+	FileReader testDataFile = new FileReader("TestConnect-testConnectPageLeftMenuLinks");
+	List<String> testDataList = null;
+	Object[] testData = null;
+	
+	@BeforeClass
+	public void setUp() {
+		startSeleniumServer();		
+	}
+	
+	@BeforeMethod
+	public void setUp(Method method) {
+		createSeleniumInstance(method);		
+	}
+	
+	@AfterMethod
+	public void stopSelenium() {
+		stopSeleniumInstance();
+	}	
+	
+	@AfterClass
+	public void tearDown() {		
+		stopSeleniumServer();
+	}
+	
+	/***
+	 * This is data provider for testConnectPageLeftMenuLinks test method.
+	 */ 
+	@DataProvider(name = "UserDetails")
+	public Object[][] createUserDetailsData() {
+		
+		testDataFile.processNextTestStep();
+		Object[][] userDetails = testDataFile.getMultipleValuesInPairFromSingleTestAction();
+		
+		testDataFile.processNextTestStep();
+		testDataList = testDataFile.getMultipleValuesFromSingleTestAction();
+	 	testData = testDataList.toArray();
+		
+		return userDetails;
+			
+	}
+	
+	/**
+	 * Positive Test script for verifying viewing of left hand side menu of Connect Page.
+	 * It verifies if all the required links in the left menu are working correctly. 
+	 */ 
+	@Test(dataProvider = "UserDetails") 
+	public void LeftMenuLinksVerificationFromConnectPage(String userName,String password){
+		selenium.logComment("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		selenium.logComment("################## Scope of this test method ######################");
+		selenium.logComment("Verifying whether are on Home page");
+		selenium.logComment("Clicking on 'Sign In' Link");
+		selenium.logComment("Entering valid username and password");
+		selenium.logComment("Clicking on 'Connect' link");
+		selenium.logComment("Verifying number of links in left side Menu");
+		selenium.logComment("Verifying Links' title shown in left side Menu");
+		selenium.logComment("Clicking on 'Contests' Link from left side menu");
+		selenium.logComment("Clicking on 'Success Stories' Link from left side menu");
+		selenium.logComment("Clicking on 'Message Boards' Link from left side menu");
+		selenium.logComment("Clicking on 'Member Gallery' Link from left side menu");
+		selenium.logComment("Clicking on 'Chat Rooms' Link from left side menu");
+		selenium.logComment("Clicking on 'My Coach Page' Link from left side menu");
+		selenium.logComment("Clicking on 'Message Center' Link from left side menu");
+		selenium.logComment("Clicking on 'My Profile' Link from left side menu");
+		selenium.logComment("Executing assertEmpty method");
+		selenium.logComment("################## Scope of this test method ######################");
+		
+		
+		
+		selenium.logComment("Verifying whether are on Home page");
+		HomePage homePage  = new HomePage(selenium);
+		
+		selenium.logComment("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+	
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(userName, password);
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+			
+			selenium.logComment("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(userName, password);
+		}
+		
+		selenium.logComment("Clicking on 'Connect' link");
+		ConnectPage connectPage = dashboardPage.clickConnectLink();
+		
+		selenium.logComment("Verifying number of links in left side Menu");
+		assertTrue("All links are not displayed", connectPage.getMenuLinksCount()==8, selenium );
+		
+		selenium.logComment("Verifying Links' title shown in left side Menu");
+		assertTrue("Expected Links are not displayed", Arrays.equals(connectPage.getMenuLinksText(), testData), selenium);
+		
+		selenium.logComment("Clicking on 'Contests' Link from left side menu");
+		ContestsPage contestsPage = connectPage.goToContestsPage();
+		DailySweepstakesPage dailySweepstakesPage = contestsPage.goToDailySweepstakesPage();
+		TheBeachbodyChallengePage theBeachbodyChallengePage = dailySweepstakesPage.goToTheBeachbodyChallenge();
+		//As there is no left side menu now on Beachbody Challenge page so using back method
+		selenium.goBack();
+		// Selenium is now on dailySweepstakesPage.
+		
+		ContestFAQPage contestFAQPage = dailySweepstakesPage.goToContestFAQPage();
+		connectPage = contestFAQPage.clickConnectLink();
+		
+		selenium.logComment("Clicking on 'Success Stories' Link from left side menu");
+		SuccessStoriesPage successStoriesPage = connectPage.goToSuccessStoriesPage();
+		connectPage = successStoriesPage.clickConnectLink();
+		
+		selenium.logComment("Clicking on 'Message Boards' Link from left side menu");
+		MessageBoardsPage messageBoardsPage = connectPage.goToMessageBoardsPage();
+		connectPage = messageBoardsPage.clickConnectLink();		
+		
+		selenium.logComment("Clicking on 'Member Gallery' Link from left side menu");
+		MemberGalleryPage memberGalleryPage = connectPage.goToMemberGalleryPage();
+		connectPage = memberGalleryPage.clickConnectLink();
+		
+		selenium.logComment("Clicking on 'Chat Rooms' Link from left side menu");
+		ChatRoomsPage chatRoomsPage = connectPage.goToChatRoomsPage();
+		PublicChatPage publicChatPage = chatRoomsPage.goToPublicChatPage();
+		VIPChatPage vipChatPage = publicChatPage.goToVIPChatPage();
+		connectPage = vipChatPage.clickConnectLink();
+		
+		selenium.logComment("Clicking on 'My Coach Page' Link from left side menu");
+		MyCoachPage myCoachPage = connectPage.goToMyCoachPage();
+		connectPage = myCoachPage.clickConnectLink();
+		
+		selenium.logComment("Clicking on 'Message Center' Link from left side menu");
+		MessageCenterPage messageCenterPage = connectPage.goToMessageCenterPage();
+		connectPage = messageCenterPage.clickConnectLink();	
+		
+		selenium.logComment("Clicking on 'My Profile' Link from left side menu");
+		MyProfilePage myProfilePage = connectPage.goToMyProfilePage();
+		connectPage = myProfilePage.clickConnectLink();
+		
+		selenium.logComment("Executing assertEmpty method");
+		emptyMessageBuilder();
+		
+		}
+	
+	/**
+	 * Positive Test script for verifying viewing of Connect Page.
+	 * It verifies if all the required elements are present on the page. 
+	 */ 
+	@Test
+	public void testConnectPageContent() {
+		
+		selenium.logComment("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		selenium.logComment("################## Scope of this test method ######################");
+		selenium.logComment("Verifying whether user is on Home page");
+		selenium.logComment("Clicking on 'Sign In' Link");
+		selenium.logComment("Entering valid username and password");
+		selenium.logComment("Navigating to Connect Page.");
+		selenium.logComment("Verifying number of links in center content area");
+		selenium.logComment("Verifying that all the required fields are present on the Connect Page.");
+		selenium.logComment("Verifying number of images in center content area");
+		selenium.logComment("Verifying title headings in right side content area");
+		selenium.logComment("Verifying 'Learn More' links in center content area");
+		selenium.logComment("Clicking on 'Learn More' link under 'Contests' in central content area");
+		selenium.logComment("Clicking on 'Learn More' link under 'Success Stories' in central content area");
+		selenium.logComment("Clicking on 'Learn More' link under 'Message Boards' in central content area");
+		selenium.logComment("Clicking on 'Learn More' link under 'Member Gallery' in central content area");
+		selenium.logComment("Clicking on 'Learn More' link under 'Chat Rooms' in central content area");
+		selenium.logComment("Clicking on 'Learn More' link under 'Coach' in central content area");
+		selenium.logComment("Clicking on 'Learn More' link under 'Message Center' in central content area");
+		selenium.logComment("Clicking on 'Learn More' link under 'My Profile' in central content area");
+		selenium.logComment("Executing assertEmpty method");
+		selenium.logComment("################## Scope of this test method ######################");
+		
+		
+		
+		
+		selenium.logComment("Verifying whether user is on Home page");
+		HomePage home = new HomePage(selenium);
+		
+		selenium.logComment("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = home.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		} else {
+			SignInPage signInPage = home.clickSignIn();
+			
+			selenium.logComment("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		}
+		selenium.logComment("Navigating to Connect Page.");
+		ConnectPage connectPage = dashboardPage.clickConnectLink();
+		
+		selenium.logComment("Verifying number of links in center content area");
+		assertTrue("All links are not displayed", connectPage.getContentLinksCount()==8, selenium );
+		
+		selenium.logComment("Verifying that all the required fields are present on the Connect Page.");
+		assertTrue("Expected Page header 'Connect' is not available", selenium.isElementPresent("css=div#cont_sub_hdr>h1:contains(Connect)"), selenium);
+		assertTrue("Expected text 'Team Beachbody is...' is not available", selenium.isTextPresent("Team Beachbody is made up of thousands of people just like you who want to live a happy, healthy life. You'll find all the tools you need to empower yourself and build accountability, motivation, and inspiration into your fitness program. The more you participate in the Team Beachbody community, the faster you'll reach your goals."), selenium);
+		assertTrue("Expected text header quote is not available", selenium.isElementPresent("css=p.hdr_quote"), selenium);
+		
+		selenium.logComment("Verifying number of images in center content area");
+		assertTrue("All images are not displayed", connectPage.getImageLinksCount()==8, selenium );
+		
+		selenium.logComment("Verifying title headings in right side content area");
+		assertTrue("Expected headings are not displayed", Arrays.equals(connectPage.getContentLinksText(), new String[]{"Contests","Success Stories", "Message Boards", "Member Gallery", "Chat Rooms", "Coach", "Message Center", "My Profile"}), selenium);
+				
+		assertTrue("Expected text is not available", selenium.isTextPresent("Win cash and prizes in the Million Dollar Body Game. Every day that you work out in WOWY SuperGym™ you'll be eligible to win $500 cash. Just for working out! And when you submit your transformation story you could be eligible to win the $1,000 monthly prize and even the $25,000 grand prize."), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("If you're looking for the ultimate motivation, check out the thousands of Team Beachbody success stories. People just like you have lost weight, gotten fit, and have totally transformed their bodies and their lives. You could be the next success story."), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("Join the discussion. The Team Beachbody Message Boards are a great place to make new friends, ask questions about your diet or workout program, share your favorite recipes and exercise strategies, and find support, motivation, and inspiration."), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("The member gallery lets you connect with Team Beachbody members for friendship, motivation, and support. You're never alone when you have the power of peer support to inspire you every day."), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("There are so many ways to chat live at Team Beachbody. After your workout, cool down in the WOWY SuperGym™ chat room. Chat with other Team Beachbody members any time in the public chat room, and participate in exclusive VIP chats with Team Beachbody Trainers and experts."), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("Your Coach is ready to help you find all the support, fitness solutions, and motivation you need to get the best results from your Team Beachbody experience."), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("Send and receive messages through your own private message center. Stay in touch with your Buddies and your Coach, get the latest news from Team Beachbody, and keep active in the community."), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("Create your own personal Team Beachbody profile. Write in your blog, upload photos, chart and track your progress, and keep up with your Workout Buddies and Groups, workout programs, meal plans, and supplements all in one place."), selenium);
+		
+		selenium.logComment("Verifying 'Learn More' links in center content area");
+		assertTrue("All 'Learn More' links are not displayed", connectPage.getLearnMoreLinksCount()==8, selenium );
+		
+		selenium.logComment("Clicking on 'Learn More' link under 'Contests' in central content area");
+		ContestsPage contestsPage = connectPage.clickContestsLearnMore();
+		connectPage = contestsPage.clickConnectLink();
+		
+		selenium.logComment("Clicking on 'Learn More' link under 'Success Stories' in central content area");
+		SuccessStoriesPage successStoriesPage = connectPage.clickSuccessStoriesLearnMore();
+		connectPage = successStoriesPage.clickConnectLink();
+		
+		selenium.logComment("Clicking on 'Learn More' link under 'Message Boards' in central content area");
+		MessageBoardsPage messageBoardsPage = connectPage.clickMessageBoardsLearnMore();
+		connectPage = messageBoardsPage.clickConnectLink();
+				
+		selenium.logComment("Clicking on 'Learn More' link under 'Member Gallery' in central content area");
+		MemberGalleryPage memberGalleryPage = connectPage.clickMemberGalleryLearnMore();
+		connectPage = memberGalleryPage.clickConnectLink();
+		
+		selenium.logComment("Clicking on 'Learn More' link under 'Chat Rooms' in central content area");
+		ChatRoomsPage chatRoomsPage = connectPage.clickChatRoomsLearnMore();
+		connectPage = chatRoomsPage.clickConnectLink();
+		
+		selenium.logComment("Clicking on 'Learn More' link under 'Coach' in central content area");
+		MyCoachPage coachPage = connectPage.clickCoachLearnMore();
+		connectPage = coachPage.clickConnectLink();
+		
+		selenium.logComment("Clicking on 'Learn More' link under 'Message Center' in central content area");
+		MessageCenterPage messageCenterPage = connectPage.clickMessageCenterLearnMore();
+		connectPage = messageCenterPage.clickConnectLink();
+		
+		selenium.logComment("Clicking on 'Learn More' link under 'My Profile' in central content area");
+		MyProfilePage myProfilePage = connectPage.clickMyProfileLearnMore();
+		connectPage = myProfilePage.clickConnectLink();
+		
+		selenium.logComment("Executing assertEmpty method");
+		emptyMessageBuilder();
+		
+		}  
+}

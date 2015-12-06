@@ -1,0 +1,159 @@
+package com.tbb.testscripts.coach;
+import java.lang.reflect.Method;
+
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.tbb.constants.TestConsts;
+import com.tbb.constants.UIRepository.CoachPreviousOffice;
+import com.tbb.framework.BaseTest;
+import com.tbb.framework.ConfigFileReader;
+import com.tbb.pages.DashboardPage;
+import com.tbb.pages.HomePage;
+import com.tbb.pages.SignInPage;
+import com.tbb.pages.coach.CoachPage;
+import com.tbb.pages.coach.CoachPreviousOfficePage;
+
+/**
+ * 
+ * This test script contains test method(s) for Coach Previous Office page under Coach module
+ * @author Gaurav
+ */
+public class TestCoachPreviousOffice extends BaseTest {
+
+	@BeforeClass
+	public void setUp() {
+		startSeleniumServer();
+	}
+	
+	@BeforeMethod
+	public void setUp(Method method) {
+		createSeleniumInstance(method);		
+	}
+
+	
+	@AfterMethod
+	public void stopSelenium() {
+		stopSeleniumInstance();
+	}
+	
+	@AfterClass
+	public void tearDown() {		
+		stopSeleniumServer();
+	}
+	
+	/**
+	 * This test verifies UI of Coach's Previous office page.
+	 * It also verifies accessibility of all links shown on main Coach's Previous office page like Welcome, Profile, My Orders, Customers, Genealogy and Commissions.
+	 */
+	@Test
+	public void testCoachPreviousOffice() {
+		
+		selenium.logComment("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		selenium.logComment("################## Scope of this test method ######################");
+		selenium.logComment("Verifying whether are on Home page");
+		selenium.logComment("Clicking on 'Sign In' Link");
+		selenium.logComment("Entering valid username and password");
+		selenium.logComment("Clicking on Coach tab");
+		selenium.logComment("Clicking on 'Coach Previous Office' link");
+		selenium.logComment("Clicking on 'Profile' link");
+		selenium.logComment("Clicking on 'My Orders' link");
+		selenium.logComment("Clicking on 'Customers' link");
+		selenium.logComment("Clicking on 'Genealogy' link");
+		selenium.logComment("Clicking on 'Commissions' link");
+		selenium.logComment("################## Scope of this test method ######################");
+		
+		
+		
+		selenium.logComment("Verifying whether are on Home page");
+		HomePage homePage  = new HomePage(selenium);
+		
+		selenium.logComment("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.coach.username"), ConfigFileReader.getConfigItemValue("tbb.coach.password"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+			
+			selenium.logComment("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.coach.username"), ConfigFileReader.getConfigItemValue("tbb.coach.password"));
+		}
+		
+		selenium.logComment("Clicking on Coach tab");
+		CoachPage coachPage = dashboardPage.clickCoachLink();
+		
+		
+		selenium.logComment("Clicking on 'Coach Previous Office' link");
+		CoachPreviousOfficePage coachPreviousOfficePage = coachPage.clickCoachPreviousOfficeLink();
+		
+		assertTrue("Welcome text not present", selenium.waitForTextPresent("Welcome Team Beachbody Coach"), selenium);
+		assertTrue("Link 'Welcome' not present", selenium.isElementPresent(CoachPreviousOffice.HEADER_LINK_WELCOME), selenium);
+		assertTrue("Link 'Profile' not present", selenium.isElementPresent(CoachPreviousOffice.HEADER_LINK_PROFILE), selenium);
+		assertTrue("Link 'My Orders' not present", selenium.isElementPresent(CoachPreviousOffice.HEADER_LINK_MY_ORDERS), selenium);
+		assertTrue("Link 'Customers' not present", selenium.isElementPresent(CoachPreviousOffice.HEADER_LINK_CUSTOMERS), selenium);
+		assertTrue("Link 'Genealogy' not present", selenium.isElementPresent(CoachPreviousOffice.HEADER_LINK_GENEALOGY), selenium);
+		assertTrue("Link 'Commissions' not present", selenium.isElementPresent(CoachPreviousOffice.HEADER_LINK_COMMISSIONS), selenium);
+		assertTrue("Link 'Logout' not present", selenium.isElementPresent(CoachPreviousOffice.HEADER_LINK_LOGOUT), selenium);
+		assertTrue("Button 'Back to Dashboard' not present", selenium.isElementPresent(CoachPreviousOffice.BUTTON_BACK_TO_DASHBOARD), selenium);
+		
+		
+		selenium.logComment("Clicking on 'Profile' link");
+		selenium.click(CoachPreviousOffice.HEADER_LINK_PROFILE);
+		selenium.waitForPageToLoad(TestConsts.PAGE_LOAD_TIMEOUT);
+		assertTrue("Link 'View Full Profile' not present", selenium.isElementPresent(CoachPreviousOffice.LINK_VIEW_FULL_PROFILE), selenium);
+		assertTrue("Link 'Edit Bonus Account Info' not present", selenium.isElementPresent(CoachPreviousOffice.LINK_EDIT_BONUS_ACCOUNT_INFO), selenium);
+		selenium.goBack();
+		selenium.waitForPageToLoad(TestConsts.PAGE_LOAD_TIMEOUT);
+		
+		selenium.logComment("Clicking on 'My Orders' link");
+		selenium.click(CoachPreviousOffice.HEADER_LINK_MY_ORDERS);
+		selenium.waitForPageToLoad(TestConsts.PAGE_LOAD_TIMEOUT);
+		assertTrue("Link 'My Order Summary", selenium.isElementPresent(CoachPreviousOffice.LINK_MY_ORDER_SUMMARY), selenium);
+		assertTrue("Link 'My Orders", selenium.isElementPresent(CoachPreviousOffice.LINK_MY_ORDERS), selenium);
+		assertTrue("Link 'My Customer Orders", selenium.isElementPresent(CoachPreviousOffice.LINK_MY_CUSTOMER_ORDERS), selenium);
+		selenium.goBack();
+		selenium.waitForPageToLoad(TestConsts.PAGE_LOAD_TIMEOUT);
+		
+		selenium.logComment("Clicking on 'Customers' link");
+		selenium.click(CoachPreviousOffice.HEADER_LINK_CUSTOMERS);
+		selenium.waitForPageToLoad(TestConsts.PAGE_LOAD_TIMEOUT);
+		selenium.goBack();
+		selenium.waitForPageToLoad(TestConsts.PAGE_LOAD_TIMEOUT);
+			
+		selenium.logComment("Clicking on 'Genealogy' link");
+		selenium.click(CoachPreviousOffice.HEADER_LINK_GENEALOGY);
+		selenium.waitForPageToLoad(TestConsts.PAGE_LOAD_TIMEOUT);
+		assertTrue("Link 'Genealogy Report ", selenium.isElementPresent(CoachPreviousOffice.LINK_GENEALOGY_REPORT), selenium);
+		assertTrue("Link 'Genealogy Search ", selenium.isElementPresent(CoachPreviousOffice.LINK_GENEALOGY_SEARCH), selenium);
+		assertTrue("Link 'Graphical Genealogy ", selenium.isElementPresent(CoachPreviousOffice.LINK_GRAPHICAL_GENEALOGY), selenium);
+		assertTrue("Link 'Tree View Genealogy ", selenium.isElementPresent(CoachPreviousOffice.LINK_TREE_VIEW_GENEALOGY), selenium);
+		assertTrue("Link 'Personally Sponsored Report ", selenium.isElementPresent(CoachPreviousOffice.LINK_PERSONALLY_SPONSORED_REPORT), selenium);
+		assertTrue("Link 'Personally Sponsored By Leg", selenium.isElementPresent(CoachPreviousOffice.LINK_PERSONALLY_SPONSORED_BY_LEG), selenium);
+		assertTrue("Link 'Volume Totals ", selenium.isElementPresent(CoachPreviousOffice.LINK_VOLUME_TOTALS), selenium);
+		assertTrue("Link 'Preferred Placement", selenium.isElementPresent(CoachPreviousOffice.LINK_PREFERRED_PLACEMENT), selenium);
+		assertTrue("Link 'Success Links", selenium.isElementPresent(CoachPreviousOffice.LINK_SUCCESS_LINK), selenium);
+		assertTrue("Link 'Lead Eligibility", selenium.isElementPresent(CoachPreviousOffice.LINK_LEAD_ELIGIBILITY), selenium);
+		assertTrue("Link 'Fast Start Bonus Program", selenium.isElementPresent(CoachPreviousOffice.LINK_FAST_START_BONUS_PROGRAM), selenium);
+		selenium.goBack();
+		selenium.waitForPageToLoad(TestConsts.PAGE_LOAD_TIMEOUT);
+		
+		
+		
+		selenium.logComment("Clicking on 'Commissions' link");
+		selenium.click(CoachPreviousOffice.HEADER_LINK_COMMISSIONS);
+		selenium.waitForPageToLoad(TestConsts.PAGE_LOAD_TIMEOUT);
+		assertTrue("Link 'My Commissions", selenium.isElementPresent(CoachPreviousOffice.LINK_MY_COMMISSIONS), selenium);
+		assertTrue("Link 'My Earnings", selenium.isElementPresent(CoachPreviousOffice.LINK_MY_EARNINGS), selenium);
+		assertTrue("Link 'Carryover Volume", selenium.isElementPresent(CoachPreviousOffice.LINK_CARRYOVER_VOLUME), selenium);
+		selenium.goBack();
+		selenium.waitForPageToLoad(TestConsts.PAGE_LOAD_TIMEOUT);
+		
+	}
+
+}

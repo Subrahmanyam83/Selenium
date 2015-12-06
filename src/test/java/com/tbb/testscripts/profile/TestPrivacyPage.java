@@ -1,0 +1,304 @@
+package com.tbb.testscripts.profile;
+
+import java.lang.reflect.Method;
+import java.util.Map;
+
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.tbb.constants.TestConsts;
+import com.tbb.constants.UIRepository.PrivacyTab;
+import com.tbb.framework.BaseTest;
+import com.tbb.framework.ConfigFileReader;
+import com.tbb.pages.DashboardPage;
+import com.tbb.pages.HomePage;
+import com.tbb.pages.SignInPage;
+import com.tbb.pages.profile.MyProfilePage;
+import com.tbb.pages.profile.PrivacyPage;
+
+/**
+ * 
+ * This test script contains test method(s) for "Edit Profile: Privacy" page under Profile section.
+ *  @author Jaya
+ */
+public class TestPrivacyPage extends BaseTest implements PrivacyTab{
+
+	@BeforeClass
+	public void setUp() {
+		startSeleniumServer();
+	}
+	
+	@BeforeMethod
+	public void setUp(Method method) {
+		createSeleniumInstance(method);		
+	}
+
+	
+	@AfterMethod
+	public void stopSelenium() {
+		stopSeleniumInstance();
+	}
+	
+	@AfterClass
+	public void tearDown() {		
+		stopSeleniumServer();
+	}
+
+	/***
+	 * This is data provider for testSavingPrivacy Test Script.
+	 */ 
+	@DataProvider(name = "savePrivacyDataProvider")
+	public Object[][] createPrivacyPageData() {
+		return new Object[][] {
+				{ "Public", "Public", "Public", "Public", "Public", "Public", "Public", "Public", "Public", "Public", "Public", "Public", "Public", "Public", "Public", "Public"},
+				{ "Buddies", "Buddies", "Buddies", "Buddies", "Buddies", "Buddies", "Buddies", "Buddies", "Buddies", "Buddies", "Buddies", "Buddies", "Buddies", "Buddies", "Buddies", "Buddies"},
+				{ "Private", "Private", "Private", "Private", "Private", "Private", "Private", "Private", "Private", "Private", "Private", "Private", "Private", "Private", "Private", "Private"},
+		};
+	}
+
+	/***
+	 * Positive Test script for modifying all field values and successfully saving the Privacy Settings. 
+	 * The user gets a success message at the end. It validates if the values entered were actually saved. 
+	 */ 
+	@Test (dataProvider = "savePrivacyDataProvider")
+	public void testSavingPrivacy(String profileVisibilityPrivacy, String locationPrivacy, String personalBioPrivacy,
+			String blogPrivacy, String goalPrivacy, String storyPrivacy, String mealPlanPrivacy, String fitnessProgramPrivacy, 
+			String gearPrivacy, String supplementPrivacy, String beforeAndAfterPhotoPrivacy, String photoGalleryPrivacy, String workoutBuddiesPrivacy, 
+			String workoutGroupsPrivacy, String nextWorkoutPrivacy, String workoutSchedulePrivacy) {
+
+		selenium.logComment("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		selenium.logComment("################## Scope of this test method ######################");
+		selenium.logComment("Launching website.");
+		selenium.logComment("Verifying whether user is on Home page");
+		selenium.logComment("Clicking on 'Sign In' Link");
+		selenium.logComment("Entering valid username and password");
+		selenium.logComment("Navigating to Profile Page.");
+		selenium.logComment("Navigating to Edit Privacy Settings Page.");
+		selenium.logComment("Selecting different privacy settings radio buttons on Profile Page.");
+		selenium.logComment("Clicking on Save Privacy Button on Profile Page.");
+		selenium.logComment("Verifying that Privacy settings saved message is displayed on Profile Page.");
+		selenium.logComment("Executing assertEmpty method");
+		selenium.logComment("################## Scope of this test method ######################");
+		
+		
+		
+		
+
+		selenium.logComment("Launching website.");
+		selenium.open("/");
+		selenium.waitForPageToLoad(TestConsts.PAGE_LOAD_TIMEOUT);
+
+		selenium.logComment("Verifying whether user is on Home page");
+		HomePage homePage = new HomePage(selenium);
+		
+		selenium.logComment("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			selenium.logComment("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		}
+		
+		selenium.logComment("Navigating to Profile Page.");
+		MyProfilePage myProfilePage = dashboardPage.clickProfile();
+		
+		selenium.logComment("Navigating to Edit Privacy Settings Page.");
+		PrivacyPage privacyPage = myProfilePage.editPrivacySettings();
+
+		selenium.logComment("Selecting different privacy settings radio buttons on Profile Page.");
+		privacyPage.selectProfileVisibility(profileVisibilityPrivacy);
+		privacyPage.selectLocationPrivacy(locationPrivacy);
+		privacyPage.selectPersonalBioPrivacy(personalBioPrivacy);
+		privacyPage.selectBlogPrivacy(blogPrivacy);
+		privacyPage.selectOverallGoalPrivacy(goalPrivacy);
+		privacyPage.selectTransformationStoryPrivacy(storyPrivacy);
+		privacyPage.selectMealPlanPrivacy(mealPlanPrivacy);
+		privacyPage.selectFitnessProgramsPrivacy(fitnessProgramPrivacy);
+		privacyPage.selectGearPrivacy(gearPrivacy);
+		privacyPage.selectSupplementsPrivacy(supplementPrivacy);
+		privacyPage.selectBeforeAndAfterPhotosPrivacy(beforeAndAfterPhotoPrivacy);
+		privacyPage.selectPhotoGalleryPrivacy(photoGalleryPrivacy);
+		privacyPage.selectWorkoutBuddiesPrivacy(workoutBuddiesPrivacy);
+		privacyPage.selectWorkoutGroupsPrivacy(workoutGroupsPrivacy);
+		privacyPage.selectNextWorkoutPrivacy(nextWorkoutPrivacy);
+		privacyPage.selectWorkoutSchedulePrivacy(workoutSchedulePrivacy);   
+	
+		selenium.logComment("Clicking on Save Privacy Button on Profile Page.");
+		privacyPage.savePrivacy();
+
+		selenium.logComment("Verifying that Privacy settings saved message is displayed on Profile Page.");
+		assertTrue("Success Message is unavailable.", selenium.isElementPresent(SUCCESS_MESSAGE), selenium);
+		
+		selenium.logComment("Executing assertEmpty method");
+		emptyMessageBuilder();
+		
+		}	
+
+	/***
+	 * This is data provider for testResetPrivacy Test Script.
+	 */ 
+	@DataProvider(name = "resetPrivacyDataProvider")
+	public Object[][] createResetPrivacyData() {
+		return new Object[][] {
+				{ "Public", "Private", "Buddies", "Public", "Private", "Buddies", "Public", "Private", "Buddies", "Public", "Private", "Buddies", "Public", "Private", "Buddies", "Public"},
+		};
+	}
+
+	/**
+	 * Positive Test script for modifying all Privacy Page field values and then doing a reset.
+	 * It verifies if the values were actually reset. 
+	 */ 
+	@Test (dataProvider = "resetPrivacyDataProvider")
+	public void testResetPrivacy(String profileVisibilityPrivacy, String locationPrivacy, String personalBioPrivacy,
+			String blogPrivacy, String goalPrivacy, String storyPrivacy, String mealPlanPrivacy, String fitnessProgramPrivacy, 
+			String gearPrivacy, String supplementPrivacy, String beforeAndAfterPhotoPrivacy, String photoGalleryPrivacy, String workoutBuddiesPrivacy, 
+			String workoutGroupsPrivacy, String nextWorkoutPrivacy, String workoutSchedulePrivacy) {
+
+		selenium.logComment("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		selenium.logComment("################## Scope of this test method ######################");
+		selenium.logComment("Launching website.");
+		selenium.logComment("Verifying whether user is on Home page");
+		selenium.logComment("Clicking on 'Sign In' Link");
+		selenium.logComment("Entering valid username and password");
+		selenium.logComment("Navigating to Profile Page.");
+		selenium.logComment("Navigating to Edit Privacy Settings Page.");
+		selenium.logComment("Extracting existing Privacy Settings and saving it in a map. This will help to verify if the data is actually reset after clicking on reset button.");
+		selenium.logComment("Selecting different privacy settings radio buttons on Profile Page.");
+		selenium.logComment("Clicking on Reset Privacy Button on Profile Page.");
+		selenium.logComment("Verifying that the entered data is reset correctly on Profile Page.");
+		selenium.logComment("Executing assertEmpty method");
+		selenium.logComment("################## Scope of this test method ######################");
+		
+		
+		
+
+		selenium.logComment("Launching website.");
+		selenium.open("/");
+		selenium.waitForPageToLoad(TestConsts.PAGE_LOAD_TIMEOUT);
+
+		selenium.logComment("Verifying whether user is on Home page");
+		HomePage homePage = new HomePage(selenium);
+		
+		selenium.logComment("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			selenium.logComment("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		}
+		
+		selenium.logComment("Navigating to Profile Page.");
+		MyProfilePage myProfilePage = dashboardPage.clickProfile();
+		
+		selenium.logComment("Navigating to Edit Privacy Settings Page.");
+		PrivacyPage privacyPage = myProfilePage.editPrivacySettings();
+
+		selenium.logComment("Extracting existing Privacy Settings and saving it in a map. This will help to verify if the data is actually reset after clicking on reset button.");
+		Map<String, String> map = privacyPage.getExistingPrivacySettings();      
+
+		selenium.logComment("Selecting different privacy settings radio buttons on Profile Page.");
+		privacyPage.selectProfileVisibility(profileVisibilityPrivacy);
+		privacyPage.selectLocationPrivacy(locationPrivacy);
+		privacyPage.selectPersonalBioPrivacy(personalBioPrivacy);
+		privacyPage.selectBlogPrivacy(blogPrivacy);
+		privacyPage.selectOverallGoalPrivacy(goalPrivacy);
+		privacyPage.selectTransformationStoryPrivacy(storyPrivacy);
+		privacyPage.selectMealPlanPrivacy(mealPlanPrivacy);
+		privacyPage.selectFitnessProgramsPrivacy(fitnessProgramPrivacy);
+		privacyPage.selectGearPrivacy(gearPrivacy);
+		privacyPage.selectSupplementsPrivacy(supplementPrivacy);
+		privacyPage.selectBeforeAndAfterPhotosPrivacy(beforeAndAfterPhotoPrivacy);
+		privacyPage.selectPhotoGalleryPrivacy(photoGalleryPrivacy);
+		privacyPage.selectWorkoutBuddiesPrivacy(workoutBuddiesPrivacy);
+		privacyPage.selectWorkoutGroupsPrivacy(workoutGroupsPrivacy);
+		privacyPage.selectNextWorkoutPrivacy(nextWorkoutPrivacy);
+		privacyPage.selectWorkoutSchedulePrivacy(workoutSchedulePrivacy);   
+		
+		selenium.logComment("Clicking on Reset Privacy Button on Profile Page.");
+		privacyPage.resetPrivacy();
+
+		selenium.logComment("Verifying that the entered data is reset correctly on Profile Page.");
+		assertTrue("Radio Button for Profile Visibility - Public option was not reset", new Boolean(selenium.isChecked(PUBLIC_RADIO_BUTTON)).toString().equals(map.get(PUBLIC_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Profile Visibility - Buddies option was not reset", new Boolean(selenium.isChecked(BUDDIES_RADIO_BUTTON)).toString().equals(map.get(BUDDIES_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Profile Visibility - Private option was not reset", new Boolean(selenium.isChecked(PRIVATE_RADIO_BUTTON)).toString().equals(map.get(PRIVATE_RADIO_BUTTON)), selenium);
+		
+		assertTrue("Radio Button for Location - Public option was not reset", new Boolean(selenium.isChecked(LOCATION_PUBLIC_RADIO_BUTTON)).toString().equals(map.get(LOCATION_PUBLIC_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Location - Buddies option was not reset", new Boolean(selenium.isChecked(LOCATION_BUDDIES_RADIO_BUTTON)).toString().equals(map.get(LOCATION_BUDDIES_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Location - Private option was not reset", new Boolean(selenium.isChecked(LOCATION_PRIVATE_RADIO_BUTTON)).toString().equals(map.get(LOCATION_PRIVATE_RADIO_BUTTON)), selenium);
+		
+		assertTrue("Radio Button for Personal Bio - Public option was not reset", new Boolean(selenium.isChecked(PERSONAL_BIO_PUBLIC_RADIO_BUTTON)).toString().equals(map.get(PERSONAL_BIO_PUBLIC_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Personal Bio - Buddies option was not reset", new Boolean(selenium.isChecked(PERSONAL_BIO_BUDDIES_RADIO_BUTTON)).toString().equals(map.get(PERSONAL_BIO_BUDDIES_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Personal Bio - Private option was not reset", new Boolean(selenium.isChecked(PERSONAL_BIO_PRIVATE_RADIO_BUTTON)).toString().equals(map.get(PERSONAL_BIO_PRIVATE_RADIO_BUTTON)), selenium);
+		
+		assertTrue("Radio Button for Blog - Public option was not reset", new Boolean(selenium.isChecked(BLOG_PUBLIC_RADIO_BUTTON)).toString().equals(map.get(BLOG_PUBLIC_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Blog - Buddies option was not reset", new Boolean(selenium.isChecked(BLOG_BUDDIES_RADIO_BUTTON)).toString().equals(map.get(BLOG_BUDDIES_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Blog - Private option was not reset", new Boolean(selenium.isChecked(BLOG_PRIVATE_RADIO_BUTTON)).toString().equals(map.get(BLOG_PRIVATE_RADIO_BUTTON)), selenium);
+		
+		assertTrue("Radio Button for Overall Goal - Public Option was not reset", new Boolean(selenium.isChecked(OVERALL_GOAL_PUBLIC_RADIO_BUTTON)).toString().equals(map.get(OVERALL_GOAL_PUBLIC_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Overall Goal - Buddies Option was not reset", new Boolean(selenium.isChecked(OVERALL_GOAL_BUDDIES_RADIO_BUTTON)).toString().equals(map.get(OVERALL_GOAL_BUDDIES_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Overall Goal - Private Option was not reset", new Boolean(selenium.isChecked(OVERALL_GOAL_PRIVATE_RADIO_BUTTON)).toString().equals(map.get(OVERALL_GOAL_PRIVATE_RADIO_BUTTON)), selenium);
+		
+		assertTrue("Radio Button for Transformation Story - Public option was not reset", new Boolean(selenium.isChecked(TRANSFORMATION_STORY_PUBLIC_RADIO_BUTTON)).toString().equals(map.get(TRANSFORMATION_STORY_PUBLIC_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Transformation Story - Buddies option was not reset", new Boolean(selenium.isChecked(TRANSFORMATION_STORY_BUDDIES_RADIO_BUTTON)).toString().equals(map.get(TRANSFORMATION_STORY_BUDDIES_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Transformation Story - Private option was not reset", new Boolean(selenium.isChecked(TRANSFORMATION_STORY_PRIVATE_RADIO_BUTTON)).toString().equals(map.get(TRANSFORMATION_STORY_PRIVATE_RADIO_BUTTON)), selenium);
+		
+		assertTrue("Radio Button for Meal Plans - Public option was not reset", new Boolean(selenium.isChecked(MEAL_PLANS_PUBLIC_RADIO_BUTTON)).toString().equals(map.get(MEAL_PLANS_PUBLIC_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Meal Plans - Buddies option was not reset", new Boolean(selenium.isChecked(MEAL_PLANS_BUDDIES_RADIO_BUTTON)).toString().equals(map.get(MEAL_PLANS_BUDDIES_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Meal Plans - Private option was not reset", new Boolean(selenium.isChecked(MEAL_PLANS_PRIVATE_RADIO_BUTTON)).toString().equals(map.get(MEAL_PLANS_PRIVATE_RADIO_BUTTON)), selenium);
+		
+		assertTrue("Radio Button for Fitness Program(s) - Public Option was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_PUBLIC_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_PUBLIC_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Fitness Program(s) - Buddies Option was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_BUDDIES_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_BUDDIES_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Fitness Program(s) - Private Option was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_PRIVATE_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_PRIVATE_RADIO_BUTTON)), selenium);
+		
+		assertTrue("Radio Button for Gear - Public Option was not reset", new Boolean(selenium.isChecked(GEAR_PUBLIC_RADIO_BUTTON)).toString().equals(map.get(GEAR_PUBLIC_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Gear - Buddies Option was not reset", new Boolean(selenium.isChecked(GEAR_BUDDIES_RADIO_BUTTON)).toString().equals(map.get(GEAR_BUDDIES_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Gear - Private Option was not reset", new Boolean(selenium.isChecked(GEAR_PRIVATE_RADIO_BUTTON)).toString().equals(map.get(GEAR_PRIVATE_RADIO_BUTTON)), selenium);
+		
+		assertTrue("Radio Button for Supplements - Public Option was not reset", new Boolean(selenium.isChecked(SUPPLEMENTS_PUBLIC_RADIO_BUTTON)).toString().equals(map.get(SUPPLEMENTS_PUBLIC_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Supplements - Buddies Option was not reset", new Boolean(selenium.isChecked(SUPPLEMENTS_BUDDIES_RADIO_BUTTON)).toString().equals(map.get(SUPPLEMENTS_BUDDIES_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Supplements - Private Option was not reset", new Boolean(selenium.isChecked(SUPPLEMENTS_PRIVATE_RADIO_BUTTON)).toString().equals(map.get(SUPPLEMENTS_PRIVATE_RADIO_BUTTON)), selenium);
+		
+		assertTrue("Radio Button for Before And After Photos - Public Option was not reset", new Boolean(selenium.isChecked(BEFORE_AND_AFTER_PHOTOS_PUBLIC_RADIO_BUTTON)).toString().equals(map.get(BEFORE_AND_AFTER_PHOTOS_PUBLIC_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Before And After Photos - Buddies Option was not reset", new Boolean(selenium.isChecked(BEFORE_AND_AFTER_PHOTOS_BUDDIES_RADIO_BUTTON)).toString().equals(map.get(BEFORE_AND_AFTER_PHOTOS_BUDDIES_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Before And After Photos - Private Option was not reset", new Boolean(selenium.isChecked(BEFORE_AND_AFTER_PHOTOS_PRIVATE_RADIO_BUTTON)).toString().equals(map.get(BEFORE_AND_AFTER_PHOTOS_PRIVATE_RADIO_BUTTON)), selenium);
+		
+		assertTrue("Radio Button for Photo Gallery - Public Option was not reset", new Boolean(selenium.isChecked(PHOTO_GALLERY_PUBLIC_RADIO_BUTTON)).toString().equals(map.get(PHOTO_GALLERY_PUBLIC_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Photo Gallery - Buddies Option was not reset", new Boolean(selenium.isChecked(PHOTO_GALLERY_BUDDIES_RADIO_BUTTON)).toString().equals(map.get(PHOTO_GALLERY_BUDDIES_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Photo Gallery - Private Option was not reset", new Boolean(selenium.isChecked(PHOTO_GALLERY_PRIVATE_RADIO_BUTTON)).toString().equals(map.get(PHOTO_GALLERY_PRIVATE_RADIO_BUTTON)), selenium);
+		
+		assertTrue("Radio Button for Workout Buddies - Public Option was not reset", new Boolean(selenium.isChecked(WORKOUT_BUDDIES_PUBLIC_RADIO_BUTTON)).toString().equals(map.get(WORKOUT_BUDDIES_PUBLIC_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Workout Buddies - Buddies Option was not reset", new Boolean(selenium.isChecked(WORKOUT_BUDDIES_BUDDIES_RADIO_BUTTON)).toString().equals(map.get(WORKOUT_BUDDIES_BUDDIES_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Workout Buddies - Private Option was not reset", new Boolean(selenium.isChecked(WORKOUT_BUDDIES_PRIVATE_RADIO_BUTTON)).toString().equals(map.get(WORKOUT_BUDDIES_PRIVATE_RADIO_BUTTON)), selenium);
+		
+		assertTrue("Radio Button for Workout Groups - Public Option was not reset", new Boolean(selenium.isChecked(WORKOUT_GROUPS_PUBLIC_RADIO_BUTTON)).toString().equals(map.get(WORKOUT_GROUPS_PUBLIC_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Workout Groups - Buddies Option was not reset", new Boolean(selenium.isChecked(WORKOUT_GROUPS_BUDDIES_RADIO_BUTTON)).toString().equals(map.get(WORKOUT_GROUPS_BUDDIES_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Workout Groups - Private Option was not reset", new Boolean(selenium.isChecked(WORKOUT_GROUPS_PRIVATE_RADIO_BUTTON)).toString().equals(map.get(WORKOUT_GROUPS_PRIVATE_RADIO_BUTTON)), selenium);
+		
+		assertTrue("Radio Button for Next Workout - Public Option was not reset", new Boolean(selenium.isChecked(NEXT_WORKOUT_PUBLIC_RADIO_BUTTON)).toString().equals(map.get(NEXT_WORKOUT_PUBLIC_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Next Workout - Buddies Option was not reset", new Boolean(selenium.isChecked(NEXT_WORKOUT_BUDDIES_RADIO_BUTTON)).toString().equals(map.get(NEXT_WORKOUT_BUDDIES_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Next Workout - Private Option was not reset", new Boolean(selenium.isChecked(NEXT_WORKOUT_PRIVATE_RADIO_BUTTON)).toString().equals(map.get(NEXT_WORKOUT_PRIVATE_RADIO_BUTTON)), selenium);
+		
+		assertTrue("Radio Button for Workout Schedule - Public Option was not reset", new Boolean(selenium.isChecked(WORKOUT_SCHEDULE_PUBLIC_RADIO_BUTTON)).toString().equals(map.get(WORKOUT_SCHEDULE_PUBLIC_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Workout Schedule - Buddies Option was not reset", new Boolean(selenium.isChecked(WORKOUT_SCHEDULE_BUDDIES_RADIO_BUTTON)).toString().equals(map.get(WORKOUT_SCHEDULE_BUDDIES_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Workout Schedule - Private Option was not reset", new Boolean(selenium.isChecked(WORKOUT_SCHEDULE_PRIVATE_RADIO_BUTTON)).toString().equals(map.get(WORKOUT_SCHEDULE_PRIVATE_RADIO_BUTTON)), selenium);
+		
+		selenium.logComment("Executing assertEmpty method");
+		emptyMessageBuilder();		
+		}
+}
+

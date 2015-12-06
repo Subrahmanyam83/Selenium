@@ -1,0 +1,21 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+  
+<suite name="Test Suite: Xebia_Automation_Framework For BeachBody" verbose="3" parallel="false" thread-count="1">
+<listeners>
+<listener class-name="org.uncommons.reportng.HTMLReporter"></listener>
+</listeners>
+<test name="Team Beachbody Sprint 1 Test Module" preserve-order="true">
+    <classes>
+       <class name="com.tbb.testscripts.general.TestDashboardPage"/>
+       <class name="com.tbb.testscripts.general.TestHomePage"/>
+       <class name="com.tbb.testscripts.general.TestUserStatusBar"/>  
+	   <class name="com.tbb.testscripts.profile.TestEditProfilePage"/>
+       <class name="com.tbb.testscripts.profile.TestBasicInformation"/>
+       <class name="com.tbb.testscripts.profile.TestGroupsPage"/>
+       <class name="com.tbb.testscripts.profile.TestPrivacyPage"/>
+       <class name="com.tbb.testscripts.profile.TestProgramsPage"/>
+       <class name="com.tbb.testscripts.profile.TestProgressAndGoalsPage"/>
+     </classes>
+  </test>
+</suite>
+

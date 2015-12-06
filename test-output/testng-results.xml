@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="1" total="1" passed="0">
+  <reporter-output>
+    <line>
+      <![CDATA[<a href=file://C:\workspace\TBBAutomation\test-output\html\results\2011-11-11_12-11-48_oq\testProductsreport_2011-11-11_12-11-48.html>Detailed Report</a>]]>
+    </line>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="168666" started-at="2011-11-11T12:11:48Z" finished-at="2011-11-11T12:14:36Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="168666" started-at="2011-11-11T12:11:48Z" finished-at="2011-11-11T12:14:36Z">
+      <class name="com.tbb.testscripts.about.TestProducts">
+        <test-method status="PASS" signature="setUpTestClass()" name="setUpTestClass" is-config="true" duration-ms="9" started-at="2011-11-11T12:11:48Z" finished-at="2011-11-11T12:11:48Z">
+        </test-method>
+        <test-method status="PASS" signature="setUp()" name="setUp" is-config="true" duration-ms="339" started-at="2011-11-11T12:11:48Z" finished-at="2011-11-11T12:11:48Z">
+        </test-method>
+        <test-method status="PASS" signature="setMessageBuilder()" name="setMessageBuilder" is-config="true" duration-ms="1" started-at="2011-11-11T12:11:48Z" finished-at="2011-11-11T12:11:48Z">
+        </test-method>
+        <test-method status="PASS" signature="setUp(java.lang.reflect.Method)" name="setUp" is-config="true" duration-ms="26398" started-at="2011-11-11T12:11:48Z" finished-at="2011-11-11T12:12:15Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.tbb.testscripts.about.TestProducts.testProducts()]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="FAIL" signature="testProducts()" name="testProducts" duration-ms="126382" started-at="2011-11-11T12:12:15Z" finished-at="2011-11-11T12:14:21Z">
+          <exception class="java.lang.AssertionError">
+            <message>
+              <![CDATA[Expected header is not available]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.AssertionError: Expected header is not available
+	at org.junit.Assert.fail(Assert.java:93)
+	at org.junit.Assert.assertTrue(Assert.java:43)
+	at com.tbb.logging.LoggingAssert.assertTrue(LoggingAssert.java:51)
+	at com.tbb.framework.BaseTest.assertTrue(BaseTest.java:610)
+	at com.tbb.testscripts.about.TestProducts.testProducts(TestProducts.java:96)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:81)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:673)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:842)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1166)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1131)
+	at org.testng.TestRunner.privateRun(TestRunner.java:752)
+	at org.testng.TestRunner.run(TestRunner.java:603)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:324)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:286)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:235)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1049)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:974)
+	at org.testng.TestNG.run(TestNG.java:905)
+	at org.testng.remote.RemoteTestNG.run(RemoteTestNG.java:111)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:203)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:174)
+]]>
+            </full-stacktrace>
+          </exception>
+        </test-method>
+        <test-method status="PASS" signature="stopSelenium()" name="stopSelenium" is-config="true" duration-ms="14351" started-at="2011-11-11T12:14:21Z" finished-at="2011-11-11T12:14:35Z">
+        </test-method>
+        <test-method status="PASS" signature="tearDown()" name="tearDown" is-config="true" duration-ms="1176" started-at="2011-11-11T12:14:35Z" finished-at="2011-11-11T12:14:36Z">
+        </test-method>
+      </class>
+    </test>
+  </suite>
+</testng-results>

@@ -1,0 +1,271 @@
+package com.tbb.testscripts.profile;
+
+import java.lang.reflect.Method;
+import java.util.Map;
+
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.tbb.constants.TestConsts;
+import com.tbb.constants.UIRepository.BasicInformationTab;
+import com.tbb.framework.BaseTest;
+import com.tbb.framework.ConfigFileReader;
+import com.tbb.pages.DashboardPage;
+import com.tbb.pages.HomePage;
+import com.tbb.pages.SignInPage;
+import com.tbb.pages.profile.BasicInformationPage;
+import com.tbb.pages.profile.MyProfilePage;
+
+/**
+ * 
+ * This test script contains test method(s) for "Edit Profile: Basic Information" page under Profile section.
+ *  @author Jaya
+ */
+public class TestBasicInformation extends BaseTest {
+
+	@BeforeClass
+	public void setUp() {
+		startSeleniumServer();		
+	}
+
+	@BeforeMethod
+	public void setUp(Method method) {
+		createSeleniumInstance(method);		
+	}
+
+
+	@AfterMethod
+	public void stopSelenium() {
+		stopSeleniumInstance();
+	}
+
+
+	@AfterClass
+	public void tearDown() {		
+		stopSeleniumServer();
+	}
+
+	/**
+	 * Positive Test script for verifying viewing of Basic Information Page.
+	 * It verifies if all the required elements are present on the page. 
+	 */ 
+	@Test 
+	public void testViewBasicInformationPage(){
+
+		selenium.logComment("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		selenium.logComment("################## Scope of this test method ######################");
+		selenium.logComment("Verifying whether user is on Home page");
+		selenium.logComment("Clicking on 'Sign In' Link");
+		selenium.logComment("Entering valid username and password");
+		selenium.logComment("Navigating to Profile Page.");
+		selenium.logComment("Navigating to Edit Basic Information Page.");
+		selenium.logComment("Verifying that all the required fields are present on the Edit Basic Information Page.");
+		selenium.logComment("Executing assertEmpty method");
+		selenium.logComment("################## Scope of this test method ######################");
+		
+		
+		
+		
+		
+
+		selenium.logComment("Verifying whether user is on Home page");
+		HomePage homePage = new HomePage(selenium);
+
+		selenium.logComment("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			selenium.logComment("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		}
+
+		selenium.logComment("Navigating to Profile Page.");
+		MyProfilePage myProfilePage = dashboardPage.clickProfile();
+
+		selenium.logComment("Navigating to Edit Basic Information Page.");
+		myProfilePage.clickEditBasicInformation();
+
+		selenium.logComment("Verifying that all the required fields are present on the Edit Basic Information Page.");
+		assertTrue("Expected header 'Basic Information' not present", "Basic Information".equals(selenium.getText(BasicInformationTab.PAGE_HEADER)), selenium);
+		assertTrue("Expected Basic Information Image not available", selenium.isElementPresent(BasicInformationTab.PAGE_IMAGE), selenium);
+		assertTrue("Screen Name Label is missing.", selenium.isElementPresent(BasicInformationTab.SCREEN_NAME_LABEL), selenium);
+		assertTrue("Screen Name text box is unavailable.", selenium.isElementPresent(BasicInformationTab.SCREEN_NAME_TEXTBOX), selenium);
+		assertTrue("Check Availability button is not available.", selenium.isElementPresent(BasicInformationTab.CHECK_AVAILABILITY_BUTTON), selenium);
+		assertTrue("Month drop down is not available.", selenium.isElementPresent(BasicInformationTab.BIRTHDAY_MONTH), selenium);
+		assertTrue("Day drop down is not available.", selenium.isElementPresent(BasicInformationTab.BIRTHDAY_DAY), selenium);
+		assertTrue("Year drop down is not available.", selenium.isElementPresent(BasicInformationTab.BIRTHDAY_YEAR), selenium);
+		assertTrue("Calendar icon is not available.", selenium.isElementPresent(BasicInformationTab.CALENDAR_ICON), selenium);    
+		assertTrue("Radio button for female option is not available.", selenium.isElementPresent(BasicInformationTab.FEMALE_RADIO_BUTTON), selenium);
+		assertTrue("Radio button for male option is not available.", selenium.isElementPresent(BasicInformationTab.MALE_RADIO_BUTTON), selenium);
+		assertTrue("Time zone drop down is not available.", selenium.isElementPresent(BasicInformationTab.TIMEZONE), selenium);
+		assertTrue("Bio textarea is not available.", selenium.isElementPresent(BasicInformationTab.BIO), selenium);
+		assertTrue("Save button is not available.", selenium.isElementPresent(BasicInformationTab.SAVE_BUTTON), selenium);
+
+		selenium.logComment("Executing assertEmpty method");
+		emptyMessageBuilder();
+	}  
+
+	/***
+	 * This is data provider for testSaveBasicInformation Test Script.
+	 */ 
+	@DataProvider(name = "saveBasicInfoDataProvider")
+	public Object[][] createSaveBasicInformationData() {
+		return new Object[][] {
+				{"July", "11", "1984", "female", "Pacific Daylight Time", "I am a female born in July 1984. My weight is 120 lbs."},
+		};
+	}
+
+	/***
+	 * Positive Test script for modifying all field values and successfully saving the Basic Information. 
+	 * The user gets a success message at the end. It validates if the values entered were actually saved. 
+	 */ 
+	@Test (dataProvider = "saveBasicInfoDataProvider")
+	public void testSaveBasicInformation(String month, String day, String year, String gender, String timeZone, String bio) throws InterruptedException {
+		selenium.logComment("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		selenium.logComment("################## Scope of this test method ######################");
+		selenium.logComment("Verifying whether user is on Home page");
+		selenium.logComment("Clicking on 'Sign In' Link");
+		selenium.logComment("Entering valid username and password");
+		selenium.logComment("Navigating to Profile Page.");
+		selenium.logComment("Navigating to Edit Basic Information Page.");
+		selenium.logComment("Entering basic information values in Basic Information form.");
+		selenium.logComment("Assertions to verify that the data entered is saved correctly.");
+		selenium.logComment("Executing assertEmpty method");
+		selenium.logComment("################## Scope of this test method ######################");
+		
+
+		selenium.logComment("Verifying whether user is on Home page");
+		HomePage homePage = new HomePage(selenium);
+
+		selenium.logComment("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.username2"), ConfigFileReader.getConfigItemValue("tbb.password2"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			selenium.logComment("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.username2"), ConfigFileReader.getConfigItemValue("tbb.password2"));
+		}
+
+		selenium.logComment("Navigating to Profile Page.");
+		MyProfilePage myProfilePage = dashboardPage.clickProfile();
+
+		selenium.logComment("Navigating to Edit Basic Information Page.");
+		BasicInformationPage basicInformationPage = myProfilePage.clickEditBasicInformation();
+
+		selenium.logComment("Entering basic information values in Basic Information form.");
+		basicInformationPage.selectDateUsingDropDowns(month, day, year);
+		basicInformationPage.selectGender(gender);
+		basicInformationPage.selectTimeZone(timeZone);
+		basicInformationPage.typeBio(bio);          
+		basicInformationPage.saveBasicInformation();
+
+		selenium.logComment("Assertions to verify that the data entered is saved correctly."); 
+		assertTrue("Basic Information not saved correctly.", selenium.isElementPresent(BasicInformationTab.SUCCESS_MESSAGE), selenium);  
+		assertTrue("Expected month not saved.", month.equals(selenium.getSelectedLabel(BasicInformationTab.BIRTHDAY_MONTH)), selenium); 		
+		assertTrue("Expected day not saved.", day.equals(selenium.getSelectedValue(BasicInformationTab.BIRTHDAY_DAY)), selenium);
+		assertTrue("Expected year not saved.", year.equals(selenium.getSelectedValue(BasicInformationTab.BIRTHDAY_YEAR)), selenium);    
+		assertTrue("Female radio button is not selected.", selenium.isChecked(BasicInformationTab.FEMALE_RADIO_BUTTON),selenium);
+		assertTrue("Time-Zone is not saved.", timeZone.equals(selenium.getSelectedLabel(BasicInformationTab.TIMEZONE)),selenium);
+		assertTrue("Expected Bio not saved.", bio.equals(selenium.getValue(BasicInformationTab.BIO)), selenium);     
+
+		selenium.logComment("Executing assertEmpty method");
+		emptyMessageBuilder();
+	}	
+
+	/***
+	 * This is data provider for testResetBasicInformation Test Script.
+	 */ 
+	@DataProvider(name = "resetBasicInfoDataProvider")
+	public Object[][] createRsetBasicInformationData() {
+		return new Object[][] {
+				{ "ShwetaParashar1", "May", "21", "1988", "male", "Central Daylight Time", "This text should be reset"},
+		};
+	}
+
+	/***
+	 * Positive Test script for modifying all field values and then doing a reset.
+	 * It verifies if the values were actually reset. 
+	 */ 
+	@Test (dataProvider = "resetBasicInfoDataProvider")
+	public void testResetBasicInformation( String screenName, String month, String day, String year, String gender, String timeZone, String bio) throws InterruptedException {
+		selenium.logComment("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		selenium.logComment("################## Scope of this test method ######################");
+		selenium.logComment("Launching website.");
+		selenium.logComment("Verifying whether user is on Home page");
+		selenium.logComment("Clicking on 'Sign In' Link");
+		selenium.logComment("Entering valid username and password");
+		selenium.logComment("Navigating to Profile Page.");
+		selenium.logComment("Navigating to Edit Basic Information Page.");
+		selenium.logComment("Extracting the existing basic information form data and storing into a map.");
+		selenium.logComment("Entering basic information values in Basic Information form.");
+		selenium.logComment("Assertions to verify that the data entered is reset and the earlier data is displayed.");
+		selenium.logComment("Executing assertEmpty method");
+		selenium.logComment("################## Scope of this test method ######################");
+		
+
+		selenium.logComment("Launching website.");
+		selenium.deleteAllVisibleCookies();
+		selenium.open("/");
+		selenium.waitForPageToLoad(TestConsts.PAGE_LOAD_TIMEOUT);
+
+		selenium.logComment("Verifying whether user is on Home page");
+		HomePage homePage = new HomePage(selenium);
+
+		selenium.logComment("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.coach.username"), ConfigFileReader.getConfigItemValue("tbb.coach.password"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			selenium.logComment("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.coach.username"), ConfigFileReader.getConfigItemValue("tbb.coach.password"));
+		}
+
+		selenium.logComment("Navigating to Profile Page.");
+		MyProfilePage myProfilePage = dashboardPage.clickProfile();
+
+		selenium.logComment("Navigating to Edit Basic Information Page.");
+		BasicInformationPage basicInformationPage = myProfilePage.clickEditBasicInformation();
+
+		selenium.logComment("Extracting the existing basic information form data and storing into a map.");
+		Map<String, String> map = basicInformationPage.getExistingFormData();
+
+		selenium.logComment("Entering basic information values in Basic Information form.");
+		basicInformationPage.checkScreenNameAvailability(screenName);
+		basicInformationPage.selectDateUsingDropDowns(month, day, year);basicInformationPage.selectGender(gender);
+		basicInformationPage.selectTimeZone(timeZone);
+		basicInformationPage.typeBio(bio);
+		basicInformationPage.resetBasicInformation();
+
+		selenium.logComment("Assertions to verify that the data entered is reset and the earlier data is displayed."); 
+		assertTrue("Screen name was not reset", selenium.getValue(BasicInformationTab.SCREEN_NAME_TEXTBOX).equals(map.get(BasicInformationTab.SCREEN_NAME_TEXTBOX)), selenium);
+		assertTrue("Birthday Month was not reset", selenium.getSelectedLabel(BasicInformationTab.BIRTHDAY_MONTH).equals(map.get(BasicInformationTab.BIRTHDAY_MONTH)), selenium);
+		assertTrue("Birthday Day was not reset", selenium.getSelectedValue(BasicInformationTab.BIRTHDAY_DAY).equals(map.get(BasicInformationTab.BIRTHDAY_DAY)), selenium);
+		assertTrue("Birthday Year was not reset", selenium.getSelectedValue(BasicInformationTab.BIRTHDAY_YEAR).equals(map.get(BasicInformationTab.BIRTHDAY_YEAR)), selenium);
+		assertTrue("Radio Button for Female option was not reset", new Boolean(selenium.isChecked(BasicInformationTab.FEMALE_RADIO_BUTTON)).toString().equals(map.get(BasicInformationTab.FEMALE_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for male option was not reset", new Boolean(selenium.isChecked(BasicInformationTab.MALE_RADIO_BUTTON)).toString().equals(map.get(BasicInformationTab.MALE_RADIO_BUTTON)), selenium);
+		assertTrue("Time Zone was not reset", selenium.getSelectedLabel(BasicInformationTab.TIMEZONE).equals(map.get(BasicInformationTab.TIMEZONE)), selenium);
+		assertTrue("Bio was not reset", selenium.getValue(BasicInformationTab.BIO).equals(map.get(BasicInformationTab.BIO)), selenium);
+
+		selenium.logComment("Executing assertEmpty method");
+		emptyMessageBuilder();
+	}   
+}
+

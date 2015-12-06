@@ -1,0 +1,382 @@
+package com.tbb.testscripts.connect;
+
+import java.lang.reflect.Method;
+
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.tbb.constants.UIRepository.ContestFAQ;
+import com.tbb.constants.UIRepository.Contests;
+import com.tbb.constants.UIRepository.DailySweepstakes;
+import com.tbb.constants.UIRepository.TheBeachbodyChallenge;
+import com.tbb.framework.BaseTest;
+import com.tbb.framework.ConfigFileReader;
+import com.tbb.pages.DashboardPage;
+import com.tbb.pages.HomePage;
+import com.tbb.pages.SignInPage;
+import com.tbb.pages.connect.ConnectPage;
+import com.tbb.pages.connect.ContestFAQPage;
+import com.tbb.pages.connect.ContestsPage;
+import com.tbb.pages.connect.DailySweepstakesPage;
+
+/**
+ * 
+ * This test script contains test method(s) for Contests page under Connect module
+ * @author Jaya
+ */
+public class TestContests extends BaseTest{
+
+	@BeforeClass
+	public void setUp() {
+		startSeleniumServer();		
+	}
+
+	@BeforeMethod
+	public void setUp(Method method) {
+		createSeleniumInstance(method);		
+	}
+
+	@AfterMethod
+	public void stopSelenium() {
+		stopSeleniumInstance();
+	}	
+
+	@AfterClass
+	public void tearDown() {		
+		stopSeleniumServer();
+	}
+
+	/***
+	 * This is data provider for testViewContestsPage Test Script.
+	 */ 
+	@DataProvider(name = "viewContestDataProvider")
+	public Object[][] createContestData() {
+		return new Object[][] {
+				{ "mgupta@beachbody.com", "b@b2011"},
+		};
+	}
+
+	  /**
+	  * Positive Test script for verifying viewing of Contest Page.
+	  * It verifies if all the required elements are present on the Contest Page. 
+	  */ 
+	@Test (dataProvider = "viewContestDataProvider")
+	public void testViewContestsPage(String userName,String password){
+		selenium.logComment("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		
+		selenium.logComment("################## Scope of this test method ######################");
+		selenium.logComment("Verifying whether are on Home page");
+		selenium.logComment("Clicking on 'Sign In' Link");
+		selenium.logComment("Entering valid username and password");
+		selenium.logComment("Clicking on 'Connect' link");
+		selenium.logComment("Clicking on 'Contests' Link from left side menu");
+		selenium.logComment("Verifying the required elements are present on the Contests Page.");
+		selenium.logComment("Executing assertEmpty method");
+		selenium.logComment("################## Scope of this test method ######################");	
+		
+		
+		
+
+		selenium.logComment("Verifying whether are on Home page");
+		HomePage homePage  = new HomePage(selenium);
+
+		selenium.logComment("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(userName, password);
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			selenium.logComment("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(userName, password);
+		}
+
+		selenium.logComment("Clicking on 'Connect' link");
+		ConnectPage connectPage = dashboardPage.clickConnectLink();
+
+		selenium.logComment("Clicking on 'Contests' Link from left side menu");
+		ContestsPage contestsPage = connectPage.goToContestsPage();
+
+		selenium.logComment("Verifying the required elements are present on the Contests Page.");
+		assertTrue("Expected header is not available", selenium.isElementPresent(Contests.CONTESTS_HEADER), selenium);
+		assertTrue("Expected text is not available", selenium.isElementPresent(Contests.CONTESTS_INTRO_TEXT), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("It's easy to enter."), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("With your active commitment to The Beachbody Challenge, you'll be automatically entered in the Daily Sweepstakes every day you log your workout into WOWY SuperGym. And if you've already sent in your transformation results to The Beachbody Challenge, you're still eligible to win."), selenium);
+		assertTrue("Expected image is not available", selenium.isElementPresent(Contests.CONTESTS_IMAGE), selenium);
+		assertTrue("Expected button is not available", selenium.isElementPresent(Contests.WORKOUT_NOW_BUTTON), selenium);
+		assertTrue("Expected button is not available", selenium.isElementPresent(Contests.ENTER_THE_BEACHBODY_CHALLENGE_BUTTON), selenium);
+		assertTrue("Expected button is not available", selenium.isElementPresent(Contests.RULES), selenium);
+
+		if(selenium.isVisible(Contests.ENABLED_NEXT_ARROW)){
+			if(selenium.isVisible(Contests.DISABLED_PREV_ARROW)){
+				contestsPage.clickNextArrow();
+				assertTrue("Expected arrow is not available", selenium.isElementPresent(Contests.ENABLED_PREV_ARROW), selenium);
+				contestsPage.clickPrevArrow();
+			}
+		}
+
+		selenium.logComment("Executing assertEmpty method");
+		emptyMessageBuilder();
+
+		}
+
+	   /**
+	   * Positive Test script for verifying viewing of Daily Sweepstakes Page.
+	   * It verifies if all the required elements are present Daily Sweepstakes Page.
+	   */ 
+	@Test (dataProvider = "viewContestDataProvider")
+	public void testViewDailySweepstakesPage(String userName,String password){
+		selenium.logComment("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		selenium.logComment("################## Scope of this test method ######################");
+		selenium.logComment("Verifying whether are on Home page");
+		selenium.logComment("Clicking on 'Sign In' Link");
+		selenium.logComment("Entering valid username and password");
+		selenium.logComment("Clicking on 'Connect' link");
+		selenium.logComment("Clicking on 'Contests' Link from left side menu");
+		selenium.logComment("Clicking on 'Daily Sweepstakes' Link from left side menu");
+		selenium.logComment("Verifying the required elements are present on the Daily Sweepstakes Page.");
+		selenium.logComment("Verifying navigating to last page in search results.");
+		selenium.logComment("Verifying navigating to first page in search results.");
+		selenium.logComment("Verifying navigating to previous page in search results.");
+		selenium.logComment("Verifying navigating to previous page in search results.");
+		selenium.logComment("Executing assertEmpty method");
+		selenium.logComment("################## Scope of this test method ######################");		
+		
+		
+
+		selenium.logComment("Verifying whether are on Home page");
+		HomePage homePage  = new HomePage(selenium);
+
+		selenium.logComment("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(userName, password);
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			selenium.logComment("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(userName, password);
+		}
+
+		selenium.logComment("Clicking on 'Connect' link");
+		ConnectPage connectPage = dashboardPage.clickConnectLink();
+
+		selenium.logComment("Clicking on 'Contests' Link from left side menu");
+		ContestsPage contestsPage = connectPage.goToContestsPage();
+
+		selenium.logComment("Clicking on 'Daily Sweepstakes' Link from left side menu");
+		DailySweepstakesPage dailySweepstakesPage = contestsPage.goToDailySweepstakesPage();
+
+		selenium.logComment("Verifying the required elements are present on the Daily Sweepstakes Page.");
+		assertTrue("Expected daily sweepstakes date is not available", selenium.isElementPresent(DailySweepstakes.DAILY_SWEEPSTAKES_DATE), selenium);
+		assertTrue("Expected image is not available", selenium.isElementPresent(DailySweepstakes.DAILY_SWEEPSTAKES_TOP_IMAGE), selenium);
+		assertTrue("Expected header is not available", selenium.isElementPresent(DailySweepstakes.DAILY_SWEEPSTAKES_HEADER), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("Join The Beachbody Challenge™, then enter your workouts into WOWY SuperGym®, and you could win $500. Just for working out!"), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("It's easy to enter."), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("With your active commitment to The Beachbody Challenge, you'll be automatically entered in the Daily Sweepstakes every day you log your workout into WOWY SuperGym. And if you've already sent in your transformation results to The Beachbody Challenge, you're still eligible to win."), selenium);
+		assertTrue("Expected image is not available", selenium.isElementPresent(DailySweepstakes.DAILY_SWEEPSTAKES_IMAGE_SMALL), selenium);
+		assertTrue("Expected button is not available", selenium.isElementPresent(DailySweepstakes.WORK_OUT_NOW_BUTTON), selenium);
+		assertTrue("Expected button is not available", selenium.isElementPresent(DailySweepstakes.ENTER_THE_BEACHBODY_CHALLENGE_BUTTON), selenium);
+		assertTrue("Expected rules footer is not available", selenium.isElementPresent(DailySweepstakes.RULES), selenium);
+		assertTrue("Expected sub header is not available", selenium.isElementPresent(DailySweepstakes.PREVIOUS_WINNERS_HEADER), selenium);
+		assertTrue("Expected text is not available", selenium.isElementPresent(DailySweepstakes.ALL_WINNERS_HEADER), selenium);
+
+		assertTrue("Expected label is not available", selenium.isElementPresent(DailySweepstakes.TOP_RESULTS_SUMMARY), selenium);
+		assertTrue("Expected label is not available", selenium.isElementPresent(DailySweepstakes.TOP_ITEMS_PER_PAGE_LABEL), selenium);
+		assertTrue("Expected label is not available", selenium.isElementPresent(DailySweepstakes.TOP_PAGE_LABEL), selenium);
+		assertTrue("Expected first arrow is not available", selenium.isElementPresent(DailySweepstakes.TOP_DISABLED_FIRST_ARROW), selenium);
+		assertTrue("Expected prev arrow is not available", selenium.isElementPresent(DailySweepstakes.TOP_DISABLED_PREV_ARROW), selenium);
+		assertTrue("Expected next arrow is not available", selenium.isElementPresent(DailySweepstakes.TOP_ENABLED_NEXT_ARROW), selenium);
+		assertTrue("Expected last arrow is not available", selenium.isElementPresent(DailySweepstakes.TOP_ENABLED_LAST_ARROW), selenium);
+
+		assertTrue("Expected label is not available", selenium.isElementPresent(DailySweepstakes.BOTTOM_RESULTS_SUMMARY), selenium);
+		assertTrue("Expected label is not available", selenium.isElementPresent(DailySweepstakes.BOTTOM_ITEMS_PER_PAGE_LABEL), selenium);
+		assertTrue("Expected label is not available", selenium.isElementPresent(DailySweepstakes.BOTTOM_PAGE_LABEL), selenium);
+		assertTrue("Expected first arrow is not available", selenium.isElementPresent(DailySweepstakes.BOTTOM_DISABLED_FIRST_ARROW), selenium);
+		assertTrue("Expected prev arrow is not available", selenium.isElementPresent(DailySweepstakes.BOTTOM_DISABLED_PREV_ARROW), selenium);
+		assertTrue("Expected next arrow is not available", selenium.isElementPresent(DailySweepstakes.BOTTOM_ENABLED_NEXT_ARROW), selenium);
+		assertTrue("Expected last arrow is not available", selenium.isElementPresent(DailySweepstakes.BOTTOM_ENABLED_LAST_ARROW), selenium);
+
+		assertTrue("Expected header is not available", selenium.isElementPresent(DailySweepstakes.DAILY_SWEEPSTAKES_RULES_HEADER), selenium);
+
+		selenium.logComment("Verifying navigating to last page in search results.");
+		dailySweepstakesPage.clickLastArrow();
+		assertTrue("First arrow is not enabled.", selenium.isVisible(DailySweepstakes.TOP_ENABLED_FIRST_ARROW), selenium);
+		assertTrue("Prev arrow is not enabled.", selenium.isVisible(DailySweepstakes.TOP_ENABLED_PREV_ARROW), selenium);
+		assertTrue("Next arrow is enabled.", selenium.isVisible(DailySweepstakes.TOP_DISABLED_NEXT_ARROW), selenium);
+		assertTrue("Last arrow is enabled.", selenium.isVisible(DailySweepstakes.TOP_DISABLED_LAST_ARROW), selenium);
+
+		selenium.logComment("Verifying navigating to first page in search results.");
+		dailySweepstakesPage.clickFirstArrow();
+		assertTrue("First arrow is enabled.", selenium.isVisible(DailySweepstakes.TOP_DISABLED_FIRST_ARROW), selenium);
+		assertTrue("Prev arrow is enabled.", selenium.isVisible(DailySweepstakes.TOP_DISABLED_PREV_ARROW), selenium);
+		assertTrue("Next arrow is not enabled.", selenium.isVisible(DailySweepstakes.TOP_ENABLED_NEXT_ARROW), selenium);
+		assertTrue("Last arrow is not enabled.", selenium.isVisible(DailySweepstakes.TOP_ENABLED_LAST_ARROW), selenium);
+
+		selenium.logComment("Verifying navigating to previous page in search results.");
+		dailySweepstakesPage.clickNextArrow();
+		assertTrue("First arrow is not enabled.", selenium.isVisible(DailySweepstakes.TOP_ENABLED_FIRST_ARROW), selenium);
+		assertTrue("Prev arrow is not enabled.", selenium.isVisible(DailySweepstakes.TOP_ENABLED_PREV_ARROW), selenium);
+
+		selenium.logComment("Verifying navigating to previous page in search results.");
+		dailySweepstakesPage.clickPrevArrow();
+		assertTrue("Next arrow is not enabled.", selenium.isVisible(DailySweepstakes.TOP_ENABLED_NEXT_ARROW), selenium);
+		assertTrue("Last arrow is not enabled.", selenium.isVisible(DailySweepstakes.TOP_ENABLED_LAST_ARROW), selenium);	
+
+		selenium.logComment("Executing assertEmpty method");
+		emptyMessageBuilder();
+
+		}
+
+	    /**
+	    * Positive Test script for verifying viewing of The Beachbody Challenge Page.
+	    * It verifies if all the required elements are present on The Beachbody Challenge Page.
+	    */ 
+	@Test (dataProvider = "viewContestDataProvider")
+	public void testViewTheBeachbodyChallengePage(String userName,String password){
+		selenium.logComment("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		selenium.logComment("################## Scope of this test method ######################");
+		selenium.logComment("Verifying whether are on Home page");
+		selenium.logComment("Clicking on 'Sign In' Link");
+		selenium.logComment("Entering valid username and password");
+		selenium.logComment("Clicking on 'Connect' link");
+		selenium.logComment("Clicking on 'Contests' Link from left side menu");
+		selenium.logComment("Clicking on 'The Beachbody Challenge' Link from left side menu");
+		selenium.logComment("Verifying the required elements are present on The Beachbody Challenge Page.");
+		selenium.logComment("Executing assertEmpty method");
+		selenium.logComment("################## Scope of this test method ######################");
+		
+		
+
+		selenium.logComment("Verifying whether are on Home page");
+		HomePage homePage  = new HomePage(selenium);
+
+		selenium.logComment("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(userName, password);
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			selenium.logComment("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(userName, password);
+		}
+
+		selenium.logComment("Clicking on 'Connect' link");
+		ConnectPage connectPage = dashboardPage.clickConnectLink();
+
+		selenium.logComment("Clicking on 'Contests' Link from left side menu");
+		ContestsPage contestsPage = connectPage.goToContestsPage();
+
+		selenium.logComment("Clicking on 'The Beachbody Challenge' Link from left side menu");
+		contestsPage.goToTheBeachbodyChallengePage();
+
+		selenium.logComment("Verifying the required elements are present on The Beachbody Challenge Page.");
+		assertTrue("Expected header is not available", selenium.isElementPresent(TheBeachbodyChallenge.TOP_ORANGE_BAR), selenium);
+		assertTrue("Expected video is not available", selenium.isElementPresent(TheBeachbodyChallenge.BEACHBODY_CHALLENGE_VIDEO), selenium);
+		assertTrue("Expected button is not available", selenium.isElementPresent(TheBeachbodyChallenge.TOP_COMMIT_TO_GET_FIT_BUTTON), selenium);
+		assertTrue("Expected button is not available", selenium.isElementPresent(TheBeachbodyChallenge.TOP_SUBMIT_YOUR_RESULTS), selenium);
+		assertTrue("Expected image is not available", selenium.isElementPresent(TheBeachbodyChallenge.CHALLENGE_ICON), selenium);
+		assertTrue("Expected text is not available", selenium.isElementPresent(TheBeachbodyChallenge.CHALLENGE_HEADLINE), selenium);
+		assertTrue("Expected quote is not available", selenium.isElementPresent(TheBeachbodyChallenge.CHALLENGE_QUOTE), selenium);
+		assertTrue("Expected text is not available", selenium.isElementPresent(TheBeachbodyChallenge.SEE_BELOW_FOR_DETAILS), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("What's The Beachbody Challenge?"), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("Here's how to enter:"), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("(It's okay to skip step 1 if you're already in shape and want to submit your fitness results.)"), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("Got results from your Beachbody program? It's time to submit your transformation story. Send us your \"before\" and \"after\" photos, transformation stats, and tell us your story. We'll give you a FREE T-SHIRT and you'll have a chance to win additional prizes."), selenium);
+		assertTrue("Expected header is not available", selenium.isElementPresent(TheBeachbodyChallenge.YOU_CAN_WIN_UPTO_HEADER), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("If your entry is selected as the top transformation in your age and gender category for the month in which you entered, you'll win $1,000 and a shot at the Grand Prize."), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("Plus you'll have a chance to win:"), selenium);
+		assertTrue("Expected text is not available", selenium.isElementPresent(TheBeachbodyChallenge.PLUS_YOU_WILL_HAVE_A_CHANCE_TO_WIN_TEXT), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("Ready to WIN? Enter now."), selenium);
+
+		assertTrue("Expected button is not available", selenium.isElementPresent(TheBeachbodyChallenge.BOTTOM_COMMIT_TO_GET_FIT_BUTTON), selenium);
+		assertTrue("Expected button is not available", selenium.isElementPresent(TheBeachbodyChallenge.BOTTOM_SUBMIT_YOUR_RESULTS), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("The Beachbody Challenge 2011 – 2012 Official Contest Rules:"), selenium);
+		assertTrue("Expected link is not available", selenium.isElementPresent(TheBeachbodyChallenge.MONTHLY_CONTEST_RULES_LINK), selenium);
+		assertTrue("Expected link is not available", selenium.isElementPresent(TheBeachbodyChallenge.QUARTERLY_CONTEST_RULES_LINK), selenium);
+		assertTrue("Expected link is not available", selenium.isElementPresent(TheBeachbodyChallenge.GRAND_PRIZE_CONTEST_RULES_LINK), selenium);
+		assertTrue("Expected link is not available", selenium.isElementPresent(TheBeachbodyChallenge.FAQ_LINK), selenium);
+		assertTrue("Expected Previous winners section is not available", selenium.isElementPresent(TheBeachbodyChallenge.PREVIOUS_GRAND_PRIZE_WINNERS), selenium);	
+
+		selenium.logComment("Executing assertEmpty method");
+		emptyMessageBuilder();
+
+		}
+
+	/**
+	 * Positive Test script for verifying viewing of The Contest FAQ Page.
+	 * It verifies if all the required elements are present on The Contest FAQ Page.
+	 */ 
+	@Test (dataProvider = "viewContestDataProvider")
+	public void testViewContestFAQPage(String userName,String password){
+		selenium.logComment("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		selenium.logComment("################## Scope of this test method ######################");
+		selenium.logComment("Verifying whether are on Home page");
+		selenium.logComment("Clicking on 'Sign In' Link");
+		selenium.logComment("Entering valid username and password");
+		selenium.logComment("Clicking on 'Connect' link");
+		selenium.logComment("Clicking on 'Contests' Link from left side menu");
+		selenium.logComment("Clicking on 'Contest FAQ' Link from left side menu");
+		selenium.logComment("Verifying the required elements are present on Contest FAQ Page.");
+		selenium.logComment("Verifying number of FAQ links displayed on the Contest FQA page.");
+		selenium.logComment("Verifying number of 'Back to Top' links displayed on the Contest FQA page.");
+		selenium.logComment("Verifying number of FAQ question Headers displayed on the Contest FQA page.");
+		selenium.logComment("Executing assertEmpty method");
+		selenium.logComment("################## Scope of this test method ######################");
+		
+		
+		
+		selenium.logComment("Verifying whether are on Home page");
+		HomePage homePage  = new HomePage(selenium);
+
+		selenium.logComment("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(userName, password);
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			selenium.logComment("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(userName, password);
+		}
+
+		selenium.logComment("Clicking on 'Connect' link");
+		ConnectPage connectPage = dashboardPage.clickConnectLink();
+
+		selenium.logComment("Clicking on 'Contests' Link from left side menu");
+		ContestsPage contestsPage = connectPage.goToContestsPage();
+
+		selenium.logComment("Clicking on 'Contest FAQ' Link from left side menu");
+		ContestFAQPage contestFAQPage = contestsPage.goToContestFAQPage();
+
+		selenium.logComment("Verifying the required elements are present on Contest FAQ Page.");
+		assertTrue("Expected header is not available", selenium.isElementPresent(ContestFAQ.CONTEST_FAQ_HEADER), selenium);
+		assertTrue("Expected text is not available", selenium.isTextPresent("FREQUENTLY ASKED QUESTIONS:"), selenium);
+
+		selenium.logComment("Verifying number of FAQ links displayed on the Contest FQA page.");
+		assertTrue("Number of FAQ Links displayed is incorrect.", contestFAQPage.getFAQLinksCount()==24, selenium );
+
+		selenium.logComment("Verifying number of 'Back to Top' links displayed on the Contest FQA page.");
+		assertTrue("Number of 'Back to Top' Links displayed is incorrect.", contestFAQPage.getBackToTopLinksCount()==24, selenium );
+
+		selenium.logComment("Verifying number of FAQ question Headers displayed on the Contest FQA page.");
+		assertTrue("Number of FAQ question Headers Links displayed is incorrect.", contestFAQPage.getFAQHeadersCount()==24, selenium );		
+
+		selenium.logComment("Executing assertEmpty method");
+		emptyMessageBuilder();		
+	}
+}

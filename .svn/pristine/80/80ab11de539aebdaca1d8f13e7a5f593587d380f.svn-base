@@ -1,0 +1,170 @@
+package com.tbb.testscripts.getfit;
+
+import java.lang.reflect.Method;
+
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.tbb.constants.UIRepository.WOWYSuperGymStats;
+import com.tbb.framework.BaseTest;
+import com.tbb.framework.ConfigFileReader;
+import com.tbb.pages.DashboardPage;
+import com.tbb.pages.HomePage;
+import com.tbb.pages.SignInPage;
+import com.tbb.pages.getfit.GetFitPage;
+import com.tbb.pages.getfit.WOWYSuperGymStatsPage;
+import com.tbb.pages.getfit.WowySuperGymPage;
+/**
+ *
+ * This test script contains test method(s) for Wowy SuperGym Stats page under Get-Fit module
+ *  @author Gaurav
+ */
+
+public class TestWOWYSuperGymStats extends BaseTest {
+
+	@BeforeClass
+	public void setUp() {
+		startSeleniumServer();
+		
+		
+	}
+	
+	@BeforeMethod
+	public void setUp(Method method) {
+		createSeleniumInstance(method);
+		
+		
+	}
+
+	
+	@AfterMethod
+	public void stopSelenium() {
+		stopSeleniumInstance();
+	}
+	
+	
+	@AfterClass
+	public void tearDown() {
+		
+		stopSeleniumServer();
+	}
+	
+	
+	/**
+	 * This test verifies following:
+	 * Verifies count of 'Recent Top SuperGym Users'
+	 * Verifies presence of 'Go to Member Gallery' link
+	 * Verifies count of 'Top Workout Groups'
+	 * Verifies presence of 'Find more groups' link
+	 * Verifies count of 'Team Beachbody Programs'
+	 * Verifies presence of 'See all programs' link
+	 */
+	@Test
+	public void testWOWYSuperGymStatsPage() {
+		
+		logger.info("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		logger.info("Verifying whether are on Home page");
+		HomePage homePage  = new HomePage(selenium);
+		
+		logger.info("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+			
+			logger.info("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		}
+	
+			
+		logger.info("Clicking on 'Get Fit' link");
+		GetFitPage getFitPage = dashboardPage.clickGetFitLink();
+		
+		logger.info("Clicking on 'WOWY SuperGym™' Link from left side menu");
+		WowySuperGymPage wowySuperGymPage = getFitPage.goToWowySupergymPage();
+		
+		logger.info("Clicking on 'More statistics' Link");
+		WOWYSuperGymStatsPage wOWYSuperGymStatsPage = wowySuperGymPage.clickMoreStatistics();
+		if(ConfigFileReader.getConfigItemValue("application.url").equals("www.teambeachbody.com")) {
+			logger.info("Verifying count of 'Recent Top SuperGym Users'");
+			assertTrue("Count of Recent Top SuperGym Users  should be 5", wOWYSuperGymStatsPage.getRecentTopSuperGymUsersCount() == 5, selenium);
+		}
+		
+		logger.info("Verifying presence of 'Go to Member Gallery' link");
+		assertTrue("'Go to Member Gallery' link is not displayed", selenium.isElementPresent(WOWYSuperGymStats.GO_TO_MEMBER_GALLERY_LINK), selenium);
+		
+		logger.info("Verifying count of 'Top Workout Groups'");
+		assertTrue("Count of Top Workout Groups  should be 6", wOWYSuperGymStatsPage.getTopWorkoutGroupsCount() == 6, selenium);
+		
+		logger.info("Verifying presence of 'Find more groups' link");
+		assertTrue("'Find more groups' link is not displayed", selenium.isElementPresent(WOWYSuperGymStats.FIND_MORE_GROUPS_LINK), selenium);
+	
+		logger.info("Verifying count of 'Team Beachbody Programs'");
+		assertTrue("Count of Team Beachbody Programs  should be 4", wOWYSuperGymStatsPage.getTeamBeachbodyProgramsCount() == 4, selenium);
+		
+		logger.info("Verifying presence of 'See all programs' link");
+		assertTrue("'See all programs' link is not displayed", selenium.isElementPresent(WOWYSuperGymStats.SEE_ALL_PROGRAMS_LINK), selenium);
+			
+		logger.info("Executing assertEmpty method");
+		emptyMessageBuilder();
+		
+	}
+	
+	
+	/**
+	 * This test verifies that user can send buddy invite to one of the Top Users.
+	 */
+	@Test
+	public void testTopUserBuddyInvite() {
+		
+		logger.info("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		logger.info("Verifying whether are on Home page");
+		HomePage homePage  = new HomePage(selenium);
+		
+		logger.info("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+			
+			logger.info("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		}
+		
+		logger.info("Clicking on 'Get Fit' link");
+		GetFitPage getFitPage = dashboardPage.clickGetFitLink();
+		
+		logger.info("Clicking on 'WOWY SuperGym™' Link from left side menu");
+		WowySuperGymPage wowySuperGymPage = getFitPage.goToWowySupergymPage();
+		
+		logger.info("Clicking on 'More statistics' Link");
+		WOWYSuperGymStatsPage wOWYSuperGymStatsPage = wowySuperGymPage.clickMoreStatistics();
+		
+		logger.info("Clicking on First top user's screen name");
+		selenium.click(WOWYSuperGymStats.RECENT_FIRST_TOP_USER);
+		
+		logger.info("Verifying whether 'Add as Buddy' button exists. If yes, click on it");
+		assertTrue("'Add as a Buddy' button not present", selenium.waitForElementPresent(WOWYSuperGymStats.RECENT_TOP_USER_PROFILE_POP_UP_ADD_AS_A_BUDDY_BUTTON), selenium );
+		selenium.click(WOWYSuperGymStats.RECENT_TOP_USER_PROFILE_POP_UP_ADD_AS_A_BUDDY_BUTTON);
+		selenium.click(WOWYSuperGymStats.RECENT_TOP_USER_PROFILE_POP_UP_NO_BUTTON);
+			
+	/*	logger.info("Clicking on 'Close' link");
+		selenium.click("css=div.profile-table.popup div.profile-area-close");*/
+		
+		logger.info("Executing assertEmpty method");
+		emptyMessageBuilder();
+				
+		
+		
+	}
+}

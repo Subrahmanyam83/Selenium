@@ -1,0 +1,100 @@
+package com.tbb.testscripts.shop;
+
+import java.lang.reflect.Method;
+
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.tbb.constants.TestConsts;
+import com.tbb.framework.BaseTest;
+import com.tbb.framework.ConfigFileReader;
+import com.tbb.pages.DashboardPage;
+import com.tbb.pages.HomePage;
+import com.tbb.pages.SignInPage;
+import com.tbb.pages.shop.ShoppingCartPage;
+
+
+/**
+ *
+ * This test script contains test method(s) for main Shop page/tab.
+ * @author Jaya
+ */
+public class TestShop extends BaseTest{
+
+	@BeforeClass
+	public void setUp() {
+		startSeleniumServer();		
+	}
+	
+	@BeforeMethod
+	public void setUp(Method method) {
+		createSeleniumInstance(method);		
+	}
+	
+	@AfterMethod
+	public void stopSelenium() {
+		stopSeleniumInstance();
+	}	
+	
+	@AfterClass
+	public void tearDown() {		
+		stopSeleniumServer();
+	}
+	
+	/**
+	 * Test script for verifying adding items to shopping Cart.
+	 */ 
+	@Test
+	public void testAddProductToShoppingCart(){
+		selenium.logComment("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		selenium.logComment("################## Scope of this test method ######################");
+		selenium.logComment("Verifying whether are on Home page");
+		selenium.logComment("Clicking on 'Sign In' Link");
+		selenium.logComment("Entering valid username and password");
+		selenium.logComment("Clicking on 'Shop' link");
+		selenium.logComment("Clicking on 'Add to Cart' button for first featured on Shop Page");
+		selenium.logComment("Verifying that item was added to shopping Cart.");
+		selenium.logComment("Navigate back to home.");
+		selenium.logComment("Executing assertEmpty method");
+		selenium.logComment("################## Scope of this test method ######################");
+		
+		
+		
+		selenium.logComment("Verifying whether are on Home page");
+		HomePage homePage  = new HomePage(selenium);
+		
+		selenium.logComment("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.clubuser"), ConfigFileReader.getConfigItemValue("tbb.clubpassword"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+			
+			selenium.logComment("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.clubuser"), ConfigFileReader.getConfigItemValue("tbb.clubpassword"));
+		}
+		
+		selenium.logComment("Clicking on 'Shop' link");
+		ShoppingCartPage shopPage = dashboardPage.clickShopLink();	
+		
+		selenium.logComment("Clicking on 'Add to Cart' button for first featured on Shop Page");
+		selenium.click("xpath=/html/body/div[2]/div[2]/table/tbody/tr/td/table/tbody/tr[8]/td/a/span");
+		selenium.waitForPageToLoad(TestConsts.PAGE_LOAD_TIMEOUT);
+		
+		selenium.logComment("Verifying that item was added to shopping Cart.");
+		assertTrue("Item was not added to shopping Cart.", (selenium.getText("xpath=/html/body/div[2]/div[2]/table/tbody/tr/td[2]/table/tbody/tr[2]/td/table/tbody/tr[4]/td[2]").equals("1")), selenium);
+		
+		selenium.logComment("Navigate back to home.");
+		homePage = shopPage.clickHomeLink();
+			
+		selenium.logComment("Executing assertEmpty method");
+		emptyMessageBuilder();		
+	}	
+	
+}

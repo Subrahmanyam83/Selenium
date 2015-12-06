@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestData>
+	<TestCases testID="General-TestHomePage"
+		nID="1"
+		description="To verify that site's Home page is displayed correctly"
+		perspective="1">
+		<TestSteps>
+			<TestActions>
+				<label>User Doc Titles English</label>
+				<value>My Dashboard</value>
+				<value>Inbox</value>
+				<value>Buddies</value>
+				<value>Workouts</value>
+				<value>What's new at Team Beachbody?</value>
+				<value>Goal Tracker</value>
+			</TestActions>
+			<TestActions>
+				<label>User Doc Titles Spanish</label>
+				<value>Mi Tablero</value>
+				<value>Entrantes</value>
+				<value>Compañeros</value>
+				<value>Ejercicios</value>
+				<value>Novedades de Team Beachbody</value>
+				<value>Control de Objetivos</value>
+			</TestActions>
+		</TestSteps>
+	</TestCases>
+	
+	<TestCases testID="TestConnect-testConnectPageLeftMenuLinks" nID="1" description="Link items displayed in left menu" perspective="1">
+		<TestSteps>
+			<TestActions>
+				<label>Username</label>
+				<value>mgupta@beachbody.com</value>
+				<label>Password</label>
+				<value>b@b2011</value>
+				<label>Username</label>
+				<value>itsbansal@gmail.com</value>
+				<label>Password</label>
+				<value>kadio@1981</value>
+			</TestActions>
+		</TestSteps>
+		<TestSteps>
+			<TestActions>
+				<label>Left menu Link Items</label>
+				<value>Contests</value>
+				<value>Success Stories</value>
+				<value>Message Boards</value>
+				<value>Member Gallery</value>
+				<value>Chat Rooms</value>
+				<value>My Coach</value>
+				<value>Message Center</value>
+				<value>My Profile</value>
+			</TestActions>
+		</TestSteps>
+	</TestCases>
+	
+	
+		<TestCases testID="TestFreeSignUp-testFreeSignUp" nID="1" description="Free Sign Up Page" perspective="1">
+		<TestSteps>
+			<TestActions>
+				<label>Text To Verify</label>
+				<value>Sign Up for a Free Team Beachbody Account!</value>
+				<value>Want complete access to all Team Beachbody content? Sign up as a Club Member!</value>
+				<value>Login Information</value>
+				<value>Account Information</value>
+				<value>Did a Coach Refer You?</value>
+				<value>Terms and Conditions</value>
+				<value>Why upgrade to VIP?</value>
+			</TestActions>
+		</TestSteps>
+		<TestSteps>
+			<TestActions>
+				<label>Login Information</label>
+				<value>Xebia</value>
+				<value>India</value>
+				<value>gbansal@xebia.com</value>
+				<value>gbansal@xebia.com</value>
+				<value>password1</value>
+				<value>password1</value>
+				<value>xebiaindia</value>
+				<value>October</value>
+				<value>12</value>
+				<value>1980</value>
+				<value>9899849992</value>
+				<value>male</value>
+			</TestActions>
+		</TestSteps>
+	
+		<TestSteps>
+			<TestActions>
+				<label>Account Information</label>
+				<value>BPTP Park Centra</value>
+				<value>Sector-30</value>
+				<value>Gurgaon</value>
+				<value>Virginia</value>
+				<value>12345</value>
+				<value>United States</value>
+			</TestActions>
+		</TestSteps>	
+		
+		<TestSteps>
+			<TestActions>
+				<label>Form Submission</label>
+				<value>yes</value>
+				<value>yes</value>
+				<value>4678</value>
+			</TestActions>
+		</TestSteps>	
+			
+		</TestCases>
+	
+	
+</TestData>

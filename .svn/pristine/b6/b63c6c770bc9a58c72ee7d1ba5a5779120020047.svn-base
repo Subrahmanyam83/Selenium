@@ -1,0 +1,215 @@
+package com.tbb.testscripts.profile;
+
+import java.lang.reflect.Method;
+
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.tbb.constants.UIRepository.EditProfile;
+import com.tbb.framework.BaseTest;
+import com.tbb.framework.ConfigFileReader;
+import com.tbb.pages.DashboardPage;
+import com.tbb.pages.HomePage;
+import com.tbb.pages.SignInPage;
+import com.tbb.pages.profile.BasicInformationPage;
+import com.tbb.pages.profile.BlogPage;
+import com.tbb.pages.profile.BuddiesPage;
+import com.tbb.pages.profile.EditProfilePage;
+import com.tbb.pages.profile.GroupsPage;
+import com.tbb.pages.profile.MyProfilePage;
+import com.tbb.pages.profile.PhotosPage;
+import com.tbb.pages.profile.PrivacyPage;
+import com.tbb.pages.profile.ProgramsPage;
+import com.tbb.pages.profile.ProgressAndGoalsPage;
+/**
+ * 
+ * This test script contains test method(s) for "Edit Profile" main page.
+ *  @author Jaya
+ */
+public class TestEditProfilePage extends BaseTest implements EditProfile {
+
+	@BeforeClass
+	public void setUp() {
+		startSeleniumServer();
+	}
+
+	@BeforeMethod
+	public void setUp(Method method) {
+		createSeleniumInstance(method);
+	}
+
+	@AfterMethod
+	public void stopSelenium() {
+		stopSeleniumInstance();
+	}
+
+	@AfterClass
+	public void tearDown() {
+		stopSeleniumServer();
+	}
+
+	/**
+	 * Test script for verifying viewing of Edit Profile Page.  
+	 */
+	@Test
+	public void testViewEditProfile() {
+
+		selenium.logComment("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		selenium.logComment("################## Scope of this test method ######################");
+		selenium.logComment("Verifying whether are on Home page");
+		selenium.logComment("Clicking on 'Sign In' Link");
+		selenium.logComment("Entering valid username and password");
+		selenium.logComment("Navigating to Profile Page.");
+		selenium.logComment("Navigating to Edit Profile Page.");
+		selenium.logComment("Verifying that the required elements are present on the Edit Profile Page.");
+		selenium.logComment("################## Scope of this test method ######################");
+		
+		
+		
+		
+		
+		
+
+		selenium.logComment("Verifying whether are on Home page");
+		HomePage homePage = new HomePage(selenium);		
+
+		selenium.logComment("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.username3"), ConfigFileReader.getConfigItemValue("tbb.password3"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			selenium.logComment("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.username3"), ConfigFileReader.getConfigItemValue("tbb.password3"));
+		}
+
+		selenium.logComment("Navigating to Profile Page.");
+		MyProfilePage myProfilePage = dashboardPage.clickProfile();
+
+		selenium.logComment("Navigating to Edit Profile Page.");
+		EditProfilePage editProfilePage = myProfilePage.finishProfile();
+
+		selenium.logComment("Verifying that the required elements are present on the Edit Profile Page.");
+		assertTrue("Header is missing.", selenium.isElementPresent(EDIT_PROFILE_HEADER), selenium);
+		assertTrue("White Box image with Profile Progress header is missing.", selenium.isElementPresent(YOUR_PROFILE_PROGRESS_IMAGE_HEADER), selenium);
+		
+		assertTrue("Edit Profile Page introductory text is missing.", selenium.isTextPresent("Our data shows that Team Beachbody members who complete their profiles get better results from their fitness programs. The more you know about yourself and your goals, the easier it will be to schedule your workouts and stick to your program. This page shows you what parts of your profile are complete and what parts need to be finished."), selenium);
+		
+		assertTrue("The number of icons displayed is not equal to 8.", editProfilePage.getIconCount()==8, selenium);
+		
+		assertTrue("Edit Basic information Link is missing.", selenium.isElementPresent(EDIT_BASIC_INFORMATION_LINK), selenium);
+		assertTrue("Edit Basic information text is missing.", selenium.isTextPresent("Choose a screen name, and tell us your birth date (you can keep the year private), gender, and location. Then write a personal bio for other members to see."), selenium);
+		
+		assertTrue("Edit Progress and Goals Link is missing.", selenium.isElementPresent(EDIT_PROGRESS_AND_GOALS_LINK), selenium);
+		assertTrue("Edit Progress and Goals text is missing.", selenium.isTextPresent("Enter your main goal and workout start date and choose the fitness levels and body measurements you intend to achieve. Then begin writing your Transformation Story."), selenium);
+		
+		assertTrue("Edit Fitness Programs Link is missing.", selenium.isElementPresent(EDIT_FITNESS_PROGRAMS_LINK), selenium);
+		assertTrue("Edit Fitness Programs text is missing.", selenium.isTextPresent("Keep track of your Beachbody fitness programs and meal plans, plus other fitness-related activities, gear, and supplements. Quick Workout Settings will make scheduling your workouts fast and easy."), selenium);
+		
+		assertTrue("Edit Photos Link is missing.", selenium.isElementPresent(EDIT_PHOTOS), selenium);
+		assertTrue("Edit Photos text is missing.", selenium.isTextPresent("Enter a photo for your profile, as well as a \"before\" shot to see where you're starting. Then you can enter a new photo every 30 days—seeing how much you're improving will help you stay motivated to succeed."), selenium);
+		
+		assertTrue("Edit Buddies Link is missing.", selenium.isElementPresent(EDIT_BUDDIES), selenium);
+		assertTrue("Edit Buddies text is missing.", selenium.isTextPresent("When you choose to become Buddies with other members, you can schedule workouts together, view when they're online and working out, and have lots of friends to inspire and be inspired by."), selenium);
+		
+		assertTrue("Edit Groups Link is missing.", selenium.isElementPresent(EDIT_GROUPS), selenium);
+		assertTrue("Edit Groups text is missing.", selenium.isTextPresent("Become part of a Workout Group with other members who share your goals and interests, or start your own—it can be based on virtually anything. Then you can all work out together, and share information and motivation."), selenium);
+		
+		assertTrue("Edit Blog Link is missing.", selenium.isElementPresent(EDIT_BLOG), selenium);
+		assertTrue("Edit Blog text is missing.", selenium.isTextPresent("Writing in your blog is a great way to journal your accomplishments as well as your challenges. You can write about anything that's on your mind—over time, it'll help you gain perspective on what works for you and what parts of your diet, workouts, and lifestyle you want to change."), selenium);
+		
+		assertTrue("Edit Privacy Link is missing.", selenium.isElementPresent(EDIT_PRIVACY), selenium);
+		assertTrue("Edit Privacy text is missing.", selenium.isTextPresent("Decide what information you want to share with other members, and what you want to keep to yourself."), selenium);
+	}
+	
+	/**
+	 * Test script for verifying navigation of links on center page content of Edit Profile Page.  
+	 */
+	@Test
+	public void testEditProfileLinksNavigation() {
+
+		selenium.logComment("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		selenium.logComment("################## Scope of this test method ######################");
+		selenium.logComment("Verifying whether are on Home page");
+		selenium.logComment("Clicking on 'Sign In' Link");
+		selenium.logComment("Entering valid username and password");
+		selenium.logComment("Navigating to Profile Page.");
+		selenium.logComment("Navigating to Edit Profile Page.");
+		selenium.logComment("Clicking on 'Basic Information' link.");
+		selenium.logComment("Clicking on 'Progress and Goals' link.");
+		selenium.logComment("Clicking on 'Fitness Programs' link.");
+		selenium.logComment("Clicking on 'Photos' link.");
+		selenium.logComment("Clicking on 'Buddies' link.");
+		selenium.logComment("Clicking on 'Groups' link.");
+		selenium.logComment("Clicking on 'Privacy' link.");
+		selenium.logComment("Clicking on 'Blog' link.");
+		selenium.logComment("Executing assertEmpty method");
+		selenium.logComment("################## Scope of this test method ######################");
+		
+		
+
+		selenium.logComment("Verifying whether are on Home page");
+		HomePage homePage = new HomePage(selenium);		
+
+		selenium.logComment("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.username3"), ConfigFileReader.getConfigItemValue("tbb.password3"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			selenium.logComment("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.username3"), ConfigFileReader.getConfigItemValue("tbb.password3"));
+		}
+
+		selenium.logComment("Navigating to Profile Page.");
+		MyProfilePage myProfilePage = dashboardPage.clickProfile();
+
+		selenium.logComment("Navigating to Edit Profile Page.");
+		EditProfilePage editProfilePage = myProfilePage.finishProfile();
+		
+		selenium.logComment("Clicking on 'Basic Information' link.");
+		BasicInformationPage basicInformationPage = editProfilePage.clickBasicInformation();
+		editProfilePage = basicInformationPage.clickLRMProfileLink();
+		
+		selenium.logComment("Clicking on 'Progress and Goals' link.");
+		ProgressAndGoalsPage progressAndGoalsPage = editProfilePage.clickProgressAndGoals();
+		editProfilePage = progressAndGoalsPage.clickLRMProfileLink();
+		
+		selenium.logComment("Clicking on 'Fitness Programs' link.");
+		ProgramsPage programsPage = editProfilePage.clickFitnessPrograms();
+		editProfilePage = programsPage.clickLRMProfileLink();
+		
+		selenium.logComment("Clicking on 'Photos' link.");
+		PhotosPage photosPage = editProfilePage.clickPhotos();
+		editProfilePage = photosPage.clickLRMProfileLink();
+		
+		selenium.logComment("Clicking on 'Buddies' link.");
+		BuddiesPage buddiesPage = editProfilePage.clickBuddies();
+		editProfilePage = buddiesPage.clickLRMProfileLink();
+		
+		selenium.logComment("Clicking on 'Groups' link.");
+		GroupsPage groupsPage = editProfilePage.clickGroups();
+		editProfilePage = groupsPage.clickLRMProfileLink();
+		
+		selenium.logComment("Clicking on 'Privacy' link.");
+		PrivacyPage privacyPage = editProfilePage.clickPrivacy();
+		editProfilePage = privacyPage.clickLRMProfileLink();
+		
+		selenium.logComment("Clicking on 'Blog' link.");
+		BlogPage blogPage = editProfilePage.clickBlog();
+		editProfilePage = blogPage.clickLRMProfileLink();
+	
+		selenium.logComment("Executing assertEmpty method");
+		emptyMessageBuilder();
+	}	
+}

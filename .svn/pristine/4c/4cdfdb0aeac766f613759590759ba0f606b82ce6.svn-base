@@ -1,0 +1,209 @@
+package com.tbb.testscripts.getfit;
+
+import java.lang.reflect.Method;
+
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.tbb.constants.UIRepository.Trainers;
+import com.tbb.framework.BaseTest;
+import com.tbb.framework.ConfigFileReader;
+import com.tbb.pages.DashboardPage;
+import com.tbb.pages.HomePage;
+import com.tbb.pages.SignInPage;
+import com.tbb.pages.getfit.GetFitPage;
+import com.tbb.pages.getfit.TrainerBrettPage;
+import com.tbb.pages.getfit.TrainerChalenePage;
+import com.tbb.pages.getfit.TrainerDebbiePage;
+import com.tbb.pages.getfit.TrainerDonnaPage;
+import com.tbb.pages.getfit.TrainerGillianPage;
+import com.tbb.pages.getfit.TrainerKathyPage;
+import com.tbb.pages.getfit.TrainerLeandroPage;
+import com.tbb.pages.getfit.TrainerMoreExpertsPage;
+import com.tbb.pages.getfit.TrainerShaunPage;
+import com.tbb.pages.getfit.TrainerStevePage;
+import com.tbb.pages.getfit.TrainerTonyPage;
+import com.tbb.pages.getfit.TrainersPage;
+
+/**
+ * 
+ * This test script contains test method(s) for Trainers page under Get-Fit module
+ * @author Jaya
+ */
+public class TestTrainers extends BaseTest implements Trainers{
+
+	@BeforeClass
+	public void setUp() {
+		startSeleniumServer();		
+	}
+	
+	@BeforeMethod
+	public void setUp(Method method) {
+		createSeleniumInstance(method);		
+	}
+	
+	@AfterMethod
+	public void stopSelenium() {
+		stopSeleniumInstance();
+	}
+		
+	@AfterClass
+	public void tearDown() {		
+		stopSeleniumServer();
+	}
+	/***
+	 * This is data provider for testViewTrainersAsFreeUser Test Script.
+	 */ 
+	@DataProvider(name = "viewTrainersAsFreeDataProvider")
+	public Object[][] createTrainersDataForFreeUser() {
+		return new Object[][] {
+				{ "Tony Horton"},
+		};
+	}
+
+	/**
+	 * Positive Test script for verifying viewing of Trainers Page.
+	 * It verifies if all the required elements are present on the page. 
+	 */ 
+	@Test (dataProvider = "viewTrainersAsFreeDataProvider")
+	public void testViewTrainersAsFreeUser(String trainerName) {
+
+		logger.info("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+
+		logger.info("Verifying whether user is on Home page");
+		HomePage homePage = new HomePage(selenium);
+
+		logger.info("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			logger.info("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		}
+
+		logger.info("Navigating to Get Fit Page");
+		GetFitPage getFitPage = dashboardPage.clickGetFitLink();
+		
+		logger.info("Navigating to Trainers Page");
+		TrainersPage trainersPage = getFitPage.goToTrainersPage();
+		
+		logger.info("Verifying that all the required elements are present on the Trainers Page");
+		assertTrue("Expected header 'Team Beachbody Trainers' is not displayed.", selenium.isElementPresent(TRAINER_HEADING), selenium);
+		assertTrue("Expected Trainers introduction text is not displayed.", selenium.isElementPresent(INTRO_TEXT), selenium);
+		
+		logger.info("Verifying that all the trainers photos are available.");
+		assertTrue("All the Photos are not displayed", trainersPage.getPhotosCount()==11, selenium);	
+		
+		logger.info("Verifying that all the trainers names are available.");
+		assertTrue("All the Trainer Names are not displayed", trainersPage.getTrainerNamesCount()==11, selenium);
+
+		logger.info("Verifying that all the trainers introductions are available.");
+		assertTrue("All the Trainer intros are not displayed", trainersPage.getTrainerIntroCount()==22, selenium);
+		
+		logger.info("Clicking on a trainer name to view it.");
+		trainersPage.clickTrainerNameAsFreeUser(trainerName);
+			
+		logger.info("Executing assertEmpty method");
+		emptyMessageBuilder();		
+	}
+
+	/**
+	 * Positive Test script for verifying viewing of Trainers Page.
+	 * It verifies if all the required elements are present on the page. 
+	 */ 
+	@Test 
+	public void testViewTrainersAsClubUser() {
+
+		logger.info("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+
+		logger.info("Verifying whether user is on Home page");
+		HomePage homePage = new HomePage(selenium);
+
+		logger.info("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.username1"), ConfigFileReader.getConfigItemValue("tbb.password1"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			logger.info("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.username1"), ConfigFileReader.getConfigItemValue("tbb.password1"));
+		}
+
+		logger.info("Navigating to Get Fit Page");
+		GetFitPage getFitPage = dashboardPage.clickGetFitLink();
+		
+		logger.info("Navigating to Trainers Page");
+		TrainersPage trainersPage = getFitPage.goToTrainersPage();
+		
+		logger.info("Verifying that all the required elements are present on the Trainers Page");
+		assertTrue("Expected header 'Team Beachbody Trainers' is not displayed.", selenium.isElementPresent(TRAINER_HEADING), selenium);
+		assertTrue("Expected Trainers introduction text is not displayed.", selenium.isElementPresent(INTRO_TEXT), selenium);
+		
+		logger.info("Verifying that all the trainers photos are available.");
+		assertTrue("All the Photos are not displayed", trainersPage.getPhotosCount()==11, selenium);	
+		
+		logger.info("Verifying that all the trainers names are available.");
+		assertTrue("All the Trainer Names are not displayed", trainersPage.getTrainerNamesCount()==11, selenium);
+
+		logger.info("Verifying that all the trainers introductions are available.");
+		assertTrue("All the Trainer intros are not displayed", trainersPage.getTrainerIntroCount()==22, selenium);
+		
+		logger.info("Clicking on Tony's name to view his page.");
+		TrainerTonyPage tonyPage = trainersPage.clickTony();
+		trainersPage = tonyPage.clickTrainerslink();
+		
+		logger.info("Clicking on a trainer name to view it.");
+		TrainerChalenePage chalenePage = trainersPage.clickChalene();
+		trainersPage = chalenePage.clickTrainerslink();
+		
+		logger.info("Clicking on a trainer name to view it.");
+		TrainerDebbiePage debbiePage = trainersPage.clickDebbie();
+		trainersPage = debbiePage.clickTrainerslink();
+		
+		logger.info("Clicking on a trainer name to view it.");
+		TrainerShaunPage shaunPage = trainersPage.clickShaun();
+		trainersPage = shaunPage.clickTrainerslink();
+		
+		logger.info("Clicking on a trainer name to view it.");
+		TrainerDonnaPage donnaPage = trainersPage.clickDonna();
+		trainersPage = donnaPage.clickTrainerslink();
+		
+		logger.info("Clicking on a trainer name to view it.");
+		TrainerLeandroPage leandroPage = trainersPage.clickLeandro();
+		trainersPage = leandroPage.clickTrainerslink();
+		
+		logger.info("Clicking on a trainer name to view it.");
+		TrainerKathyPage kathyPage = trainersPage.clickKathy();
+		trainersPage = kathyPage.clickTrainerslink();
+		
+		logger.info("Clicking on a trainer name to view it.");
+		TrainerGillianPage gillianPage = trainersPage.clickGillianAndTeigh();
+		trainersPage = gillianPage.clickTrainerslink();
+		
+		logger.info("Clicking on a trainer name to view it.");
+		TrainerBrettPage brettPage = trainersPage.clickBrett();
+		trainersPage = brettPage.clickTrainerslink();
+		
+		logger.info("Clicking on a trainer name to view it.");
+		TrainerStevePage stevePage = trainersPage.clickSteve();
+		trainersPage = stevePage.clickTrainerslink();
+		
+		logger.info("Clicking on a trainer name to view it.");
+		TrainerMoreExpertsPage moreExpertsPage = trainersPage.clickMoreExperts();
+		trainersPage = moreExpertsPage.clickTrainerslink();		
+				
+		logger.info("Executing assertEmpty method");
+		emptyMessageBuilder();		
+	}	
+}

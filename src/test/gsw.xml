@@ -1,0 +1,20 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+  
+<suite name="Test Suite: Xebia_Automation_Framework For BeachBody" verbose="3" parallel="false" thread-count="1">
+<listeners>
+<listener class-name="org.uncommons.reportng.HTMLReporter"></listener>
+<listener class-name="org.uncommons.reportng.JUnitXMLReporter"></listener>
+</listeners>
+<test name="Team Beachbody Test Module :: Getting Started Wizard" preserve-order="true">
+    <classes>
+  		<class name="com.tbb.testscripts.gsw.TestCancellingAndResumingStartUpWizardFromSameLocation"/>
+		<class name="com.tbb.testscripts.gsw.TestCompleteStartUpWizardWithFeedback"/>
+		<class name="com.tbb.testscripts.gsw.TestCompleteStartUpWizardWithoutFeedback"/>
+		<class name="com.tbb.testscripts.gsw.TestLaunchingStartUpWizardFromDifferentLocations"/>
+		<class name="com.tbb.testscripts.gsw.TestStoppingAndContinuingStartUpWizard"/>
+		<class name="com.tbb.testscripts.gsw.TestUpgradeOptionsInStartUpWizardWithClubUser"/>
+		<class name="com.tbb.testscripts.gsw.TestUpgradeOptionsInStartUpWizardWithFreeUser"/>
+    </classes>
+  </test>
+</suite>
+

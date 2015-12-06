@@ -1,0 +1,122 @@
+package com.tbb.testscripts.coach;
+
+import java.lang.reflect.Method;
+
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.tbb.framework.BaseTest;
+import com.tbb.framework.ConfigFileReader;
+import com.tbb.pages.coach.CoachDestinationsPage;
+import com.tbb.pages.coach.HowToQualifyPage;
+import com.tbb.pages.coach.RewardsPage;
+import com.tbb.pages.coach.TestimonialsPage;
+import com.tbb.pages.coach.TravelInfoPage;
+
+/**
+ * 
+ * This test script contains test method(s) for Coach Destinations page under Coach module
+ * @author Gaurav
+ */
+
+public class TestCoachDestinations extends BaseTest {
+
+	@BeforeClass
+	public void setUp() {
+		startSeleniumServer();
+	}
+	
+	@BeforeMethod
+	public void setUp(Method method) {
+		ConfigFileReader.setConfigItemValue("app_ip", "www.coachdestinations.com");
+		createSeleniumInstance(method);		
+	}
+
+	
+	@AfterMethod
+	public void stopSelenium() {
+		stopSeleniumInstance();
+		ConfigFileReader.setConfigItemValue("app_ip", "www.tbbbeta.com/?u=tbbbeta&p=prodstaging");
+	}
+	
+	@AfterClass
+	public void tearDown() {		
+		stopSeleniumServer();
+	}
+	
+	/**
+	 * This test verifies UI of Coach Destinations page.
+	 */
+	@Test
+	public void TestCoachDestinations() { 
+		
+		try {
+			logger.info("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+			Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+			
+			logger.info("Navigating to Coach Destinations Page");
+			CoachDestinationsPage coachDestinationsPage = new CoachDestinationsPage(selenium);
+			
+			logger.info("Verifying UI of page");
+			coachDestinationsPage.verifyUI();
+						
+			logger.info("Executing assertEmpty method");
+			emptyMessageBuilder();	
+			
+		}catch(Exception e) {
+			logger.info(e.getMessage());
+		}
+		
+	
+		
+		
+		
+	}
+	
+	/**
+	 * This test verifies navigation among different pages of Coach Destinations module like 'How to Qualify', 'Rewards', 'Testimonials' and 'Travel Info'.
+	 */
+	@Test
+	public void testCoachDestinationsNavigation() {
+		logger.info("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		logger.info("Navigating to Coach Destinations Page");
+		CoachDestinationsPage coachDestinationsPage = new CoachDestinationsPage(selenium);
+		
+		logger.info("Clicking on 'How to Qualify' Link");
+		HowToQualifyPage howToQualifyPage = coachDestinationsPage.clickHowToQualifyLink();
+		
+		logger.info("Going back to 'Home Page'");
+		coachDestinationsPage = howToQualifyPage.clickHomeLink();
+		
+		logger.info("Clicking on 'Rewards' Link");
+		RewardsPage rewardsPage = coachDestinationsPage.clickRewardsLink();
+		
+		logger.info("Going back to 'Home Page'");
+		coachDestinationsPage = rewardsPage.clickHomeLink();
+		
+		
+		logger.info("Clicking on 'Testimonials' Link");
+		TestimonialsPage testimonialsPage = coachDestinationsPage.clickTestimonialsLink();
+		
+		logger.info("Going back to 'Home Page'");
+		coachDestinationsPage = testimonialsPage.clickHomeLink();
+		
+		logger.info("Clicking on 'Travel Info' Link");
+		TravelInfoPage travelInfoPage = coachDestinationsPage.clickTravelInfoLink();
+		
+		logger.info("Going back to 'Home Page'");
+		coachDestinationsPage = travelInfoPage.clickHomeLink();
+		
+				
+		logger.info("Executing assertEmpty method");
+		emptyMessageBuilder();	
+		
+	}
+	
+}

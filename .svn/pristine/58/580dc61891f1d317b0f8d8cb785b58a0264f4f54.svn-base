@@ -1,0 +1,152 @@
+package com.tbb.testscripts.clubukuser;
+
+import java.lang.reflect.Method;
+
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.tbb.constants.UIRepository.Contests;
+import com.tbb.framework.BaseTest;
+import com.tbb.framework.ConfigFileReader;
+import com.tbb.pages.DashboardPage;
+import com.tbb.pages.HomePage;
+import com.tbb.pages.SignInPage;
+import com.tbb.pages.connect.ConnectPage;
+import com.tbb.pages.connect.ContestsPage;
+import com.tbb.pages.connect.DailySweepstakesPage;
+import com.tbb.pages.connect.TheBeachbodyChallengePage;
+
+/**
+ * 
+ * This test script contains test method(s) for alerts shown on Contest page for UK Club user.
+ * @author Jaya
+ */
+public class TestContestAlert extends BaseTest{
+
+	@BeforeClass
+	public void setUp() {
+		startSeleniumServer();		
+	}
+
+	@BeforeMethod
+	public void setUp(Method method) {
+		createSeleniumInstance(method);		
+	}
+
+	@AfterMethod
+	public void stopSelenium() {
+		stopSeleniumInstance();
+	}	
+
+	@AfterClass
+	public void tearDown() {		
+		stopSeleniumServer();
+	}
+
+	/**
+	 * Test script for verifying that the Club UK User alert is displayed on Contests Page.
+	 */ 
+	@Test
+	public void testContestsAlertAsClubUKuser(){
+		logger.info("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+
+		logger.info("Verifying whether are on Home page");
+		HomePage homePage  = new HomePage(selenium);
+
+		logger.info("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.clubuk.username"), ConfigFileReader.getConfigItemValue("tbb.clubuk.userpassword"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			logger.info("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.clubuk.username"), ConfigFileReader.getConfigItemValue("tbb.clubuk.userpassword"));
+		}
+		
+		logger.info("Navigate to Connect Page.");	
+		ConnectPage connectPage = dashboardPage.clickConnectLink();
+		
+		logger.info("Navigate to Contests Page.");	
+		ContestsPage contestsPage = connectPage.goToContestsPage();
+		
+		logger.info("Verifying alert is available on Contests main page.");		
+		assertTrue("Club UK User Alert is missing.", (selenium.isElementPresent(Contests.CLUB_UK_USER_ALERT)), selenium);
+		assertTrue("Club UK User Alert text is missing.", (selenium.isTextPresent("Sweepstakes and contests currently only available to U.S. residents.")), selenium);
+		
+		logger.info("Navigate to Daily Sweepstakes Page.");	
+		DailySweepstakesPage dailySweepstakesPage = contestsPage.goToDailySweepstakesPage();
+		
+		logger.info("Verifying alert is available on Contests - Daily Sweepstakes Page.");		
+		assertTrue("Club UK User Alert is missing.", (selenium.isElementPresent(Contests.CLUB_UK_USER_ALERT)), selenium);
+		assertTrue("Club UK User Alert text is missing.", (selenium.isTextPresent("Sweepstakes and contests currently only available to U.S. residents.")), selenium);
+		
+		logger.info("Navigate to Contest FAQ Page.");	
+		dailySweepstakesPage.goToContestFAQPage();
+		
+		logger.info("Verifying alert is available on Contests - Contest FAQ Page.");		
+		assertTrue("Club UK User Alert is missing.", (selenium.isElementPresent(Contests.CLUB_UK_USER_ALERT)), selenium);
+		assertTrue("Club UK User Alert text is missing.", (selenium.isTextPresent("Sweepstakes and contests currently only available to U.S. residents.")), selenium);
+		
+		logger.info("Executing assertEmpty method");
+		emptyMessageBuilder();
+	}
+	
+	/**
+	 * Test script for verifying that the Free User does not see Club UK user alert on Contests page.
+	 */ 
+	@Test
+	public void testContestsAlertAsFreeuser(){
+		logger.info("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+
+		logger.info("Verifying whether are on Home page");
+		HomePage homePage  = new HomePage(selenium);
+
+		logger.info("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			logger.info("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		}
+
+		logger.info("Navigate to Connect Page.");	
+		ConnectPage connectPage = dashboardPage.clickConnectLink();
+		
+		logger.info("Navigate to Contests Page.");	
+		ContestsPage contestsPage = connectPage.goToContestsPage();
+		
+		logger.info("Verifying alert is available on Contests main page.");		
+		assertTrue("Club UK User Alert text is available to free user on Contests main page.", !(selenium.isTextPresent("Sweepstakes and contests currently only available to U.S. residents.")), selenium);
+		
+		logger.info("Navigate to Daily Sweepstakes Page.");	
+		DailySweepstakesPage dailySweepstakesPage = contestsPage.goToDailySweepstakesPage();
+		
+		logger.info("Verifying alert is available on Contests - Daily Sweepstakes Page.");		
+		assertTrue("Club UK User Alert text is available to free user on Daily Sweepstakes page.", !(selenium.isTextPresent("Sweepstakes and contests currently only available to U.S. residents.")), selenium);
+		
+		logger.info("Navigate to The Beachbody Challenge Page.");	
+		TheBeachbodyChallengePage theBeachbodyChallengePage = dailySweepstakesPage.goToTheBeachbodyChallenge();
+		
+		logger.info("Verifying alert is not available on Contests - The Beachbody Challenge Page.");		
+		assertTrue("Club UK User Alert text is available to free user on The Beachbody Challenge Page.", !(selenium.isTextPresent("Sweepstakes and contests currently only available to U.S. residents.")), selenium);
+		
+		logger.info("Navigate to Contest FAQ Page.");	
+		theBeachbodyChallengePage.goToContestFAQPage();
+		
+		logger.info("Verifying alert is available on Contests - Contest FAQ Page.");		
+		assertTrue("Club UK User Alert text is available to free user on Contest FAQ Page.", !(selenium.isTextPresent("Sweepstakes and contests currently only available to U.S. residents.")), selenium);
+		
+		logger.info("Executing assertEmpty method");
+		emptyMessageBuilder();
+	}
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+  
+<suite name="Test Suite: Xebia_Automation_Framework For BeachBody" verbose="3" parallel="false" thread-count="1">
+<listeners>
+<listener class-name="org.uncommons.reportng.HTMLReporter"></listener>
+</listeners>
+<test name="Team Beachbody Sprint 4 Test Module" preserve-order="true">
+    <classes>
+		<class name="com.tbb.testscripts.about.TestNewsletters"/>
+		<class name="com.tbb.testscripts.coach.TestCoachDestinations"/>
+		<class name="com.tbb.testscripts.coach.TestCoachFAQs"/>
+		<class name="com.tbb.testscripts.coach.TestCoachOnlineOffice"/>
+		<class name="com.tbb.testscripts.coach.TestCoachPreviousOffice"/>
+		<class name="com.tbb.testscripts.coach.TestCoachTab"/>
+		<class name="com.tbb.testscripts.shop.TestCoachProductsAndToolsShop"/>
+		<class name="com.tbb.testscripts.shop.TestEquipmentAndGearShop"/>
+		<class name="com.tbb.testscripts.shop.TestFitnessProgramShop"/>
+		<class name="com.tbb.testscripts.shop.TestNutritionAndSupplementsShop"/>
+		<class name="com.tbb.testscripts.shop.TestShop"/>
+		<class name="com.tbb.testscripts.shop.TestTrainerShop"/>
+		<class name="com.tbb.testscripts.clubukuser.TestCoachAlert"/>
+		<class name="com.tbb.testscripts.clubukuser.TestContestAlert"/>
+		<class name="com.tbb.testscripts.clubukuser.TestDashboardAlert"/>
+		<class name="com.tbb.testscripts.clubukuser.TestMealPlannerAlert"/>
+		<class name="com.tbb.testscripts.clubukuser.TestMessageBoardsAlert"/>
+		<class name="com.tbb.testscripts.clubukuser.TestMyAccountPage"/>
+		<class name="com.tbb.testscripts.clubukuser.TestShakeologyAlert"/>
+		<class name="com.tbb.testscripts.clubukuser.TestShopLinksAlert"/>
+		<class name="com.tbb.testscripts.clubukuser.TestSupplementsAlert"/>
+		<class name="com.tbb.testscripts.clubukuser.TestWatchVideoAlert"/>
+     </classes>
+  </test>
+</suite>
+

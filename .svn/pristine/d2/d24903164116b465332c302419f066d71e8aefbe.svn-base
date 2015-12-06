@@ -1,0 +1,23 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+  
+<suite name="Test Suite: Xebia_Automation_Framework For BeachBody" verbose="3" parallel="false" thread-count="1">
+<listeners>
+<listener class-name="org.uncommons.reportng.HTMLReporter"></listener>
+<listener class-name="org.uncommons.reportng.JUnitXMLReporter"></listener>
+</listeners>
+<test name="Team Beachbody Test Module :: Club UK User Alerts" preserve-order="true">
+    <classes>
+  		<class name="com.tbb.testscripts.clubukuser.TestCoachAlert"/>
+		<class name="com.tbb.testscripts.clubukuser.TestContestAlert"/>
+		<class name="com.tbb.testscripts.clubukuser.TestDashboardAlert"/>
+		<class name="com.tbb.testscripts.clubukuser.TestMealPlannerAlert"/>
+		<class name="com.tbb.testscripts.clubukuser.TestMessageBoardsAlert"/>
+		<class name="com.tbb.testscripts.clubukuser.TestMyAccountPage"/>
+		<class name="com.tbb.testscripts.clubukuser.TestShakeologyAlert"/>
+		<class name="com.tbb.testscripts.clubukuser.TestShopLinksAlert"/>
+		<class name="com.tbb.testscripts.clubukuser.TestSupplementsAlert"/>
+		<!-- <class name="com.tbb.testscripts.clubukuser.TestWatchVideoAlert"/> -->
+    </classes>
+  </test>
+</suite>
+

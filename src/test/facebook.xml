@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+  
+<suite name="Test Suite: Xebia_Automation_Framework For BeachBody" verbose="3" parallel="false" thread-count="1">
+<listeners>
+<listener class-name="org.uncommons.reportng.HTMLReporter"></listener>
+<listener class-name="org.uncommons.reportng.JUnitXMLReporter"></listener>
+</listeners>
+<test name="Team Beachbody Test Module :: Facebook" preserve-order="true">
+    <classes>
+  		<class name="com.tbb.testscripts.facebook.TestFacebookAccountLinking"/>
+		<class name="com.tbb.testscripts.facebook.TestFBLoginStatus"/>
+		<class name="com.tbb.testscripts.facebook.TestLikeFacebook"/>
+    </classes>
+  </test>
+</suite>
+

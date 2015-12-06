@@ -1,0 +1,11 @@
+package com.tbb.constants;
+
+/**
+* This file will have constants for labels/text shown on the web page. So instead of directly 
+* using those texts/labels we will use variables having those values. It would save us from making 
+* multiple changes to many places in case any of that text/label gets changed. 
+**/
+public interface LabelConsts {
+	
+
+}

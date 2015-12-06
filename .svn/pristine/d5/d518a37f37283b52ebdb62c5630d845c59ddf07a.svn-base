@@ -1,0 +1,27 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+  
+<suite name="Test Suite: Xebia_Automation_Framework For BeachBody" verbose="3" parallel="false" thread-count="1">
+<listeners>
+<listener class-name="org.uncommons.reportng.HTMLReporter"></listener>
+<listener class-name="org.uncommons.reportng.JUnitXMLReporter"></listener>
+</listeners>
+<test name="Team Beachbody Test Module :: Watch Videos" preserve-order="true">
+    <classes>
+  		<class name="com.tbb.testscripts.watchvideos.TestCelebrityTrainers"/>
+		<class name="com.tbb.testscripts.watchvideos.TestCoaches"/>
+		<class name="com.tbb.testscripts.watchvideos.TestContests"/>
+		<class name="com.tbb.testscripts.watchvideos.TestEatingHealthy"/>
+		<class name="com.tbb.testscripts.watchvideos.TestHealthNews"/>
+		<class name="com.tbb.testscripts.watchvideos.TestProducts"/>
+		<class name="com.tbb.testscripts.watchvideos.TestSuccessStories"/>
+		<class name="com.tbb.testscripts.watchvideos.TestTeamBeachbody"/>
+		<class name="com.tbb.testscripts.watchvideos.TestVIPFitnessTips"/>
+		<class name="com.tbb.testscripts.watchvideos.TestVIPRecipes"/>
+		<class name="com.tbb.testscripts.watchvideos.TestVIPStyleTips"/>
+		<class name="com.tbb.testscripts.watchvideos.TestVIPWorkouts"/>
+		<class name="com.tbb.testscripts.watchvideos.TestWatchVideos"/>
+		<class name="com.tbb.testscripts.watchvideos.TestWorkoutTips"/>
+    </classes>
+  </test>
+</suite>
+

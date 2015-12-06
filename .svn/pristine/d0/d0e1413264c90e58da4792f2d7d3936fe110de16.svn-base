@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="1.0">
+
+
+	<xs:element name="TestData">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="TestCases" minOccurs="1" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="TestSteps" type="testStepType"
+								minOccurs="1" maxOccurs="unbounded">
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="testID" type="xs:string"></xs:attribute>
+						<xs:attribute name="nID" type="xs:int"></xs:attribute>
+						<xs:attribute name="perspective" type="xs:int"></xs:attribute>
+						<xs:attribute name="description" type="xs:string"></xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:complexType name="testStepType">
+		<xs:sequence>
+			<xs:element name="module" type="xs:string" minOccurs="0" />
+			<xs:element name="page" type="xs:string" minOccurs="0" />
+			<xs:element name="TestActions" type="testActionType"
+				minOccurs="1" maxOccurs="unbounded">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="testActionType">
+		<xs:sequence>
+			<xs:element name="label" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+			<xs:element name="value" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
+           

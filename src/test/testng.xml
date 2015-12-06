@@ -1,0 +1,39 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+  
+<suite name="Test Suite: Xebia_Automation_Framework For BeachBody" verbose="3" parallel="false" thread-count="1">
+<listeners>
+<listener class-name="org.uncommons.reportng.HTMLReporter"></listener>
+<listener class-name="org.uncommons.reportng.JUnitXMLReporter"></listener>
+</listeners>
+<test name="Team Beachbody Test Module">
+    <classes>
+<!--        <class name="com.tbb.testscripts.connect.TestInboxPage"/>
+       <class name="com.tbb.testscripts.eatsmart.TestEatSmart"/>
+       <class name="com.tbb.testscripts.eatsmart.TestMichisLadder"/>
+       <class name="com.tbb.testscripts.eatsmart.TestMyMealPlanner"/>
+       <class name="com.tbb.testscripts.eatsmart.TestNutritionTips"/> 
+       <class name="com.tbb.testscripts.eatsmart.TestNutritionToolsPage"/>
+       <class name="com.tbb.testscripts.eatsmart.TestRecipes"/>
+       <class name="com.tbb.testscripts.eatsmart.TestSupplements"/>
+       <class name="com.tbb.testscripts.general.TestDashboardPage"/> -->
+       <class name="com.tbb.testscripts.general.TestHomePage"/>
+ <!--       <class name="com.tbb.testscripts.general.TestUserStatusBar"/>  
+       <class name="com.tbb.testscripts.getfit.TestFitnessProgramsPage"/>
+       <class name="com.tbb.testscripts.getfit.TestFitnessTools"/>
+       <class name="com.tbb.testscripts.getfit.TestFitnessTips"/>
+       <class name="com.tbb.testscripts.getfit.TestGetFitPage"/>
+       <class name="com.tbb.testscripts.getfit.TestSuperGymPage"/>
+       <class name="com.tbb.testscripts.getfit.TestTrainers"/>
+       <class name="com.tbb.testscripts.getfit.TestWOWYSuperGymStats"/>   
+       <class name="com.tbb.testscripts.profile.TestBasicInformation"/>
+       <class name="com.tbb.testscripts.profile.TestBlog"/>
+       <class name="com.tbb.testscripts.profile.TestBuddiesPage"/>
+       <class name="com.tbb.testscripts.profile.TestGroupsPage"/>
+       <class name="com.tbb.testscripts.profile.TestPhotos"/>
+       <class name="com.tbb.testscripts.profile.TestPrivacyPage"/>
+       <class name="com.tbb.testscripts.profile.TestProgramsPage"/>
+       <class name="com.tbb.testscripts.profile.TestProgressAndGoalsPage"/> -->
+     </classes>
+  </test>
+</suite>
+

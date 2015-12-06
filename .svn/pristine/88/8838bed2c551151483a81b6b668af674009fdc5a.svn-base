@@ -1,0 +1,44 @@
+###################################################### Selenium specific Properties ######################################################
+
+application.url=www.teambeachbody.com
+#application.url=www.tbbbeta.com/?u=tbbbeta&p=prodstaging
+#application.url=tbbqabeta.productpartners.com
+#application.url=10.10.18.247
+selenium.speed=500
+selenium.firefox.profile=C:\\Users\\Xebia\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\5xh0kjb2.TBB
+selenium.server.port=4444
+selenium.browser=*firefox3 c:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe
+#selenium.browser=*custom C:\\Users\\Xebia\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe --disable-web-security --disable-hang-monitor --disable-metrics --disable-popup-blocking --disable-prompt-on-repost --proxy-server=localhost:4444 --no-first-run
+selenium.server.host=localhost
+#selenium.server.host=engtest1.productpartners.com
+selenium.highlight=true
+selenium.takeFrequentScreenshots=true
+###################################################### TBB specific Properties ######################################################
+
+tbb.user.type=free
+tbb.username=itsbansal@gmail.com
+tbb.password=kadio@1981
+tbb.username1=mgupta@beachbody.com
+tbb.password1=b@b2011
+tbb.username2=sparashar@xebia.com
+tbb.password2=password
+tbb.username3=jgupta@xebia.com
+tbb.password3=password
+#tbb.username=mjwcoach@beachbodytest.com
+#tbb.password=beachbody
+tbb.club.username=mgupta@beachbody.com
+tbb.club.password=b@b2011
+tbb.coach.username=agrover@beachbody.com
+tbb.coach.password=123456
+tbb.clubuk.username=asukclub10051@beachbodytest.com
+tbb.clubuk.password=testuk
+
+###################################################### Other Properties ######################################################
+sikuli.scripts.images=C:\\workspace\\webautomation1\\sikuli-scipts\\images\\
+#testng.assertion.mode=soft
+testng.assertion.mode=hard
+testng.test.invocationCount=3000
+resultspath=test-output\\html
+# resultspath should be  = target\\surefire-reports\\html if we are running scripts through maven
+# resultspath should be= test-output\\html  if we are running test suites through eclipse
+# resultspath should be= test-output if we are running test script through eclipse

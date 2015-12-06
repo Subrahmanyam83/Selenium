@@ -1,0 +1,133 @@
+package com.tbb.testscripts.others;
+
+import java.lang.reflect.Method;
+
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.tbb.framework.BaseTest;
+import com.tbb.framework.ConfigFileReader;
+import com.tbb.pages.DashboardPage;
+import com.tbb.pages.HomePage;
+import com.tbb.pages.SignInPage;
+import com.tbb.pages.about.AboutPage;
+import com.tbb.pages.coach.CoachPage;
+import com.tbb.pages.connect.ConnectPage;
+import com.tbb.pages.eatsmart.EatSmartPage;
+import com.tbb.pages.getfit.GetFitPage;
+import com.tbb.pages.watchvideos.WatchVideosPage;
+
+/**
+ *
+ * This test script contains test method for verifying that TBB Logo navigation is working fine
+ * from different pages.
+ *  @author Gaurav
+ */
+public class TestTBBLogoNavigation extends BaseTest {
+
+	@BeforeClass
+	public void setUp() {
+		startSeleniumServer();
+		
+		
+	}
+	
+	@BeforeMethod
+	public void setUp(Method method) {
+		createSeleniumInstance(method);
+		
+		
+	}
+
+	
+	@AfterMethod
+	public void stopSelenium() {
+		stopSeleniumInstance();
+	}
+	
+	
+	@AfterClass
+	public void tearDown() {
+		
+		stopSeleniumServer();
+	}
+	
+	/*
+	 * This test verifies that Logo Navigation is working fine from following important pages:
+	 * Logo Navigation (LN) from home page
+	 * LN from Sign In Page
+	 * LN from Dashboard page
+	 * LN from Get Fit Page
+	 * LN from Eat Smart Page
+	 * LN from Connect page
+	 * LN from Watch Videos Page
+	 * LN from About Page
+	 * LN from Coach Page
+	 */
+	
+	@Test
+	public void testLogoNavigation() {
+		logger.info("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		logger.info("Verifying whether are on Home page");
+		HomePage homePage  = new HomePage(selenium);
+		
+		logger.info("Clicking on TBB Logo");
+		homePage = homePage.clickTBBLogo();
+		
+		logger.info("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.clubuser"), ConfigFileReader.getConfigItemValue("tbb.clubpassword"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+			
+			logger.info("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.clubuser"), ConfigFileReader.getConfigItemValue("tbb.clubpassword"));
+		}
+	
+		logger.info("Clicking on TBB Logo");
+		homePage = dashboardPage.clickTBBLogo();
+		
+
+		logger.info("Navigating to 'Get Fit' page");
+		GetFitPage getFitPage = homePage.clickGetFitLink();
+		logger.info("Clicking on TBB Logo");
+		homePage = getFitPage.clickTBBLogo();
+		
+		
+		logger.info("Navigating to 'Eat Smart' page");
+		EatSmartPage eatSmartPage = homePage.clickEatSmartLink();
+		logger.info("Clicking on TBB Logo");
+		homePage = eatSmartPage.clickTBBLogo();	
+		
+		
+		logger.info("Navigating to 'Connect' page");
+		ConnectPage connectPage = homePage.clickConnectLink();
+		logger.info("Clicking on TBB Logo");
+		homePage = connectPage.clickTBBLogo();
+		
+		logger.info("Navigating to 'Watch Videos' page");
+		WatchVideosPage watchVideosPage = homePage.clickWatchVideosLink();
+		logger.info("Clicking on TBB Logo");
+		homePage = watchVideosPage.clickTBBLogo();
+		
+		
+		logger.info("Navigating to 'About' page");
+		AboutPage aboutPage = homePage.clickAboutLink();
+		logger.info("Clicking on TBB Logo");
+		homePage = aboutPage.clickTBBLogo();
+		
+		
+		logger.info("Navigating to 'Coach' page");
+		CoachPage coachPage = homePage.clickCoachLink();
+		logger.info("Clicking on TBB Logo");
+		homePage = coachPage.clickTBBLogo();
+			
+	}
+}

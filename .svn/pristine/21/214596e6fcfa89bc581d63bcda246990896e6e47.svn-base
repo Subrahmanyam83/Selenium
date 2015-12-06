@@ -1,0 +1,146 @@
+package com.tbb.testscripts.shop;
+
+import java.lang.reflect.Method;
+
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.tbb.constants.UIRepository.Shop;
+import com.tbb.framework.BaseTest;
+import com.tbb.framework.ConfigFileReader;
+import com.tbb.pages.DashboardPage;
+import com.tbb.pages.HomePage;
+import com.tbb.pages.SignInPage;
+import com.tbb.pages.shop.ShoppingCartPage;
+
+/**
+ * 
+ * This test script contains test method(s) for Coach Products and Tools page under 'Shop By' menu.
+ *  @author Jaya
+ */
+public class TestCoachProductsAndToolsShop extends BaseTest{
+
+	@BeforeClass
+	public void setUp() {
+		startSeleniumServer();		
+	}
+	
+	@BeforeMethod
+	public void setUp(Method method) {
+		createSeleniumInstance(method);		
+	}
+	
+	@AfterMethod
+	public void stopSelenium() {
+		stopSeleniumInstance();
+	}	
+	
+	@AfterClass
+	public void tearDown() {		
+		stopSeleniumServer();
+	}
+	
+	/**
+	 * Positive Test script for verifying viewing of Equipment and Gear Shop Page as coach user.
+	 */ 
+	@Test
+	public void testEquipmentAndGearShopAsCoachUser(){
+		logger.info("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		logger.info("Verifying whether are on Home page");
+		HomePage homePage  = new HomePage(selenium);
+		
+		logger.info("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.coach.username"), ConfigFileReader.getConfigItemValue("tbb.coach.password"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+			
+			logger.info("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.coach.username"), ConfigFileReader.getConfigItemValue("tbb.coach.password"));
+		}
+		
+		logger.info("Clicking on 'Shop' link");
+		ShoppingCartPage shopPage = dashboardPage.clickShopLink();	
+		
+		logger.info("Clicking on 'Coach Products and Tools' link");
+		shopPage.goToCoachProductsAndTools();
+		
+	/*	logger.info("Clicking on 'Beachbody Sharing Tools' link");
+		shopPage.goToBeachbodySharingTools();
+		assertTrue("Expected text 'Beachbody Sharing Tools' is not displayed.", selenium.isElementPresent(Shop.BEACHBODY_SHARING_TOOLS_HEADER), selenium);
+		assertTrue("No Add to Cart buttons are not displayed", shopPage.getAddToCartBtnCount()>0, selenium );*/
+		
+		logger.info("Clicking on 'Coach Packs' link");
+		shopPage.goToCoachPacks();
+		assertTrue("Expected text 'Coach Packs' is not displayed.", selenium.isElementPresent(Shop.COACH_PACKS_HEADER), selenium);
+		assertTrue("No Add to Cart buttons are not displayed", shopPage.getAddToCartBtnCount()>0, selenium );
+		
+		logger.info("Clicking on 'Promotional Items' link");
+		shopPage.goToPromotionalItems();
+		assertTrue("Expected text 'Promotional Items' is not displayed.", selenium.isElementPresent(Shop.PROMOTIONAL_ITEMS_HEADER), selenium);
+		assertTrue("No Add to Cart buttons are not displayed", shopPage.getAddToCartBtnCount()>0, selenium );
+		
+		logger.info("Clicking on 'Shakeology Items' link");
+		shopPage.goToShakeologyItems();
+		assertTrue("Expected text 'Shakeology Items' is not displayed.", selenium.isElementPresent(Shop.SHAKEOLOGY_ITEMS_HEADER), selenium);
+		assertTrue("No Add to Cart buttons are not displayed", shopPage.getAddToCartBtnCount()>0, selenium );
+		
+		logger.info("Clicking on 'Training Tools' link");
+		shopPage.goToTrainingTools();
+		assertTrue("Expected text 'Training Tools' is not displayed.", selenium.isElementPresent(Shop.TRAINING_TOOLS_HEADER), selenium);
+		assertTrue("No Add to Cart buttons are not displayed", shopPage.getAddToCartBtnCount()>0, selenium );
+			
+		logger.info("Clicking on 'Home' link");
+		shopPage.clickHomeLink();
+		
+		logger.info("Executing assertEmpty method");
+		emptyMessageBuilder();
+	}
+	
+	/**
+	 * Positive Test script for verifying viewing of Equipment and Gear Shop Page as Free user.
+	 */ 
+	@Test
+	public void testEquipmentAndGearShopAsFreeUser(){
+		logger.info("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		logger.info("Verifying whether are on Home page");
+		HomePage homePage  = new HomePage(selenium);
+		
+		logger.info("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.coach.username"), ConfigFileReader.getConfigItemValue("tbb.coach.password"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+			
+			logger.info("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.coach.username"), ConfigFileReader.getConfigItemValue("tbb.coach.password"));
+		}
+		
+		logger.info("Clicking on 'Shop' link");
+		ShoppingCartPage shopPage = dashboardPage.clickShopLink();	
+		
+		logger.info("Clicking on 'Coach Products and Tools' link");
+		shopPage.goToCoachProductsAndTools();
+		
+		logger.info("Clicking on 'Shakeology Items' link");
+		shopPage.goToShakeologyItems();
+		assertTrue("Expected text 'Shakeology Items' is not displayed.", selenium.isElementPresent(Shop.SHAKEOLOGY_ITEMS_HEADER), selenium);
+		assertTrue("No Add to Cart buttons are not displayed", shopPage.getAddToCartBtnCount()>0, selenium );
+			
+		logger.info("Clicking on 'Home' link");
+		shopPage.clickHomeLink();
+		
+		logger.info("Executing assertEmpty method");
+		emptyMessageBuilder();
+	}
+}

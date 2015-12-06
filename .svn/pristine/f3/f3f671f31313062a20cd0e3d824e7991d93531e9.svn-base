@@ -1,0 +1,319 @@
+package com.tbb.testscripts.profile;
+
+import java.lang.reflect.Method;
+import java.util.Map;
+
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.tbb.constants.UIRepository.ProgramsTab;
+import com.tbb.framework.BaseTest;
+import com.tbb.framework.ConfigFileReader;
+import com.tbb.pages.DashboardPage;
+import com.tbb.pages.HomePage;
+import com.tbb.pages.SignInPage;
+import com.tbb.pages.profile.MyProfilePage;
+import com.tbb.pages.profile.ProgramsPage;
+
+/**
+ *
+ * This test script contains test method(s) for "Edit Profile: Programs" page under Profile section.
+ *  @author Jaya
+ */
+public class TestProgramsPage extends BaseTest implements ProgramsTab {
+
+	@BeforeClass
+	public void setUp() {
+		startSeleniumServer();
+		}
+	
+	@BeforeMethod
+	public void setUp(Method method) {
+		createSeleniumInstance(method);	
+	}
+	
+	@AfterMethod
+	public void stopSelenium() {
+		stopSeleniumInstance();
+	}	
+	
+	@AfterClass
+	public void tearDown() {
+		stopSeleniumServer();
+	}
+
+	/**
+	 * Positive Test script for modifying all field values and then doing a reset.
+	 * It verifies if the values were actually reset. 
+	 */ 
+	@Test 
+	public void testResetPrograms() {
+		
+		logger.info("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+
+		logger.info("Verifying whether user is on Home page");
+		HomePage homePage = new HomePage(selenium);
+
+		logger.info("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			logger.info("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		}
+		
+		logger.info("Navigating to Profile Page.");
+		MyProfilePage myProfilePage = dashboardPage.clickProfile();
+		
+		logger.info("Navigating to Edit Programs Page.");
+		ProgramsPage programsPage = myProfilePage.clickEditPrograms();
+
+		logger.info("Extracting existing Programs state on Edit Programs Page and saving them in a map. This will help to verify if the data is actually reset after clicking on reset button.");
+		Map<String, String> map = programsPage.getExistingFormDataForFreeUser();      
+
+		logger.info("Selecting all the programs radio buttons.");
+		programsPage.selectAllFitnessPrograms();
+		programsPage.selectAllActivities();
+		programsPage.selectAllGearAccessories();
+		programsPage.selectAllSupplements();
+
+		logger.info("Clicking on Reset Button");
+		programsPage.resetPrograms();
+
+		logger.info("Verifying that the Fitness Programs checkboxes are reset correctly.");
+		assertTrue("Checkbox for 10-Minute Trainer was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_10_MINUTE_TRAINER_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_10_MINUTE_TRAINER_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Body Gospel was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_BODY_GOSPEL_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_BODY_GOSPEL_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Brazil Butt Lift was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_BRAZIL_BUTT_LIFT_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_BRAZIL_BUTT_LIFT_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Chalean Extreme was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_CHALEAN_EXTREME_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_CHALEAN_EXTREME_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Fast 100 was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_FAST_100_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_FAST_100_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Get Real with Shaun was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_GET_REAL_WITH_SHAUN_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_GET_REAL_WITH_SHAUN_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Great Body Guaranteed was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_GREAT_BODY_GUARANTEED_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_GREAT_BODY_GUARANTEED_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Hip Hop Abs was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_HIP_HOP_ABS_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_HIP_HOP_ABS_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Ho Ala Ke Kino was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_HO_ALA_KE_KINO_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_HO_ALA_KE_KINO_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Insanity was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_INSANITY_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_INSANITY_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Insanity The Asylum was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_INSANITY_THE_ASYLUM_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_INSANITY_THE_ASYLUM_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Kathy Smith Fitness Programs was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_KATHY_SMITH_FITNESS_PROGRAMS_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_KATHY_SMITH_FITNESS_PROGRAMS_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Kathy Smiths Project You was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_KATHY_SMITHS_PROJECT_YOU_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_KATHY_SMITHS_PROJECT_YOU_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Keep It Up was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_KEEP_IT_UP_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_KEEP_IT_UP_CHECKBOX)), selenium);
+		assertTrue("Checkbox for P90X One On One was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_P90X_ONE_ON_ONE_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_P90X_ONE_ON_ONE_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Power 90X was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_POWER90X_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_POWER90X_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Power 90 was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_POWER_90_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_POWER_90_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Power Half Hour was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_POWER_HALF_HOUR_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_POWER_HALF_HOUR_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Revabs was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_REVABS_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_REVABS_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Rockin Body was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_ROCKIN_BODY_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_ROCKIN_BODY_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Shakeology The Workouts was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_SHAKEOLOGY_THE_WORKOUTS_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_SHAKEOLOGY_THE_WORKOUTS_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Slim In 6 was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_SLIM_IN_6_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_SLIM_IN_6_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Slim Series was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_SLIM_SERIES_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_SLIM_SERIES_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Tony And The Folks was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_TONY_AND_THE_FOLKS_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_TONY_AND_THE_FOLKS_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Tony And The Kids was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_TONY_AND_THE_KIDS_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_TONY_AND_THE_KIDS_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Total Body Solution was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_TOTAL_BODY_SOLUTION_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_TOTAL_BODY_SOLUTION_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Turbo Jam was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_TURBO_JAM_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_TURBO_JAM_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Turbo Fire was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_TURBO_FIRE_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_TURBO_FIRE_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Yoga Booty Ballet Baby On The Way was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_BABY_ON_THE_WAY_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_BABY_ON_THE_WAY_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Yoga Booty Ballet Pure And Simple was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_PURE_AND_SIMPLE_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_PURE_AND_SIMPLE_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Yoga Booty Ballet was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Yoga Booty Ballet Ab And Butt Makeover was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_AB_AND_BUTT_MAKEOVER_CHECKBOX)).toString().equals(map.get(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_AB_AND_BUTT_MAKEOVER_CHECKBOX)), selenium);
+
+		assertTrue("Radio Button for I Don't Have a Primary Program was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_I_DONT_HAVE_A_PRIMARY_PROGRAM)).toString().equals(map.get(FITNESS_PROGRAMS_I_DONT_HAVE_A_PRIMARY_PROGRAM)), selenium);
+		assertTrue("Radio Button for 10 Minute Trainer was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_10_MINUTE_TRAINER_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_10_MINUTE_TRAINER_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Body Gospel was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_BODY_GOSPEL_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_BODY_GOSPEL_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Brazil Butt Lift was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_BRAZIL_BUTT_LIFT_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_BRAZIL_BUTT_LIFT_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Chalean Extreme was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_CHALEAN_EXTREME_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_CHALEAN_EXTREME_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Fast 100 was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_FAST_100_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_FAST_100_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Get Real With Shaun was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_GET_REAL_WITH_SHAUN_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_GET_REAL_WITH_SHAUN_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Great Body Guaranteed was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_GREAT_BODY_GUARANTEED_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_GREAT_BODY_GUARANTEED_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Hip Hop Abs was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_HIP_HOP_ABS_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_HIP_HOP_ABS_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Ho Ala Ke Kino was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_HO_ALA_KE_KINO_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_HO_ALA_KE_KINO_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Insanity was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_INSANITY_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_INSANITY_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Insanity The Asylum was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_INSANITY_THE_ASYLUM_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_INSANITY_THE_ASYLUM_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Kathy Smith Fitness Programs was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_KATHY_SMITH_FITNESS_PROGRAMS_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_KATHY_SMITH_FITNESS_PROGRAMS_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Kathy Smiths Project You was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_KATHY_SMITHS_PROJECT_YOU_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_KATHY_SMITHS_PROJECT_YOU_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Keep It Up was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_KEEP_IT_UP_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_KEEP_IT_UP_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for P90X One on One was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_P90X_ONE_ON_ONE_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_P90X_ONE_ON_ONE_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Power 90 was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_POWER90_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_POWER90_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Power Half Hour was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_POWER_HALF_HOUR_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_POWER_HALF_HOUR_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Revabs was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_REVABS_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_REVABS_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Rockin Body was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_ROCKIN_BODY_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_ROCKIN_BODY_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Shakeology The Workouts was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_SHAKEOLOGY_THE_WORKOUTS_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_SHAKEOLOGY_THE_WORKOUTS_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Slim In 6 was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_SLIM_IN_6_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_SLIM_IN_6_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Slim Series was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_SLIM_SERIES_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_SLIM_SERIES_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Tony And the Folks was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_TONY_AND_THE_FOLKS_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_TONY_AND_THE_FOLKS_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Tony And The Kids was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_TONY_AND_THE_KIDS_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_TONY_AND_THE_KIDS_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Total Body Solution was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_TOTAL_BODY_SOLUTION_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_TOTAL_BODY_SOLUTION_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Turbo Jam was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_TURBO_JAM_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_TURBO_JAM_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Turbo Fire was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_TURBO_FIRE_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_TURBO_FIRE_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Yoga Booty Ballet Baby on the way was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_BABY_ON_THE_WAY_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_BABY_ON_THE_WAY_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Yoga Booty Ballet Pure And Simple option was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_PURE_AND_SIMPLE_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_PURE_AND_SIMPLE_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Yoga Booty Ballet option was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_RADIO_BUTTON)), selenium);
+		assertTrue("Radio Button for Yoga Booty Ballet Ab And Butt Makeover option was not reset", new Boolean(selenium.isChecked(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_AB_AND_BUTT_MAKEOVER_RADIO_BUTTON)).toString().equals(map.get(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_AB_AND_BUTT_MAKEOVER_RADIO_BUTTON)), selenium);
+
+		logger.info("Verifying that the Activities checkboxes are reset correctly.");
+		assertTrue("Checkbox for Biking option was not reset", new Boolean(selenium.isChecked(ACTIVITIES_BIKING_CHECKBOX)).toString().equals(map.get(ACTIVITIES_BIKING_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Cardio Aerobics option was not reset", new Boolean(selenium.isChecked(ACTIVITIES_CARDIO_AEROBICS_CHECKBOX)).toString().equals(map.get(ACTIVITIES_CARDIO_AEROBICS_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Running Walking option was not reset", new Boolean(selenium.isChecked(ACTIVITIES_RUNNING_WALKING_CHECKBOX)).toString().equals(map.get(ACTIVITIES_RUNNING_WALKING_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Swimming option was not reset", new Boolean(selenium.isChecked(ACTIVITIES_SWIMMING_CHECKBOX)).toString().equals(map.get(ACTIVITIES_SWIMMING_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Weightlifting option was not reset", new Boolean(selenium.isChecked(ACTIVITIES_WEIGHTLIFTING_CHECKBOX)).toString().equals(map.get(ACTIVITIES_WEIGHTLIFTING_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Yoga Pilates option was not reset", new Boolean(selenium.isChecked(ACTIVITIES_YOGA_PILATES_CHECKBOX)).toString().equals(map.get(ACTIVITIES_YOGA_PILATES_CHECKBOX)), selenium);
+
+		logger.info("Verifying that the Gear checkboxes are reset correctly.");
+		assertTrue("Checkbox for P90X Chin Up Bar option was not reset", new Boolean(selenium.isChecked(GEAR_P90X_CHIN_UP_BAR_CHECKBOX)).toString().equals(map.get(GEAR_P90X_CHIN_UP_BAR_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Heart Rate Monitor option was not reset", new Boolean(selenium.isChecked(GEAR_HEART_RATE_MONITOR_CHECKBOX)).toString().equals(map.get(GEAR_HEART_RATE_MONITOR_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Push Up Stands option was not reset", new Boolean(selenium.isChecked(GEAR_PUSH_UP_STANDS_CHECKBOX)).toString().equals(map.get(GEAR_PUSH_UP_STANDS_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Resistance Bands option was not reset", new Boolean(selenium.isChecked(GEAR_RESISTANCE_BANDS_CHECKBOX)).toString().equals(map.get(GEAR_RESISTANCE_BANDS_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Power Stands option was not reset", new Boolean(selenium.isChecked(GEAR_POWER_STANDS_CHECKBOX)).toString().equals(map.get(GEAR_POWER_STANDS_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Weighted Gloves option was not reset", new Boolean(selenium.isChecked(GEAR_WEIGHTED_GLOVES_CHECKBOX)).toString().equals(map.get(GEAR_WEIGHTED_GLOVES_CHECKBOX)), selenium);
+
+		logger.info("Verifying that the Supplements checkboxes are reset correctly.");
+		assertTrue("Checkbox for Shakeology option was not reset", new Boolean(selenium.isChecked(SUPPLEMENTS_SHAKEOLOGY_CHECKBOX)).toString().equals(map.get(SUPPLEMENTS_SHAKEOLOGY_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Activit Multi Vitamins option was not reset", new Boolean(selenium.isChecked(SUPPLEMENTS_ACTIVIT_MULTI_VITAMINS_CHECKBOX)).toString().equals(map.get(SUPPLEMENTS_ACTIVIT_MULTI_VITAMINS_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Meal Replacement Shake option was not reset", new Boolean(selenium.isChecked(SUPPLEMENTS_MEAL_REPLACEMENT_SHAKE_CHECKBOX)).toString().equals(map.get(SUPPLEMENTS_MEAL_REPLACEMENT_SHAKE_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Whey Protein Powder option was not reset", new Boolean(selenium.isChecked(SUPPLEMENTS_WHEY_PROTEIN_POWDER_CHECKBOX)).toString().equals(map.get(SUPPLEMENTS_WHEY_PROTEIN_POWDER_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Joint Support Super Formula option was not reset", new Boolean(selenium.isChecked(SUPPLEMENTS_JOINT_SUPPORT_SUPER_FORMULA_CHECKBOX)).toString().equals(map.get(SUPPLEMENTS_JOINT_SUPPORT_SUPER_FORMULA_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Pure Creatine option was not reset", new Boolean(selenium.isChecked(SUPPLEMENTS_PURE_CREATINE_CHECKBOX)).toString().equals(map.get(SUPPLEMENTS_PURE_CREATINE_CHECKBOX)), selenium);
+		assertTrue("Checkbox for P90X Peak Health Formula option was not reset", new Boolean(selenium.isChecked(SUPPLEMENTS_P90X_PEAK_HEALTH_FORMULA_CHECKBOX)).toString().equals(map.get(SUPPLEMENTS_P90X_PEAK_HEALTH_FORMULA_CHECKBOX)), selenium);
+		assertTrue("Checkbox for P90X Peak Results And Recovery Formula option was not reset", new Boolean(selenium.isChecked(SUPPLEMENTS_P90X_PEAK_RESULTS_AND_RECOVERY_FORMULA_CHECKBOX)).toString().equals(map.get(SUPPLEMENTS_P90X_PEAK_RESULTS_AND_RECOVERY_FORMULA_CHECKBOX)), selenium);
+		assertTrue("Checkbox for 2 Day Fast Formula option was not reset", new Boolean(selenium.isChecked(SUPPLEMENTS_2_DAY_FAST_FORMULA_CHECKBOX)).toString().equals(map.get(SUPPLEMENTS_2_DAY_FAST_FORMULA_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Total Womens Health Formula option was not reset", new Boolean(selenium.isChecked(SUPPLEMENTS_TOTAL_HEALTH_WOMENS_FORMULA_CHECKBOX)).toString().equals(map.get(SUPPLEMENTS_TOTAL_HEALTH_WOMENS_FORMULA_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Strength And Muscle Mens Formula option was not reset", new Boolean(selenium.isChecked(SUPPLEMENTS_STRENGTH_AND_MUSCLE_MENS_FORMULA_CHECKBOX)).toString().equals(map.get(SUPPLEMENTS_STRENGTH_AND_MUSCLE_MENS_FORMULA_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Slimming Formula option was not reset", new Boolean(selenium.isChecked(SUPPLEMENTS_SLIMMING_FORMULA_CHECKBOX)).toString().equals(map.get(SUPPLEMENTS_SLIMMING_FORMULA_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Performance Formula option was not reset", new Boolean(selenium.isChecked(SUPPLEMENTS_PERFORMANCE_FORMULA_CHECKBOX)).toString().equals(map.get(SUPPLEMENTS_PERFORMANCE_FORMULA_CHECKBOX)), selenium);
+		assertTrue("Checkbox for Chitosan Plus option was not reset", new Boolean(selenium.isChecked(SUPPLEMENTS_CHITOSAN_PLUS_CHECKBOX)).toString().equals(map.get(SUPPLEMENTS_CHITOSAN_PLUS_CHECKBOX)), selenium);
+		
+		logger.info("Signing out of the website.");
+		homePage = programsPage.signOut();
+		
+		logger.info("Executing assertEmpty method");
+		emptyMessageBuilder();		
+		}
+
+	/**
+	 * Positive Test script for modifying all field values and then doing a save.
+	 * It verifies if the values were actually saved. 
+	 */ 
+	@Test 
+	public void testSavePrograms() {
+		
+		logger.info("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+		
+		logger.info("Verifying whether user is on Home page");
+		HomePage homePage = new HomePage(selenium);
+		
+		logger.info("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			logger.info("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.username"), ConfigFileReader.getConfigItemValue("tbb.password"));
+		}
+		
+		logger.info("Navigating to Profile Page.");
+		MyProfilePage myProfilePage = dashboardPage.clickProfile();
+		
+		logger.info("Navigating to Edit Programs Page.");
+		ProgramsPage programsPage = myProfilePage.clickEditPrograms();
+
+		logger.info("Selecting all the programs radio buttons.");
+		programsPage.selectAllFitnessPrograms();
+		programsPage.selectAllActivities();
+		programsPage.selectAllGearAccessories();
+		programsPage.selectAllSupplements();
+		
+		logger.info("Clicking on Save Programs button.");
+		programsPage.savePrograms();
+
+		logger.info("Verifying that all the Fitness programs checkboxes are selected.");
+		assertTrue("Fitness 10 Minute Trainer Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_10_MINUTE_TRAINER_CHECKBOX), selenium);
+		assertTrue("Fitness Body Gospel Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_BODY_GOSPEL_CHECKBOX), selenium);
+		assertTrue("Fitness Brazil Butt Lift Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_BRAZIL_BUTT_LIFT_CHECKBOX), selenium);
+		assertTrue("Fitness Chalean Extreme Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_CHALEAN_EXTREME_CHECKBOX), selenium);
+		assertTrue("Fitness Fast 100 Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_FAST_100_CHECKBOX), selenium);
+		assertTrue("Fitness Get Real With Shaun Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_GET_REAL_WITH_SHAUN_CHECKBOX), selenium);
+		assertTrue("Fitness Great Body Guaranteed Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_GREAT_BODY_GUARANTEED_CHECKBOX), selenium);
+		assertTrue("Fitness Hip Hop Abs Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_HIP_HOP_ABS_CHECKBOX), selenium);
+		assertTrue("Fitness Ho Ala Ke Kino Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_HO_ALA_KE_KINO_CHECKBOX), selenium);
+		assertTrue("Fitness Insanity Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_INSANITY_CHECKBOX), selenium);
+		assertTrue("Fitness Insanity The Asylum Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_INSANITY_THE_ASYLUM_CHECKBOX), selenium);
+		assertTrue("Fitness Kathy Smith Fitness Programs Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_KATHY_SMITH_FITNESS_PROGRAMS_CHECKBOX), selenium);
+		assertTrue("Fitness Kathy Smiths Project You Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_KATHY_SMITHS_PROJECT_YOU_CHECKBOX), selenium);
+		assertTrue("Fitness Keep It Up Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_KEEP_IT_UP_CHECKBOX), selenium);
+		assertTrue("Fitness P90X One On One Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_P90X_ONE_ON_ONE_CHECKBOX), selenium);
+		assertTrue("Fitness Programs Power90X Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_POWER90X_CHECKBOX), selenium);
+		assertTrue("Fitness Power 90 Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_POWER_90_CHECKBOX), selenium);
+		assertTrue("Fitness Power Half Hour Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_POWER_HALF_HOUR_CHECKBOX), selenium);
+		assertTrue("Fitness Revabs Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_REVABS_CHECKBOX), selenium);
+		assertTrue("Fitness Rockin Body Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_ROCKIN_BODY_CHECKBOX), selenium);
+		assertTrue("Fitness Shakeology The Workouts Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_SHAKEOLOGY_THE_WORKOUTS_CHECKBOX), selenium);
+		assertTrue("Fitness Slim in 6 Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_SLIM_IN_6_CHECKBOX), selenium);
+		assertTrue("Fitness Slim Series Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_SLIM_SERIES_CHECKBOX), selenium);
+		assertTrue("Fitness Tony And The Folks Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_TONY_AND_THE_FOLKS_CHECKBOX), selenium);
+		assertTrue("Fitness Tony And The Kids Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_TONY_AND_THE_KIDS_CHECKBOX), selenium);
+		assertTrue("Fitness Total Body Solution Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_TOTAL_BODY_SOLUTION_CHECKBOX), selenium);
+		assertTrue("Fitness Turbo Jam Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_TURBO_JAM_CHECKBOX), selenium);
+		assertTrue("Fitness Turbo Fire Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_TURBO_FIRE_CHECKBOX), selenium);
+		assertTrue("Fitness Yoga Booty Ballet Baby On The Way Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_BABY_ON_THE_WAY_CHECKBOX), selenium);
+		assertTrue("Fitness Yoga Booty Ballet Pure And Simple Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_PURE_AND_SIMPLE_CHECKBOX), selenium);
+		assertTrue("Fitness Yoga Booty Ballet Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_CHECKBOX), selenium);
+		assertTrue("Fitness Yoga Booty Ballet Ab And Butt Makeover Checkbox was not checked", selenium.isChecked(FITNESS_PROGRAMS_YOGA_BOOTY_BALLET_AB_AND_BUTT_MAKEOVER_CHECKBOX), selenium);
+
+		logger.info("Verifying that all the Activities checkboxes are selected.");
+		assertTrue("Activities Biking Checkbox was not checked", selenium.isChecked(ACTIVITIES_BIKING_CHECKBOX), selenium);
+		assertTrue("Activities Cardio Aerobics Checkbox was not checked", selenium.isChecked(ACTIVITIES_CARDIO_AEROBICS_CHECKBOX), selenium);
+		assertTrue("Activities Running Walking Checkbox was not checked", selenium.isChecked(ACTIVITIES_RUNNING_WALKING_CHECKBOX), selenium);
+		assertTrue("Activities Swimming Checkbox was not checked", selenium.isChecked(ACTIVITIES_SWIMMING_CHECKBOX), selenium);
+		assertTrue("Activities Weightlifting Checkbox was not checked", selenium.isChecked(ACTIVITIES_WEIGHTLIFTING_CHECKBOX), selenium);
+		assertTrue("Activities Yoga Pilates Checkbox was not checked", selenium.isChecked(ACTIVITIES_YOGA_PILATES_CHECKBOX), selenium);
+
+		logger.info("Verifying that all the Gear checkboxes are selected.");
+		assertTrue("Gear P90X Chin Up Bar Checkbox was not checked", selenium.isChecked(GEAR_P90X_CHIN_UP_BAR_CHECKBOX), selenium);
+		assertTrue("Gear Heart Rate Monitor Checkbox was not checked", selenium.isChecked(GEAR_HEART_RATE_MONITOR_CHECKBOX), selenium);
+		assertTrue("Gear Push Up Stands Checkbox was not checked", selenium.isChecked(GEAR_PUSH_UP_STANDS_CHECKBOX), selenium);
+		assertTrue("Gear Resistance Bands Checkbox was not checked", selenium.isChecked(GEAR_RESISTANCE_BANDS_CHECKBOX), selenium);
+		assertTrue("Gear Power Stands Checkbox was not checked", selenium.isChecked(GEAR_POWER_STANDS_CHECKBOX), selenium);
+		assertTrue("Gear Weighted Gloves Checkbox was not checked", selenium.isChecked(GEAR_WEIGHTED_GLOVES_CHECKBOX), selenium);
+
+		logger.info("Verifying that all the Supplements checkboxes are selected.");
+		assertTrue("Supplements Shekeology Checkbox was not checked", selenium.isChecked(SUPPLEMENTS_SHAKEOLOGY_CHECKBOX), selenium);
+		assertTrue("Supplements Activit Multi Vitamins Checkbox was not checked", selenium.isChecked(SUPPLEMENTS_ACTIVIT_MULTI_VITAMINS_CHECKBOX), selenium);
+		assertTrue("Supplements Meal Replacement Shake Checkbox was not checked", selenium.isChecked(SUPPLEMENTS_MEAL_REPLACEMENT_SHAKE_CHECKBOX), selenium);
+		assertTrue("Supplements Whey Protein Powder Checkbox was not checked", selenium.isChecked(SUPPLEMENTS_WHEY_PROTEIN_POWDER_CHECKBOX), selenium);
+		assertTrue("Supplements Joint Support Super Formula Checkbox was not checked", selenium.isChecked(SUPPLEMENTS_JOINT_SUPPORT_SUPER_FORMULA_CHECKBOX), selenium);
+		assertTrue("Supplements Pure Creatine Checkbox was not checked", selenium.isChecked(SUPPLEMENTS_PURE_CREATINE_CHECKBOX), selenium);
+		assertTrue("Supplements P90X Peak Health Formula Checkbox was not checked", selenium.isChecked(SUPPLEMENTS_P90X_PEAK_HEALTH_FORMULA_CHECKBOX), selenium);
+		assertTrue("Supplements P90X Peak Results And Recovery Formula Checkbox was not checked", selenium.isChecked(SUPPLEMENTS_P90X_PEAK_RESULTS_AND_RECOVERY_FORMULA_CHECKBOX), selenium);
+		assertTrue("Supplements 2 Day Fast Formula Checkbox was not checked", selenium.isChecked(SUPPLEMENTS_2_DAY_FAST_FORMULA_CHECKBOX), selenium);
+		assertTrue("Supplements Total Health Womens formula Checkbox was not checked", selenium.isChecked(SUPPLEMENTS_TOTAL_HEALTH_WOMENS_FORMULA_CHECKBOX), selenium);
+		assertTrue("Supplements Strength and Mulscles Mens Formula Checkbox was not checked", selenium.isChecked(SUPPLEMENTS_STRENGTH_AND_MUSCLE_MENS_FORMULA_CHECKBOX), selenium);
+		assertTrue("Supplements Slimming Formula Checkbox was not checked", selenium.isChecked(SUPPLEMENTS_SLIMMING_FORMULA_CHECKBOX), selenium);
+		assertTrue("Supplements Performance Formula Checkbox was not checked", selenium.isChecked(SUPPLEMENTS_PERFORMANCE_FORMULA_CHECKBOX), selenium);
+		assertTrue("Supplements Chotosan Plus Checkbox was not checked", selenium.isChecked(SUPPLEMENTS_CHITOSAN_PLUS_CHECKBOX), selenium);
+		
+		logger.info("Unchecking all the programs Checkboxes.");
+		programsPage.deselectAllFitnessPrograms();
+		programsPage.deselectAllActivities();
+		programsPage.deselectAllGearAccessories();
+		programsPage.deselectAllSupplements();
+		
+		logger.info("Clicking on Save Programs button.");
+		programsPage.savePrograms();
+		
+		logger.info("Signing out of the website.");
+		homePage = programsPage.signOut();
+		
+		logger.info("Executing assertEmpty method");
+		emptyMessageBuilder();		
+		}
+}
+
+

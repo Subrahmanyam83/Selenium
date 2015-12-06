@@ -1,0 +1,338 @@
+package com.tbb.testscripts.profile;
+
+import java.lang.reflect.Method;
+
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.tbb.constants.UIRepository.BlogTab;
+import com.tbb.framework.BaseTest;
+import com.tbb.framework.ConfigFileReader;
+import com.tbb.pages.DashboardPage;
+import com.tbb.pages.HomePage;
+import com.tbb.pages.SignInPage;
+import com.tbb.pages.profile.BlogPage;
+import com.tbb.pages.profile.EditProfilePage;
+import com.tbb.pages.profile.MyProfilePage;
+/**
+ * 
+ * This test script contains test method(s) for "Edit Profile: Blog" page under Profile section.
+ *  @author Jaya
+ */
+public class TestBlog extends BaseTest implements BlogTab {
+
+	@BeforeClass
+	public void setUp() {
+		startSeleniumServer();
+	}
+
+	@BeforeMethod
+	public void setUp(Method method) {
+		createSeleniumInstance(method);
+	}
+
+
+	@AfterMethod
+	public void stopSelenium() {
+		stopSeleniumInstance();
+	}
+
+
+	@AfterClass
+	public void tearDown() {		
+		stopSeleniumServer();
+	}	
+
+	/**
+	 * Positive Test script for viewing Blog Page. 
+	 */
+	@Test 
+	public void testViewBlog() {
+
+		logger.info("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+
+		logger.info("Verifying whether are on Home page");
+		HomePage homePage = new HomePage(selenium);
+
+		logger.info("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.username1"), ConfigFileReader.getConfigItemValue("tbb.password1"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			logger.info("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.username1"), ConfigFileReader.getConfigItemValue("tbb.password1"));
+		}
+
+		logger.info("Navigating to Profile Page.");
+		MyProfilePage myProfilePage = dashboardPage.clickProfile();
+
+		logger.info("Click on 'Edit my profile photo' link.");
+		EditProfilePage editProfilePage = myProfilePage.finishProfile();
+
+		logger.info("Click on 'Blog' link.");
+		BlogPage blogPage = editProfilePage.clickBlog();
+
+		logger.info("Verify that all the required elements are available on Edit Blog Page.");
+		assertTrue("Expected Header 'Blog' is not available.", selenium.isElementPresent(BLOG_HEADER), selenium);
+		assertTrue("Expected Text 'Writing is a well...' is not available.", selenium.isTextPresent("Writing is a well-known method for motivating yourself to make positive changes. You can keep your blog entries private or allow others to read your entries by setting the privacy control at the bottom of each entry (or on your Privacy page)."), selenium);
+		assertTrue("Expected Text 'To post photos...' is not available.", selenium.isTextPresent("To post photos in your blog:"), selenium);
+		assertTrue("Expected Text 'You will need to...' is not available.", selenium.isTextPresent("You will need to host your blog photos on another site (such as Flickr or your personal Web site). To insert a photo into your blog, click the Insert/Edit Image icon in the content editor toolbar (the icon is a picture of a tree), then copy and paste your photo's URL into the Image URL field in the pop-up window, and click Insert."), selenium);
+		assertTrue("Expected Element Search results count is not available.", selenium.isElementPresent(SEARCH_RESULTS_LABEL), selenium);
+		assertTrue("Expected Button 'Add Blog Entry' is not available.", selenium.isElementPresent(ADD_BLOG_ENTRY_BUTTON), selenium);
+		assertTrue("Expected Text 'Your Team Beachbody® Blog ' is not available.", selenium.isTextPresent("Your Team Beachbody® Blog "), selenium);
+		assertTrue("Expected Text 'You can use this feature...' is not available.", selenium.isTextPresent("You can use this feature both as a journal to help you track your progress and a blog of your ideas and opinions. Use the privacy settings below each blog entry (or on your Privacy page) to control who else can see your blog."), selenium);
+
+		logger.info("Click on 'Add Blog Entry' Button.");
+		blogPage.addBlogEntry();
+
+		logger.info("Verify that all the required elements are available on Add Blog Entry Page.");
+		assertTrue("Expected link 'Entries' is not available.", selenium.isElementPresent(ENTRIES_LINK), selenium);
+		assertTrue("Expected text 'Add Entry' is not available.", selenium.isTextPresent("Add Entry"), selenium);
+		assertTrue("Expected Label 'Title' is not available.", selenium.isElementPresent(TITLE_LABEL), selenium);
+		assertTrue("Expected textbox for 'Title' is not available.", selenium.isElementPresent(TITLE_TEXTBOX), selenium);
+		assertTrue("Expected Label for 'Publish Date' is not available.", selenium.isElementPresent(PUBLISH_DATE_LABEL), selenium);
+		assertTrue("Expected drop down for 'Publish Date month' is not available.", selenium.isElementPresent(PUBLISH_DATE_MONTH), selenium);
+		assertTrue("Expected drop down for 'Publish Date day' is not available.", selenium.isElementPresent(PUBLISH_DATE_DAY), selenium);
+		assertTrue("Expected drop down for 'Publish Date year' is not available.", selenium.isElementPresent(PUBLISH_DATE_YEAR), selenium);
+		assertTrue("Expected icon for 'Publish Date calendar' is not available.", selenium.isElementPresent(PUBLISH_DATE_PICKER_ICON), selenium);
+		assertTrue("Expected drop down for 'Publish Date Hour' is not available.", selenium.isElementPresent(PUBLISH_DATE_HOUR), selenium);
+		assertTrue("Expected drop down for 'Publish Date Minute' is not available.", selenium.isElementPresent(PUBLISH_DATE_MINUTES), selenium);
+		assertTrue("Expected drop down for 'Publish Date AM PM' is not available.", selenium.isElementPresent(PUBLISH_DATE_AMPM), selenium);
+		assertTrue("Expected text 'Content' is not available.", selenium.isTextPresent("Content"), selenium);
+
+		assertTrue("Expected label 'Tags' is not available.", selenium.isElementPresent(TAGS_LABEL), selenium);
+		assertTrue("Expected text box for 'Tags' is not available.", selenium.isElementPresent(TABS_TEXTBOX), selenium);
+		assertTrue("Expected button for 'Add Tag' is not available.", selenium.isElementPresent(ADD_TAGS_BUTTON), selenium);
+		assertTrue("Expected button for 'Select Tag' is not available.", selenium.isElementPresent(SELECT_TAGS_BUTTON), selenium);
+		assertTrue("Expected button for 'Suggessions' is not available.", selenium.isElementPresent(SUGGESTIONS_BUTTON), selenium);
+		assertTrue("Expected text 'Profile Visibility' is not available.", selenium.isTextPresent("Profile Visibility"), selenium);
+		assertTrue("Expected radio button for 'Public' option is not available.", selenium.isElementPresent(PUBLIC_RADIO_BUTTON), selenium);
+		assertTrue("Expected text 'Public - Make my blog...' is not available.", selenium.isTextPresent("Public - Make my blog entry visible to everyone in the Team Beachbody community "), selenium);
+		assertTrue("Expected radio button for 'Buddy' option is not available.", selenium.isElementPresent(BUDDIES_RADIO_BUTTON), selenium);
+		assertTrue("Expected text 'Buddies - Make my blog...' is not available.", selenium.isTextPresent("Buddies - Make my blog entry visible to my Buddies only "), selenium);
+		assertTrue("Expected radio button for 'Private' option is not available.", selenium.isElementPresent(PRIVATE_RADIO_BUTTON), selenium);
+		assertTrue("Expected text 'Private - Hide my blog...' is not available.", selenium.isTextPresent("Private - Hide my blog entry from everybody in the Team Beachbody community "), selenium);
+		assertTrue("Expected button 'Publish' is not available.", selenium.isElementPresent(PUBLISH_BUTTON), selenium);
+		assertTrue("Expected button 'Cancel' is not available.", selenium.isElementPresent(CANCEL_BUTTON), selenium);
+
+		logger.info("Executing assertEmpty method");
+		emptyMessageBuilder();
+	}
+	/***
+	 * This is data provider for testAddBlogEntry Test Script.
+	 *//* 
+	@DataProvider(name = "addBlogDataProvider")
+	public Object[][] createAddBlogData() {
+		return new Object[][] {
+				{ "My First Blog", "August", "11", "2011", "4", ":02", "AM", "Writing my first blog", "first", "private"},
+		};
+	}
+	  *//**
+	  * Positive Test script for Adding a new Blog Entry. 
+	  *//*
+	@Test (dataProvider = "addBlogDataProvider")
+	public void testAddBlogEntry( String blogTitle, String month, String day, String year, String hour, String min, String ampm, String blogText, String blogTag, String privacyLevel) {
+		logger.info("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+
+		logger.info("Verifying whether are on Home page");
+		HomePage homePage = new HomePage(selenium);
+
+		logger.info("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.username1"), ConfigFileReader.getConfigItemValue("tbb.password1"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			logger.info("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.username1"), ConfigFileReader.getConfigItemValue("tbb.password1"));
+		}
+
+		logger.info("Navigating to Profile Page.");
+		MyProfilePage myProfilePage = dashboardPage.clickProfile();
+
+		logger.info("Click on 'Edit my profile photo' link.");
+		EditProfilePage editProfilePage = myProfilePage.finishProfile();
+
+		logger.info("Click on 'Blog' link.");
+		BlogPage blogPage = editProfilePage.clickBlog();
+
+		logger.info("Click on 'Add Blog Entry' Button.");
+		blogPage.addBlogEntry();
+
+		logger.info("Type title in Title Text box.");
+		blogPage.typeBlogTitle(blogTitle);
+
+		logger.info("Select Date");
+		blogPage.selectPublishDate(month, day, year, hour, min, ampm);
+
+		logger.info("Type content in Blog text area.");
+		blogPage.typeBlogContent(blogText);
+
+		logger.info("Type tags.");
+		blogPage.typeTagsContent(blogTag);
+
+		logger.info("Select Privacy Level.");
+		blogPage.selectPrivacyLevel(privacyLevel);
+
+		logger.info("Click Publish Button.");
+		blogPage.publishBlog();
+
+		logger.info("Verifying that the blog is saved successfully.");
+		assertTrue("Expected success message is not available.", selenium.isElementPresent(SUCCESS_MESSAGE), selenium);
+		assertTrue("Expected Search textbox is not available.", selenium.isElementPresent(SEARCH_TEXTBOX), selenium);
+		assertTrue("Expected Search button is not available.", selenium.isElementPresent(SEARCH_BUTTON), selenium);
+		assertTrue("Expected Add Blog Entry button is not available.", selenium.isElementPresent(ADD_BLOG_ENTRY_BUTTON), selenium);
+		assertTrue("Expected Title placeholder is not available.", selenium.isElementPresent(TITLE_PLACEHOLDER), selenium);
+
+		assertTrue("Expected Blog title is not available.", selenium.isTextPresent(blogTitle), selenium);
+		assertTrue("Expected Blog text is not available.", selenium.isTextPresent(blogText), selenium);
+		assertTrue("Expected Blog tag is not available.", selenium.isTextPresent(blogTag), selenium);
+
+		assertTrue("Expected entry date holder is not available.", selenium.isElementPresent(ENTRY_DATE_HOLDER), selenium);
+		assertTrue("Expected Edit icon is not available.", selenium.isElementPresent(EDIT_BLOG_ICON), selenium);
+		assertTrue("Expected Edit link is not available.", selenium.isTextPresent("Edit"), selenium);
+		assertTrue("Expected Delete icon is not available.", selenium.isElementPresent(DELETE_BLOG_ICON), selenium);
+		assertTrue("Expected Delete Link is not available.", selenium.isTextPresent("Delete"), selenium);
+
+		assertTrue("Expected Author name is not available.", selenium.isElementPresent(AUTHOR_NAME), selenium);
+		assertTrue("Expected comments link is not available.", selenium.isElementPresent(COMMENTS_LINK), selenium);
+		assertTrue("Expected bookmarks link is not available.", selenium.isElementPresent(BOOKMARKS_LINK), selenium);
+		assertTrue("Expected Average Votes label is not available.", selenium.isElementPresent(AVERAGE_VOTES_LABEL), selenium);
+
+		assertTrue("Expected Report Post Flag is not available.", selenium.isElementPresent(REPORT_POST_FLAG), selenium);
+		assertTrue("Expected Report Post link is not available.", selenium.isElementPresent(REPORT_POST_LINK), selenium);
+		assertTrue("Expected Search Results count is not available.", selenium.isElementPresent(SEARCH_RESULTS_COUNT), selenium);
+
+		logger.info("Executing assertEmpty method");
+		emptyMessageBuilder();
+			}*/
+
+	/***
+	 * This is data provider for testEditBlogEntry Test Script.
+	 *//* 
+	@DataProvider(name = "editBlogDataProvider")
+	public Object[][] createEditBlogData() {
+		return new Object[][] {
+				{ "My First Blog", "Writing my first blog today."},
+		};
+	}
+	  *//**
+	  * Positive Test script for Editing existing Blog Entry. 
+	  *//* 
+	@Test (dataProvider = "editBlogDataProvider")
+	public void testEditBlogEntry(String editedBlogTitle, String editedBlogText) {
+		logger.info("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+
+		logger.info("Verifying whether are on Home page");
+		HomePage homePage = new HomePage(selenium);
+
+		logger.info("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.username1"), ConfigFileReader.getConfigItemValue("tbb.password1"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			logger.info("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.username1"), ConfigFileReader.getConfigItemValue("tbb.password1"));
+		}
+
+		logger.info("Navigating to Profile Page.");
+		MyProfilePage myProfilePage = dashboardPage.clickProfile();
+
+		logger.info("Click on 'Edit my profile photo' link.");
+		EditProfilePage editProfilePage = myProfilePage.finishProfile();
+
+		logger.info("Click on 'Blog' link.");
+		BlogPage blogPage = editProfilePage.clickBlog();
+
+		logger.info("Click on Edit icon to open blog in edit mode.");
+		blogPage.clickEditBlogIcon();
+
+		logger.info("Verify the label 'Update Entry is avaialble.");
+		assertTrue("Expected text 'Update Entry' is not available.", selenium.isTextPresent("Update Entry"), selenium);
+
+		logger.info("Type title in Title Text box.");
+		blogPage.typeBlogTitle(editedBlogTitle);
+
+		logger.info("Type edited content in blog textarea.");
+		blogPage.typeBlogContent(editedBlogText);
+
+		logger.info("Click Publish Button.");
+		blogPage.publishBlog();
+
+		logger.info("Verifying that the changes are saved successfully.");
+		assertTrue("Expected Search Results count is not available.", selenium.isElementPresent(SUCCESS_MESSAGE), selenium);	
+		assertTrue("Expected Blog title is not available.", selenium.isTextPresent(editedBlogTitle), selenium);
+		assertTrue("Expected Blog text is not available.", selenium.isTextPresent(editedBlogText), selenium);
+
+		logger.info("Executing assertEmpty method");
+		emptyMessageBuilder();
+			}*/
+
+	/*	*//**
+	 * Positive Test script for Deleting existing Blog Entry. 
+	 *//*
+	@Test 
+	public void testDeleteBlogEntry() {
+		logger.info("Creating link for 'Detailed Report' in TestNG/ReportNG Logs");
+		Reporter.log("<a href=" + "file://" + resultHtmlFileName	+ ">Detailed Report</a>");
+
+		logger.info("Verifying whether are on Home page");
+		HomePage homePage = new HomePage(selenium);
+
+		logger.info("Clicking on 'Sign In' Link");
+		DashboardPage dashboardPage;
+		if(ConfigFileReader.getConfigItemValue("selenium.browser").equals("*iexploreproxy") || ConfigFileReader.getConfigItemValue("selenium.browser").equals("*safariproxy")) {
+			dashboardPage = homePage.clickSignInSpecial(ConfigFileReader.getConfigItemValue("tbb.username1"), ConfigFileReader.getConfigItemValue("tbb.password1"));
+		} else {
+			SignInPage signInPage = homePage.clickSignIn();
+
+			logger.info("Entering valid username and password");
+			dashboardPage = signInPage.loginValidUser(ConfigFileReader.getConfigItemValue("tbb.username1"), ConfigFileReader.getConfigItemValue("tbb.password1"));
+		}
+
+		logger.info("Navigating to Profile Page.");
+		MyProfilePage myProfilePage = dashboardPage.clickProfile();
+
+		logger.info("Click on 'Edit my profile photo' link.");
+		EditProfilePage editProfilePage = myProfilePage.finishProfile();
+
+		logger.info("Click on 'Blog' link.");
+		BlogPage blogPage = editProfilePage.clickBlog();
+
+		logger.info("Click on 'Cancel' button in next confirmation popup.");
+		blogPage.clickCancelOnNextConfirmation();
+
+		logger.info("Click on 'Delete' button.");
+		blogPage.deleteBlogEntry();
+
+		logger.info("Verify the popup is displayed.");
+		assertTrue("Expected Search Results count is not available.", selenium.getConfirmation().equals("Are you sure you want to delete this?"), selenium);
+
+		logger.info("Click on 'Ok' button in next confirmation popup.");
+		blogPage.clickOkOnNextConfirmation();
+
+		logger.info("Click on 'Delete' button.");
+		blogPage.deleteBlogEntry();
+
+		logger.info("Verify the popup is displayed.");
+		assertTrue("Expected Search Results count is not available.", selenium.getConfirmation().equals("Are you sure you want to delete this?"), selenium);
+
+		selenium.waitForPageToLoad(TestConsts.PAGE_LOAD_TIMEOUT);
+		assertTrue("Expected Search Results count is not available.", selenium.isElementPresent(SUCCESS_MESSAGE), selenium);
+
+		logger.info("Executing assertEmpty method");
+		emptyMessageBuilder();
+			}*/
+}

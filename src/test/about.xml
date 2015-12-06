@@ -1,0 +1,20 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+  
+<suite name="Test Suite: Xebia_Automation_Framework For BeachBody" verbose="3" parallel="false" thread-count="1">
+<listeners>
+<listener class-name="org.uncommons.reportng.HTMLReporter"></listener>
+<listener class-name="org.uncommons.reportng.JUnitXMLReporter"></listener>
+</listeners>
+<test name="Team Beachbody Test Module :: About" preserve-order="true">
+    <classes>
+  		<class name="com.tbb.testscripts.about.TestAbout"/>
+		<class name="com.tbb.testscripts.about.TestCoaches"/>
+		<class name="com.tbb.testscripts.about.TestCommunity"/>
+		<class name="com.tbb.testscripts.about.TestDailySweepstakes"/>
+		<class name="com.tbb.testscripts.about.TestJoinUpgrade"/>
+		<class name="com.tbb.testscripts.about.TestNewsletters"/>
+		<class name="com.tbb.testscripts.about.TestProducts"/>
+    </classes>
+  </test>
+</suite>
+

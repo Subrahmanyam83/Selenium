@@ -1,0 +1,47 @@
+<html>
+<body bgcolor="white">
+Logging extension to Selenium Remote Control.
+
+<p>
+<p>
+<ul>
+  <li>This library provides extensible logging feature to selenium-remote-control</li>
+  <li>Currently there are two {@link com.unitedinternet.portal.selenium.utils.logging.LoggingResultsFormatter}s:
+    <ul>
+        <li>{@link com.unitedinternet.portal.selenium.utils.logging.HtmlResultFormatter} which outputs HTML and </li>
+        <li>{@link com.unitedinternet.portal.selenium.utils.logging.XmlResultFormatter} which outputs XML.</li>
+    </ul>
+  <li>This extension assumes selenium tests are driven by Junit 4. No other selenium usage has been tested with this
+  extension</li>
+  <li>Use this extension as follows <pre>
+    {@literal @}Before
+    public void setUp() {
+        final String resultPath = "absolute-path-to-where-your-result-will-be-written/";
+        final String resultHtmlFileName = resultPath + "result.html";
+        final String resultEncoding = "UTF-8"
+
+        loggingWriter = LoggingUtils.createWriter(resultHtmlFileName, resultEncoding);
+
+        LoggingResultsFormatter htmlFormatter = new HtmlResultFormatter(loggingWriter, resultEncoding);
+        htmlFormatter.setScreenShotBaseUri(""); // this is for linking to the screenshots
+        htmlFormatter.setAutomaticScreenshotPath(resultPath);
+        LoggingCommandProcessor myProcessor = new LoggingCommandProcessor(new HttpCommandProcessor(your-configs), htmlFormatter);
+        selenium = new LoggingDefaultSelenium(myProcessor);
+        selenium.start();
+    }
+
+    {@literal @}After
+    public void tearDown() {
+        selenium.stop();
+        try {
+            if (null != loggingWriter) {
+                loggingWriter.close();
+            }
+        } catch (IOException e) {
+            // do nothing
+        }
+    }
+</pre></li>
+</ul>
+</body>
+</html>
